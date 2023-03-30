@@ -1,0 +1,40 @@
+package com.ivanfranchin.bookapi.service;
+
+import com.ivanfranchin.bookapi.model.Clock;
+import com.ivanfranchin.bookapi.model.Membership;
+import com.ivanfranchin.bookapi.repository.ClockRepository;
+import com.ivanfranchin.bookapi.repository.MembershipRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@RequiredArgsConstructor
+@Service
+public class ClockServiceImpl implements ClockService {
+
+    private final ClockRepository clockRepository;
+
+
+    @Override
+    public List<Clock> getAllData() {
+        return clockRepository.findByDate(LocalDate.now());
+    }
+
+    @Override
+    public Clock saveClockDate(Clock clock) {
+        return clockRepository.save(clock);
+    }
+
+    @Override
+    public boolean findIsClockedIn(long userId) {
+        return false;
+    }
+
+    @Override
+    public Optional<Clock> findByUserId(long userId) {
+        return clockRepository.findByUserIdAndClockOutIsNull(userId);
+    }
+}
