@@ -1,13 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useHistory  } from 'react-router-dom'
 import { Container, Menu } from 'semantic-ui-react'
 import { useAuth } from '../context/AuthContext'
 
 function Navbar() {
   const { getUser, userIsAuthenticated, userLogout } = useAuth()
-
+  const history = useHistory();
   const logout = () => {
     userLogout()
+    window.location.reload()
   }
 
   const enterMenuStyle = () => {

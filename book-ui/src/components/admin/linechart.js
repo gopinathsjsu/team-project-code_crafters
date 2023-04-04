@@ -52,7 +52,10 @@ const instance = axios.create({
 })
 
 function basicAuth(user) {
-    return `Basic ${user.authdata}`
+    if (user) {
+        return `Basic ${user.authdata}`;
+    }
+    return null;
 }
 
 class LineChart extends Component {
