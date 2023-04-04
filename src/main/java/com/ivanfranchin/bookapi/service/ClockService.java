@@ -14,4 +14,6 @@ public interface ClockService {
     boolean findIsClockedIn(long userId);
 
     Optional<Clock> findByUserId(long userId);
+
+    List<Object[]> getTotalClockInByHour();
 }

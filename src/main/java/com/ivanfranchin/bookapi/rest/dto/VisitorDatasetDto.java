@@ -2,16 +2,14 @@ package com.ivanfranchin.bookapi.rest.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
-public class VisitorDataDto {
+public class VisitorDatasetDto {
 
-    List<String> labels;
-    List<Object> data;
+    String label;
+    List<Long> data;
     boolean fill;
     String borderColor;
-    long tension;
+    Double tension;
 }

@@ -19,4 +19,9 @@ public interface ClockRepository extends JpaRepository<Clock, String> {
     Optional<Clock> findByUserIdAndClockOutIsNull(long userId);
 
     List<Clock> findByDate(LocalDate date);
+
+    @Query("SELECT HOUR(c.clockIn) AS hourOfDay, COUNT(c) AS totalClockIns "
+            + "FROM Clock c "
+            + "GROUP BY HOUR(c.clockIn)")
+    List<Object[]> getTotalClockInsByHour();
 }

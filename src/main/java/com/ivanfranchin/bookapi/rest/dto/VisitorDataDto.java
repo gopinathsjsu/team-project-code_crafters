@@ -4,15 +4,12 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Data
-public class ClockDto{
+public class VisitorDataDto {
 
-    long userId;
-    long id;
-    LocalDate time;
-    Date clockIn;
-    Date clockOut;
-    String msg;
-    String userName;
+    List<String> labels;
+    List<VisitorDatasetDto> datasets;
+
 }

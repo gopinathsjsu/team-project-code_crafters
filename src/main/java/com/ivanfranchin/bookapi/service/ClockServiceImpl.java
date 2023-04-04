@@ -37,4 +37,9 @@ public class ClockServiceImpl implements ClockService {
     public Optional<Clock> findByUserId(long userId) {
         return clockRepository.findByUserIdAndClockOutIsNull(userId);
     }
+
+    @Override
+    public List<Object[]> getTotalClockInByHour() {
+        return clockRepository.getTotalClockInsByHour();
+    }
 }

@@ -5,10 +5,7 @@ import com.ivanfranchin.bookapi.mapper.MembershipMapper;
 import com.ivanfranchin.bookapi.model.Clock;
 import com.ivanfranchin.bookapi.model.Membership;
 import com.ivanfranchin.bookapi.model.User;
-import com.ivanfranchin.bookapi.rest.dto.ClockDto;
-import com.ivanfranchin.bookapi.rest.dto.CreateClockInOutRequest;
-import com.ivanfranchin.bookapi.rest.dto.CreateMembershipRequest;
-import com.ivanfranchin.bookapi.rest.dto.MembershipDto;
+import com.ivanfranchin.bookapi.rest.dto.*;
 import com.ivanfranchin.bookapi.service.ClockService;
 import com.ivanfranchin.bookapi.service.MembershipService;
 import com.ivanfranchin.bookapi.service.UserService;
@@ -20,10 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.ivanfranchin.bookapi.config.SwaggerConfig.BASIC_AUTH_SECURITY_SCHEME;
 
@@ -48,6 +44,8 @@ public class ClockController {
                 })
                 .collect(Collectors.toList());
     }
+
+
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @ResponseStatus(HttpStatus.CREATED)
@@ -81,5 +79,35 @@ public class ClockController {
         ClockDto clockDto  = clockMapper.toClockDto(clockService.saveClockDate(clockData));
         clockDto.setMsg(msg);
         return clockDto;
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/visitors")
+    public VisitorDto getVisitorsData(@RequestParam(value = "text", required = false) String text) {
+        List<Object[]> memberships = clockService.getTotalClockInByHour();
+        VisitorDto visitorDto = new VisitorDto();
+        VisitorDataDto byDay = new VisitorDataDto();
+
+        VisitorDatasetDto byDayDataset = new VisitorDatasetDto();
+        List<Long> hoursCount = new ArrayList<>(Collections.nCopies(24, 0L));
+
+        for (Object[] result : memberships) {
+            int hour = (int) result[0];
+            Long count = (Long) result[1];
+            hoursCount.set(hour, count);
+        }
+
+        byDayDataset.setData(hoursCount);
+        byDayDataset.setLabel("Number of visitors by the hour (by day)");
+        byDayDataset.setFill(false);
+        byDayDataset.setTension(0.1);
+        byDayDataset.setBorderColor("rgb(75, 192, 192)");
+
+        byDay.setDatasets(Arrays.asList(byDayDataset));
+        byDay.setLabels(IntStream.rangeClosed(1, 24).mapToObj(String::valueOf).collect(Collectors.toCollection(ArrayList::new)));
+        visitorDto.setDataByDay(byDay);
+        visitorDto.setDataByWeekend(byDay);
+        visitorDto.setDataByWeekday(byDay);
+        return visitorDto;
     }
 }
