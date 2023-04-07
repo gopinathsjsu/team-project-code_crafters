@@ -56,9 +56,10 @@ class ClockInOut extends Component {
     }
     const Auth = this.context
     const user = Auth.getUser()
-    const clockData = { userId }
+    const adminId = user.id
+    const clockData = { userId, adminId }
     const { updateMeetState } = this.props;
-
+    console.log(user)
       bookApi.clockInOut(user,clockData)
         .then(response => {
 

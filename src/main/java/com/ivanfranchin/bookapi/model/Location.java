@@ -12,22 +12,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "clock")
-public class Clock {
+@Table(name = "location")
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "user_id")
-    private long userId;
+    private String address;
 
-    private LocalDate date;
-    @Column(name = "clock_in")
-    private Date clockIn;
-    @Column(name = "clock_out")
-    private Date clockOut;
-
-    @Column(name = "location_id")
-    private long locationId;
+    private String name;
 }

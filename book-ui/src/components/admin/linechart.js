@@ -136,27 +136,79 @@ class LineChart extends Component {
         this.setState({ selectedOption: value });
         switch (value) {
             case 'byWeekday':
+                console.log("aaaa")
+                console.log(this.state.dataByWeekday.labels)
+                console.log(this.state.dataByWeekday.datasets)
                 this.setState({
                     chartData: {
                         labels: this.state.dataByWeekday.labels,
                         datasets: this.state.dataByWeekday.datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                            xAxes: [{
+                                type: 'category',
+                                labels: this.state.dataByWeekday.labels,
+                            }]
+                        }
                     }
 
                 });
+                console.log("aaaout")
+                break;
 
             case 'byWeekend':
+                console.log(this.state.dataByWeekend.datasets)
                 this.setState({
                     chartData: {
                         labels: this.state.dataByWeekend.labels,
-                        datasets: this.state.dataByWeekday.datasets
+                        datasets: this.state.dataByWeekend.datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                            xAxes: [{
+                                type: 'category',
+                                labels: this.state.dataByWeekend.labels,
+                            }]
+                        }
                     }
 
                 });
+                break;
             default:
                 this.setState({
                     chartData: {
                         labels: this.state.dataByDay.labels,
                         datasets: this.state.dataByDay.datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                            xAxes: [{
+                                type: 'category',
+                                labels: this.state.dataByDay.labels,
+                            }]
+                        }
                     }
 
                 });

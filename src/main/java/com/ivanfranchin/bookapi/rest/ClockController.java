@@ -2,11 +2,10 @@ package com.ivanfranchin.bookapi.rest;
 
 import com.ivanfranchin.bookapi.mapper.ClockMapper;
 import com.ivanfranchin.bookapi.mapper.MembershipMapper;
-import com.ivanfranchin.bookapi.model.Clock;
-import com.ivanfranchin.bookapi.model.Membership;
-import com.ivanfranchin.bookapi.model.User;
+import com.ivanfranchin.bookapi.model.*;
 import com.ivanfranchin.bookapi.rest.dto.*;
 import com.ivanfranchin.bookapi.service.ClockService;
+import com.ivanfranchin.bookapi.service.LocationService;
 import com.ivanfranchin.bookapi.service.MembershipService;
 import com.ivanfranchin.bookapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +30,8 @@ public class ClockController {
     private final ClockService clockService;
     private final UserService userService;
     private final ClockMapper clockMapper;
+
+    private final LocationService locationService;
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping
     public List<ClockDto> getClockData(@RequestParam(value = "text", required = false) String text) {
@@ -53,9 +54,10 @@ public class ClockController {
     public ClockDto createClockInOut(@Valid @RequestBody CreateClockInOutRequest createClockInOutRequest) {
 
         Optional<User> user = userService.findById(createClockInOutRequest.getUserId());
+        Optional<User> admin = userService.findById(createClockInOutRequest.getAdminId());
         String msg;
         Clock clockData;
-        if(!user.isPresent()){
+        if(!user.isPresent() || !admin.isPresent()){
             ClockDto clockDto = new ClockDto();
             msg = "User Not Found";
             clockDto.setUserId(createClockInOutRequest.getUserId());
@@ -67,12 +69,14 @@ public class ClockController {
         if (clockDataa.isPresent()){
             clockData = clockDataa.get();
             clockData.setClockOut((new Date()));
+            clockData.setLocationId(admin.get().getLocationId());
             msg = "Successfully Clocked Out";
         }else{
             clockData = new Clock();
             clockData.setUserId(createClockInOutRequest.getUserId());
             clockData.setClockIn(new Date());
             clockData.setDate(LocalDate.now());
+            clockData.setLocationId(admin.get().getLocationId());
             msg = "Successfully Clocked In";
         }
 
@@ -88,26 +92,170 @@ public class ClockController {
         VisitorDto visitorDto = new VisitorDto();
         VisitorDataDto byDay = new VisitorDataDto();
 
-        VisitorDatasetDto byDayDataset = new VisitorDatasetDto();
-        List<Long> hoursCount = new ArrayList<>(Collections.nCopies(24, 0L));
 
+        Map<Long, List<Long>> hoursByLocation = new HashMap<>();
+        VisitorDatasetDto byDayDataset ;
         for (Object[] result : memberships) {
-            int hour = (int) result[0];
-            Long count = (Long) result[1];
+            int hour = (int) result[1];
+            Long location = (Long) result[0];
+            Long count = (Long) result[2];
+
+            if (!hoursByLocation.containsKey(location)) {
+                hoursByLocation.put(location, new ArrayList<>(Collections.nCopies(24, 0L)));
+            }
+
+            List<Long> hoursCount = hoursByLocation.get(location);
             hoursCount.set(hour, count);
         }
+        List<VisitorDatasetDto> dataByDayByLocation = new ArrayList<>() ;
+        String[] colors = {"rgb(75, 192, 192)","rgb(66, 245, 75)","rgb(230, 232, 100)","rgb(228, 100, 232)","rgb(240, 84, 102)"};
+        int i = 0;
+        for (Map.Entry<Long, List<Long>> entry : hoursByLocation.entrySet()) {
+            byDayDataset = new VisitorDatasetDto();
+            Optional<Location> location = locationService.findByLocationId(entry.getKey());
+            if(location.isPresent()){
+                byDayDataset.setLabel("Number of visitors by the hour - " + location.get().getName());
+            }
+            List<Long> hoursCount = entry.getValue();
+            byDayDataset.setData(hoursCount);
+            byDayDataset.setFill(false);
+            byDayDataset.setTension(0.1);
+            byDayDataset.setBorderColor(colors[i++]);
+            dataByDayByLocation.add(byDayDataset);
+        }
 
-        byDayDataset.setData(hoursCount);
-        byDayDataset.setLabel("Number of visitors by the hour (by day)");
-        byDayDataset.setFill(false);
-        byDayDataset.setTension(0.1);
-        byDayDataset.setBorderColor("rgb(75, 192, 192)");
 
-        byDay.setDatasets(Arrays.asList(byDayDataset));
+        byDay.setDatasets(dataByDayByLocation);
         byDay.setLabels(IntStream.rangeClosed(1, 24).mapToObj(String::valueOf).collect(Collectors.toCollection(ArrayList::new)));
         visitorDto.setDataByDay(byDay);
-        visitorDto.setDataByWeekend(byDay);
-        visitorDto.setDataByWeekday(byDay);
+
+        //****************************************************************
+        List<Object[]> dataByWeekDayAndLocation = clockService.getTotalClockInByWeekday();
+        VisitorDataDto byWeekDayAndLocation = new VisitorDataDto();
+        List<VisitorDatasetDto> byWeekDayAndLocationDatasets = new ArrayList<>();
+
+        Map<Long, List<Long>> countsByLocation = new HashMap<>();
+        for (Object[] result : dataByWeekDayAndLocation) {
+            Long location = (Long) result[0];
+            int day = (int) result[1];
+            Long count = (Long) result[2];
+
+            countsByLocation.computeIfAbsent(location, k -> new ArrayList<>(Collections.nCopies(5, 0L)))
+                    .set(day, count);
+        }
+
+        int j = 0;
+        for (Long location : countsByLocation.keySet()) {
+            VisitorDatasetDto dataset = new VisitorDatasetDto();
+            dataset.setData(countsByLocation.get(location));
+            Optional<Location> locationn = locationService.findByLocationId(location);
+            if(locationn.isPresent()) {
+                dataset.setLabel("Number of visitors by day - " + locationn.get().getName());
+            }
+            dataset.setFill(false);
+            dataset.setTension(0.1);
+            dataset.setBorderColor(colors[j++]);
+            byWeekDayAndLocationDatasets.add(dataset);
+        }
+
+        byWeekDayAndLocation.setLabels(new ArrayList<>(Arrays.asList("Monday", "Tuesday","Wednesday","Thursday","Friday")));
+        byWeekDayAndLocation.setDatasets(byWeekDayAndLocationDatasets);
+        visitorDto.setDataByWeekday(byWeekDayAndLocation);
+
+        //---------------------------------------------
+//        List<Object[]> dataByWeekDay = clockService.getTotalClockInByWeekday();
+//        VisitorDataDto byWeekDay = new VisitorDataDto();
+//        VisitorDatasetDto byWeekDayDataset = new VisitorDatasetDto();
+//
+//        List<Long> contByWeekDay = new ArrayList<>(Collections.nCopies(5, 0L));
+//
+//        for (Object[] result : dataByWeekDay) {
+//            int dayy = (int) result[0];
+//            Long count = (Long) result[1];
+//            contByWeekDay.set(dayy, count);
+//        }
+//
+//
+//
+//        byWeekDayDataset.setData(contByWeekDay);
+//        byWeekDayDataset.setLabel("Number of visitors by the hour (by weekday)");
+//        byWeekDayDataset.setFill(false);
+//        byWeekDayDataset.setTension(0.1);
+//        byWeekDayDataset.setBorderColor("rgb(75, 192, 192)");
+//
+//        byWeekDay.setLabels(new ArrayList<>(Arrays.asList("Monday", "Tuesday","Wednesday","Thursday","Friday")));
+//        byWeekDay.setDatasets(Arrays.asList(byWeekDayDataset));
+//        visitorDto.setDataByWeekday(byWeekDay);
+
+        //******************************************************************
+        List<Object[]> dataByWeekEnd = clockService.getTotalClockInByEnd();
+
+        VisitorDataDto byWeekEnd = new VisitorDataDto();
+        Map<Long, List<Long>> contByWeekEnd = new HashMap<>();
+
+        for (Object[] result : dataByWeekEnd) {
+            Long location = (Long) result[0];
+            contByWeekEnd.put(location, new ArrayList<>(Arrays.asList(0L, 0L)));
+        }
+
+        for (Object[] result : dataByWeekEnd) {
+            Long location = (Long) result[0];
+            int dayOfWeek = (int) result[1];
+            Long count = (Long) result[2];
+            if (dayOfWeek == 5) { // Saturday
+                contByWeekEnd.get(location).set(0, count);
+            } else { // Sunday
+                contByWeekEnd.get(location).set(1, count);
+            }
+        }
+        int k = 0;
+        List<VisitorDatasetDto> datasetsByWeekEnd = new ArrayList<>();
+        for (Long location : contByWeekEnd.keySet()) {
+            VisitorDatasetDto byWeekEndDataset = new VisitorDatasetDto();
+
+            byWeekEndDataset.setData(contByWeekEnd.get(location));
+            Optional<Location> locationnn = locationService.findByLocationId(location);
+            if(locationnn.isPresent()){
+                byWeekEndDataset.setLabel("Number of visitors by the hour (by weekend) - " + locationnn.get().getName());
+            }
+            byWeekEndDataset.setFill(false);
+            byWeekEndDataset.setTension(0.1);
+            byWeekEndDataset.setBorderColor(colors[k++]);
+
+            datasetsByWeekEnd.add(byWeekEndDataset);
+        }
+
+        byWeekEnd.setLabels(new ArrayList<>(Arrays.asList("Saturday", "Sunday")));
+        byWeekEnd.setDatasets(datasetsByWeekEnd);
+        visitorDto.setDataByWeekend(byWeekEnd);
+
+        ////---------------------------------
+//        List<Object[]> dataByWeekEnd = clockService.getTotalClockInByEnd();
+//        VisitorDataDto byWeekEnd = new VisitorDataDto();
+//        VisitorDatasetDto byWeekEndDataset = new VisitorDatasetDto();
+//
+//        List<Long> contByWeekEnd = new ArrayList<>(Collections.nCopies(2, 0L));
+//
+//        for (Object[] result : dataByWeekEnd) {
+//            int dayy = (int) result[1];
+//            Long count = (Long) result[2];
+//            if (dayy == 5) dayy = 0;
+//            else dayy = 1;
+//            contByWeekEnd.set(dayy, count);
+//        }
+//
+//
+//
+//        byWeekEndDataset.setData(contByWeekEnd);
+//        byWeekEndDataset.setLabel("Number of visitors by the hour (by weekend)");
+//        byWeekEndDataset.setFill(false);
+//        byWeekEndDataset.setTension(0.1);
+//        byWeekEndDataset.setBorderColor("rgb(75, 192, 192)");
+//
+//        byWeekEnd.setLabels(new ArrayList<>(Arrays.asList("Saturday", "Sunday")));
+//        byWeekEnd.setDatasets(Arrays.asList(byWeekEndDataset));
+//        visitorDto.setDataByWeekend(byWeekEnd);
+
         return visitorDto;
     }
 }

@@ -16,4 +16,8 @@ public interface ClockService {
     Optional<Clock> findByUserId(long userId);
 
     List<Object[]> getTotalClockInByHour();
+
+    List<Object[]> getTotalClockInByWeekday();
+
+    List<Object[]> getTotalClockInByEnd();
 }

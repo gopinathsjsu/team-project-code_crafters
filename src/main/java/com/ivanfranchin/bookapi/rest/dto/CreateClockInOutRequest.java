@@ -15,4 +15,5 @@ public class CreateClockInOutRequest {
     private LocalDate time;
     private Date clockIn;
     private Date clockOut;
+    private long adminId;
 }

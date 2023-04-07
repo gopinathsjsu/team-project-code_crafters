@@ -28,11 +28,14 @@ public class User {
     private String email;
     private String role;
 
-    public User(String username, String password, String name, String email, String role) {
+    private Long locationId=0l;
+
+    public User(String username, String password, String name, String email, String role, Long locationId) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.locationId = locationId;
     }
 }
