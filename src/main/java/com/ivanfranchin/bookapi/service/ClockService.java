@@ -20,4 +20,8 @@ public interface ClockService {
     List<Object[]> getTotalClockInByWeekday();
 
     List<Object[]> getTotalClockInByEnd();
+
+    List<Object[]> getHoursSpentByWeekday();
+
+    List<Object[]> getHoursSpentByMonth();
 }

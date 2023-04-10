@@ -1,11 +1,13 @@
 package com.ivanfranchin.bookapi.rest;
 
 import com.ivanfranchin.bookapi.exception.DuplicatedUserInfoException;
+import com.ivanfranchin.bookapi.model.Membership;
 import com.ivanfranchin.bookapi.model.User;
 import com.ivanfranchin.bookapi.rest.dto.AuthResponse;
 import com.ivanfranchin.bookapi.rest.dto.LoginRequest;
 import com.ivanfranchin.bookapi.rest.dto.SignUpRequest;
 import com.ivanfranchin.bookapi.security.WebSecurityConfig;
+import com.ivanfranchin.bookapi.service.MembershipService;
 import com.ivanfranchin.bookapi.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class AuthController {
 
     private final UserService userService;
+    private final MembershipService membershipService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
@@ -56,7 +59,25 @@ public class AuthController {
         user.setPassword(signUpRequest.getPassword());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
-        user.setRole(WebSecurityConfig.USER);
+
+        user.setLocationId(signUpRequest.getLocationId());
+        user.setMembershipId(signUpRequest.getMembershipId());
+        Optional<Membership> membership = membershipService.getMembershipById(signUpRequest.getMembershipId());
+        if(!membership.isPresent()){
+            user.setIsActive(Boolean.FALSE);
+            user.setDaysRemaining(0l);
+            user.setRole(WebSecurityConfig.USER);
+        }else{
+            user.setIsActive(Boolean.TRUE);
+            user.setDaysRemaining(membership.get().getMonth()*30);
+            if(membership.get().getIsMember()){
+                user.setRole(WebSecurityConfig.USER);
+            }else {
+                user.setRole(WebSecurityConfig.NONMember);
+            }
+        }
+
+        user.setLocationId(userService.findById(signUpRequest.getLocationId()).get().getLocationId());
         return user;
     }
 }

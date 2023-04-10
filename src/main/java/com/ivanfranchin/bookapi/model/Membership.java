@@ -19,4 +19,8 @@ public class Membership {
     private String title;
     private String description;
     private String image;
+    private Long month;
+
+    @Column(name = "is_member")
+    public Boolean isMember;
 }

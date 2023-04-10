@@ -18,4 +18,7 @@ public class CreateMembershipRequest {
     private String description;
     @Schema(example = "Spring Security 3.1")
     private String image;
+
+    private Long month;
+    private Boolean isMember;
 }

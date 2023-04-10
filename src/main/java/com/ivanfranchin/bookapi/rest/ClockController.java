@@ -258,4 +258,92 @@ public class ClockController {
 
         return visitorDto;
     }
+
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @GetMapping("/get-hours-by-day-week-month")
+    public VisitorDto getHoursByDayWeekMonth(@RequestParam(value = "text", required = false) String text) {
+        VisitorDto visitorDto = new VisitorDto();
+
+        VisitorDataDto dataByDay = new VisitorDataDto();
+        List<Object[]> data = clockService.getHoursSpentByWeekday();
+        Map<Long, List<Long>> hoursByLocation = new HashMap<>();
+        VisitorDatasetDto byDayDataset ;
+        for (Object[] result : data) {
+            int day = (int) result[0];
+            Long location = (Long) result[1];
+            Long count = (Long) result[2];
+
+            if (!hoursByLocation.containsKey(location)) {
+                hoursByLocation.put(location, new ArrayList<>(Collections.nCopies(7, 0L)));
+            }
+
+            List<Long> hoursCount = hoursByLocation.get(location);
+            hoursCount.set(day-1, count);
+        }
+        List<VisitorDatasetDto> dataByDayByLocation = new ArrayList<>() ;
+        String[] colors = {"rgb(75, 192, 192)","rgb(66, 245, 75)","rgb(230, 232, 100)","rgb(228, 100, 232)","rgb(240, 84, 102)"};
+        int i = 0;
+        for (Map.Entry<Long, List<Long>> entry : hoursByLocation.entrySet()) {
+            byDayDataset = new VisitorDatasetDto();
+            Optional<Location> location = locationService.findByLocationId(entry.getKey());
+            if(location.isPresent()){
+                byDayDataset.setLabel("Total hours - " + location.get().getName());
+            }
+            List<Long> hoursCount = entry.getValue();
+            byDayDataset.setData(hoursCount);
+            byDayDataset.setFill(false);
+            byDayDataset.setTension(0.1);
+            byDayDataset.setBorderColor(colors[i++]);
+            dataByDayByLocation.add(byDayDataset);
+        }
+
+        dataByDay.setLabels(Arrays.asList("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"));
+
+        dataByDay.setDatasets(dataByDayByLocation);
+        visitorDto.setDataByDay(dataByDay);
+
+        //-----------------------------------------
+
+        VisitorDataDto dataByMonth = new VisitorDataDto();
+        List<Object[]> dataMonth = clockService.getHoursSpentByMonth();
+        Map<Long, List<Long>> monthByLocation = new HashMap<>();
+        VisitorDatasetDto byMonthDataset ;
+        for (Object[] result : dataMonth) {
+            int month = (int) result[1];
+            Long location = (Long) result[0];
+            Long count = (Long) result[2];
+
+            if (!monthByLocation.containsKey(location)) {
+                monthByLocation.put(location, new ArrayList<>(Collections.nCopies(12, 0L)));
+            }
+
+            List<Long> hoursCount = monthByLocation.get(location);
+            hoursCount.set(month-1, count);
+        }
+        List<VisitorDatasetDto> dataByMonthByLocation = new ArrayList<>() ;
+        i = 0;
+        for (Map.Entry<Long, List<Long>> entry : monthByLocation.entrySet()) {
+            byMonthDataset = new VisitorDatasetDto();
+            Optional<Location> location = locationService.findByLocationId(entry.getKey());
+            if(location.isPresent()){
+                byMonthDataset.setLabel("Total hours - " + location.get().getName());
+            }
+            List<Long> hoursCount = entry.getValue();
+            byMonthDataset.setData(hoursCount);
+            byMonthDataset.setFill(false);
+            byMonthDataset.setTension(0.1);
+            byMonthDataset.setBorderColor(colors[i++]);
+            dataByMonthByLocation.add(byMonthDataset);
+        }
+
+        dataByMonth.setLabels(Arrays.asList("January","February","March","April","May","June","July","August","September",
+                "October","November","December"));
+
+        dataByMonth.setDatasets(dataByMonthByLocation);
+        visitorDto.setDataByWeekend(dataByMonth);
+        visitorDto.setDataByWeekday(dataByDay);
+        return visitorDto;
+    }
 }

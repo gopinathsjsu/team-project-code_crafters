@@ -4,6 +4,7 @@ import com.ivanfranchin.bookapi.model.Book;
 import com.ivanfranchin.bookapi.model.Membership;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MembershipService {
 
@@ -13,5 +14,6 @@ public interface MembershipService {
 
     Membership saveMembership(Membership membership);
 
+    Optional<Membership> getMembershipById(Long id);
 
 }

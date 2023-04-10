@@ -52,4 +52,14 @@ public class ClockServiceImpl implements ClockService {
     public List<Object[]> getTotalClockInByEnd() {
         return clockRepository.getTotalClockInsByWeekEnd();
     }
+
+    @Override
+    public List<Object[]> getHoursSpentByWeekday() {
+        return clockRepository.getHoursSpentByWeekday();
+    }
+
+    @Override
+    public List<Object[]> getHoursSpentByMonth() {
+        return clockRepository.getHoursSpentByMonth();
+    }
 }

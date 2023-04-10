@@ -4,6 +4,7 @@ import { bookApi } from '../misc/BookApi'
 import { handleLogError } from '../misc/Helpers'
 import LineChart from '.././admin/linechart';
 import AuthContext from "../context/AuthContext";
+import LinechartHours from "../admin/linechartHours";
 
 class Home extends Component {
   static contextType = AuthContext
@@ -75,6 +76,7 @@ class Home extends Component {
             <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
             <div>
               {isAdmin && <LineChart />}
+              {isAdmin && <LinechartHours />}
             </div>
           </Container>
       )

@@ -49,4 +49,18 @@ public interface ClockRepository extends JpaRepository<Clock, String> {
     List<Object[]> getTotalClockInsByWeekEnd();
 
 
+
+
+    @Query("SELECT DAYOFWEEK(c.date), c.locationId, SUM(TIME_TO_SEC(TIMEDIFF(c.clockOut, c.clockIn)) / 3600) " +
+            "FROM Clock c " +
+            "WHERE c.clockOut IS NOT NULL " +
+            "GROUP BY DAYOFWEEK(c.date), c.locationId")
+    List<Object[]> getHoursSpentByWeekday();
+
+
+    @Query("SELECT locationId, MONTH(date), SUM(TIME_TO_SEC(TIMEDIFF(clockOut, clockIn)) / 3600) " +
+            "FROM Clock " +
+            "WHERE clockOut IS NOT NULL " +
+            "GROUP BY locationId, MONTH(date)")
+    List<Object[]> getHoursSpentByMonth();
 }

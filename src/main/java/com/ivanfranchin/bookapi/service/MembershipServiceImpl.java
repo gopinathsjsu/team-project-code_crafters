@@ -34,4 +34,9 @@ public class MembershipServiceImpl implements MembershipService {
     public Membership saveMembership(Membership membership) {
         return membershipRepository.save(membership);
     }
+
+    @Override
+    public Optional<Membership> getMembershipById(Long id) {
+        return membershipRepository.findById(id.toString());
+    }
 }

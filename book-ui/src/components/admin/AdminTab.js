@@ -7,7 +7,7 @@ import MembershipTable from "./MembershipTable";
 import ClockInOut from '../home/ClockInOut'
 import ClockInTable from "./ClockInTable";
 function AdminTab(props) {
-  const { handleInputChange,updateMeetState } = props
+  const { handleInputChange,updateMeetState,month,isForMember } = props
   const { isUsersLoading, users, userUsernameSearch, handleDeleteUser, handleSearchUser } = props
   const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
   const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, MembershipTextSearch, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
@@ -80,6 +80,8 @@ function AdminTab(props) {
                       handleAddMembership={handleAddMembership}
                       handleDeleteBook={handleDeleteBook}
                       handleSearchBook={handleSearchBook}
+                      month = {month}
+                      isForMember = {isForMember}
                   />
               </Tab.Pane>
           )

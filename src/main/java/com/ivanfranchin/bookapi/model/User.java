@@ -1,11 +1,6 @@
 package com.ivanfranchin.bookapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,12 +25,24 @@ public class User {
 
     private Long locationId=0l;
 
-    public User(String username, String password, String name, String email, String role, Long locationId) {
+    @Column(name = "days_remaining")
+    private Long daysRemaining;
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @Column(name = "membership_id")
+    private Long membershipId;
+
+
+    public User(String username, String password, String name, String email, String role, Long locationId, Long daysRemaining,Boolean isActive,Long membershipId) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.role = role;
         this.locationId = locationId;
+        this.daysRemaining = daysRemaining;
+        this.isActive = isActive;
+        this.membershipId = membershipId;
     }
 }

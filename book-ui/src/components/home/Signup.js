@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { NavLink, Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Segment, Message } from 'semantic-ui-react'
+import { Button, Form, Grid, Segment, Message ,Dropdown } from 'semantic-ui-react'
 import AuthContext from '../context/AuthContext'
 import { bookApi } from '../misc/BookApi'
 import { handleLogError } from '../misc/Helpers'
 // import { toast } from 'react-toastify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import {config} from "../../Constants";
 
 class Signup extends Component {
   static contextType = AuthContext
@@ -18,32 +20,61 @@ class Signup extends Component {
     email: '',
     isLoggedIn: false,
     isError: false,
-    errorMessage: ''
+    errorMessage: '',
+    memberships: [], // to store the list of memberships fetched from the API
+    selectedMembership: '', // to store the selected membership by the user
   }
 
+
   componentDidMount() {
+    function basicAuth(user) {
+      if (user) {
+        return `Basic ${user.authdata}`;
+      }
+      return null;
+    }
     const Auth = this.context
     const isLoggedIn = Auth.userIsAuthenticated()
     this.setState({ isLoggedIn })
+    const user = Auth.getUser()
+    const instance = axios.create({
+      baseURL: config.url.API_BASE_URL
+    })
+    instance.get('/api/membership',{
+      headers: { 'Authorization': basicAuth(user) }
+    })
+        .then(response => {
+          // update the state with the fetched memberships
+          this.setState({ memberships: response.data });
+        })
+        .catch(error => {
+          console.log(error);
+        });
   }
 
   handleInputChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
 
+
+  handleMembershipSelect = (event, { value }) => {
+    this.setState({ selectedMembership: value });
+  }
   handleSubmit = (e) => {
     e.preventDefault()
 
-    const { username, password, name, email } = this.state
-    if (!(username && password && name && email)) {
+    const { username, password, name, email,selectedMembership } = this.state
+    if (!(username && password && name && email && selectedMembership) ) {
       this.setState({
         isError: true,
         errorMessage: 'Please, inform all fields!'
       })
       return
     }
-
-    const user = { username, password, name, email }
+    const Auth = this.context
+    const admin = Auth.getUser()
+    console.log(admin)
+    const user = { username, password, name, email ,membershipId:selectedMembership,locationId:admin.id }
     bookApi.signup(user)
       .then(response => {
         this.setState({
@@ -53,6 +84,7 @@ class Signup extends Component {
             email: '',
             isError: false,
             errorMessage: ''
+
           });
 
           toast.success('User created successfully!', {
@@ -81,8 +113,11 @@ class Signup extends Component {
   }
 
   render() {
-    const { isLoggedIn, isError, errorMessage } = this.state
-
+    const { isLoggedIn, isError, errorMessage ,memberships,selectedMembership} = this.state
+    // create an array of options for the dropdown menu using the fetched list of memberships
+    const membershipOptions = memberships.map(membership => {
+      return { key: membership.id, value: membership.id, text: membership.title + " " + membership.description};
+    });
       return (
         <Grid textAlign='center'>
           <Grid.Column style={{ maxWidth: 450 }}>
@@ -121,6 +156,15 @@ class Signup extends Component {
                   iconPosition='left'
                   placeholder='Email'
                   onChange={this.handleInputChange}
+                />
+                <Dropdown
+                    placeholder='Select Membership'
+                    fluid
+                    search
+                    selection
+                    options={membershipOptions}
+                    value={selectedMembership}
+                    onChange={this.handleMembershipSelect}
                 />
                 <Button color='blue' fluid size='large'>Register</Button>
               </Segment>

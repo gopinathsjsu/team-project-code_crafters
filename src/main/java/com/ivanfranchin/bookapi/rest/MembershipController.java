@@ -42,8 +42,8 @@ public class MembershipController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public MembershipDto createMembership(@Valid @RequestBody CreateMembershipRequest createMembershipRequest) {
-        System.out.println(createMembershipRequest);
         Membership membership = membershipMapper.toMembership(createMembershipRequest);
+        System.out.println(createMembershipRequest);
         return membershipMapper.toMembershipDto(membershipService.saveMembership(membership));
     }
 }

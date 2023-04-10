@@ -26,7 +26,9 @@ class AdminPage extends Component {
     isBooksLoading: false,
     isMembershipsLoading: false,
     userId: '',
-    clockInData:''
+    clockInData:'',
+    isForMember: true,
+    month:0
   }
 
   componentDidMount() {
@@ -178,14 +180,14 @@ class AdminPage extends Component {
     const Auth = this.context
     const user = Auth.getUser()
 
-    let { membershipTitle, membershipDescription } = this.state
+    let { membershipTitle, membershipDescription,month,isForMember } = this.state
     membershipTitle = membershipTitle.trim()
     membershipDescription = membershipDescription.trim()
     if (!(membershipTitle && membershipDescription)) {
       return
     }
-
-    const membership = { title: membershipTitle, description: membershipDescription }
+    const isMember = isForMember ? 1 : 0;
+    const membership = { title: membershipTitle, description: membershipDescription,month: month,isMember }
     bookApi.addMembership(user, membership)
         .then(() => {
           // this.clearMembershipForm()
@@ -247,9 +249,9 @@ class AdminPage extends Component {
     if (!this.state.isAdmin) {
       return <Redirect to='/' />
     } else {
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData} = this.state
+      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
       return (
-        <Container>
+        <Container >
           <AdminTab
             isUsersLoading={isUsersLoading}
             users={users}
@@ -272,6 +274,8 @@ class AdminPage extends Component {
             handleClockInOut={this.handleClockInOut()}
             clockInData={clockInData}
             updateMeetState={this.updateMeetState}
+            month={month}
+            isForMember={isForMember}
           />
         </Container>
       )

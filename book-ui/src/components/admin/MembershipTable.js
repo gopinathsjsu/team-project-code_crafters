@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, Grid, Image, Input, Table } from 'semantic-ui-react'
 import MembershipForm from "./MemebrshipForm";
 
-function MembershipTable({ memberships, membershipId, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook }) {
+function MembershipTable({ memberships, membershipId, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook,month,isForMember }) {
   let membershipList
   if (memberships.length === 0) {
       membershipList = (
@@ -23,12 +23,14 @@ function MembershipTable({ memberships, membershipId, membershipTitle,membership
               onClick={() => handleDeleteBook(membership.id)}
             />
           </Table.Cell>
-          <Table.Cell>
-            <Image src={`http://covers.openlibrary.org/b/isbn/${membership.id}-M.jpg`} size='tiny' bordered rounded />
-          </Table.Cell>
+          {/*<Table.Cell>*/}
+          {/*  <Image src={`http://covers.openlibrary.org/b/isbn/${membership.id}-M.jpg`} size='tiny' bordered rounded />*/}
+          {/*</Table.Cell>*/}
           <Table.Cell>{membership.id}</Table.Cell>
           <Table.Cell>{membership.title}</Table.Cell>
           <Table.Cell>{membership.description}</Table.Cell>
+            <Table.Cell>{membership.month}</Table.Cell>
+            <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
         </Table.Row>
       )
     })
@@ -38,7 +40,7 @@ function MembershipTable({ memberships, membershipId, membershipTitle,membership
     <>
       <Grid stackable divided>
         <Grid.Row columns='2'>
-          <Grid.Column width='5'>
+          <Grid.Column width='4'>
             <Form onSubmit={handleSearchBook}>
               <Input
                 action={{ icon: 'search' }}
@@ -49,12 +51,15 @@ function MembershipTable({ memberships, membershipId, membershipTitle,membership
               />
             </Form>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width='20'>
             <MembershipForm
               membershipTitle={membershipTitle}
               membershipDescription={membershipDescription}
               handleInputChange={handleInputChange}
               handleAddMembership={handleAddMembership}
+              month={month}
+              isForMember={isForMember}
+
             />
           </Grid.Column>
         </Grid.Row>
@@ -63,10 +68,12 @@ function MembershipTable({ memberships, membershipId, membershipTitle,membership
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}/>
-            <Table.HeaderCell width={3}>Image</Table.HeaderCell>
-            <Table.HeaderCell width={4}>Id</Table.HeaderCell>
-            <Table.HeaderCell width={8}>Title</Table.HeaderCell>
-              <Table.HeaderCell width={8}>Description</Table.HeaderCell>
+            {/*<Table.HeaderCell width={2}>Image</Table.HeaderCell>*/}
+            <Table.HeaderCell width={1}>Id</Table.HeaderCell>
+            <Table.HeaderCell width={4}>Title</Table.HeaderCell>
+              <Table.HeaderCell width={7}>Description</Table.HeaderCell>
+              <Table.HeaderCell width={1}>Length (Month)</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Is For Member</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
