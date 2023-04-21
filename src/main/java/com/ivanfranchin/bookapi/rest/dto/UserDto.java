@@ -1,4 +1,6 @@
 package com.ivanfranchin.bookapi.rest.dto;
 
-public record UserDto(Long id, String username, String name, String email, String role) {
+import java.util.Date;
+
+public record UserDto(Long id, String username, String name, String email, String role, Date expiry) {
 }

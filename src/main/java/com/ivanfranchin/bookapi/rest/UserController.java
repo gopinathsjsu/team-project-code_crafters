@@ -35,6 +35,14 @@ public class UserController {
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/expiry-by-week")
+    public List<UserDto> getUserByExpiryByWeek(@AuthenticationPrincipal CustomUserDetails currentUser) {
+        return userService.findUsersWhoseAccountExpiryByNextWeek().stream()
+                .map(userMapper::toUserDto)
+                .collect(Collectors.toList());
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping
     public List<UserDto> getUsers() {
         return userService.getUsers().stream()

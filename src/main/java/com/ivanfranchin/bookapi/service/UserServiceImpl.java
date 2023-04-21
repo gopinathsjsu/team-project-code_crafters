@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findById(long userId) {
         return userRepository.findById(userId);
     }
+
+    @Override
+    public List<User> findUsersWhoseAccountExpiryByNextWeek() {
+        return userRepository.findUsersWhoseAccountExpiryByNextWeek();
+    }
 }

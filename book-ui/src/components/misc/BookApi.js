@@ -14,8 +14,16 @@ export const bookApi = {
   getMemberships,
   addMembership,
   clockInOut,
-  getTodaysClockInOutData
+  getTodaysClockInOutData,
+  getUsersByExpiryByWeek
 }
+function getUsersByExpiryByWeek(user) {
+  const url = '/api/users/expiry-by-week'
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+
 function getMemberships(user, text) {
   const url = text ? `/api/membership?text=${text}` : '/api/membership'
   return instance.get(url, {

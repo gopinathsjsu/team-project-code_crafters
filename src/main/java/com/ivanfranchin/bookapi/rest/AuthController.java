@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -75,6 +77,16 @@ public class AuthController {
             }else {
                 user.setRole(WebSecurityConfig.NONMember);
             }
+
+            // Get the current date
+            Date currentDate = new Date();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.MONTH, Integer.parseInt(membership.get().getMonth().toString()));
+            Date expirationDate = calendar.getTime();
+            user.setExpiry(expirationDate);
+
         }
 
         user.setLocationId(userService.findById(signUpRequest.getLocationId()).get().getLocationId());

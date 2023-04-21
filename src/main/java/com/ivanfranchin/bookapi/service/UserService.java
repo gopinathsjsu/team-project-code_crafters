@@ -24,4 +24,6 @@ public interface UserService {
     Optional<User> validUsernameAndPassword(String username, String password);
 
     Optional<User> findById(long userId);
+
+    List<User> findUsersWhoseAccountExpiryByNextWeek();
 }

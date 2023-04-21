@@ -5,6 +5,7 @@ import { handleLogError } from '../misc/Helpers'
 import LineChart from '.././admin/linechart';
 import AuthContext from "../context/AuthContext";
 import LinechartHours from "../admin/linechartHours";
+import ExpireMembershipTable from "../admin/ExpireMembershipTable";
 
 class Home extends Component {
   static contextType = AuthContext
@@ -12,7 +13,9 @@ class Home extends Component {
     numberOfUsers: 0,
     numberOfBooks: 0,
     isLoading: false,
-    isAdmin:false
+    isAdmin:false,
+    users:[],
+    isUsersLoading:false
   }
 
   async componentDidMount() {
@@ -34,8 +37,25 @@ class Home extends Component {
     } finally {
       this.setState({ isLoading: false })
     }
-  }
 
+    this.handleGetUsersByExpiryNextWeek()
+  }
+  handleGetUsersByExpiryNextWeek = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    this.setState({ isUsersLoading: true })
+    bookApi.getUsersByExpiryByWeek(user)
+        .then(response => {
+          this.setState({ users: response.data })
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+        .finally(() => {
+          this.setState({ isUsersLoading: false })
+        })
+  }
   render() {
     const { isLoading } = this.state
     const { isAdmin } = this.state
@@ -48,7 +68,7 @@ class Home extends Component {
           </Segment>
       )
     } else {
-      const { numberOfUsers, numberOfBooks } = this.state
+      const { numberOfUsers, numberOfBooks,users } = this.state
       return (
           <Container text>
             <Grid stackable columns={2}>
@@ -72,11 +92,13 @@ class Home extends Component {
               </Grid.Row>
             </Grid>
 
-            <Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' style={{ marginTop: '2em' }} />
-            <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+
             <div>
               {isAdmin && <LineChart />}
               {isAdmin && <LinechartHours />}
+              {isAdmin && <ExpireMembershipTable
+                  users={users}
+              />}
             </div>
           </Container>
       )

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @Entity
@@ -32,6 +34,8 @@ public class User {
 
     @Column(name = "membership_id")
     private Long membershipId;
+
+    private Date expiry;
 
 
     public User(String username, String password, String name, String email, String role, Long locationId, Long daysRemaining,Boolean isActive,Long membershipId) {
