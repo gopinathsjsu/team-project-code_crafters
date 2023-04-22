@@ -16,4 +16,6 @@ public interface MembershipService {
 
     Optional<Membership> getMembershipById(Long id);
 
+    void deleteMembershipById(String id);
+
 }

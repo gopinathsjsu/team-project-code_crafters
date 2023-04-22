@@ -40,7 +40,7 @@ function ExpireMembershipTable({ users }) {
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell colSpan={7} textAlign='center'>
-                    <h3>Membership Expires By Next Week</h3>
+                    <h3>Membership Expires In Next Week</h3>
                 </Table.HeaderCell>
             </Table.Row>
           <Table.Row>

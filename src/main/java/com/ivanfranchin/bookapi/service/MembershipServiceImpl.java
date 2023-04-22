@@ -39,4 +39,9 @@ public class MembershipServiceImpl implements MembershipService {
     public Optional<Membership> getMembershipById(Long id) {
         return membershipRepository.findById(id.toString());
     }
+
+    @Override
+    public void deleteMembershipById(String id) {
+        membershipRepository.deleteById(id);
+    }
 }

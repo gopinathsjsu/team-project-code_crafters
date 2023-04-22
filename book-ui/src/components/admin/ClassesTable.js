@@ -1,17 +1,17 @@
 import React from 'react'
 import { Button, Form, Grid, Image, Input, Table } from 'semantic-ui-react'
-import MembershipForm from "./MemebrshipForm";
+import ClassesForm from "./ClassesForm";
 
-function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook,month,isForMember }) {
+function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleDeleteBook, handleSearchBook,isClassForMember,handleDeleteClasses }) {
   let membershipList
-  if (memberships.length === 0) {
+  if (classes.length === 0) {
       membershipList = (
-      <Table.Row key='no-book'>
-        <Table.Cell collapsing textAlign='center' colSpan='4'>No Memberships</Table.Cell>
+      <Table.Row key='no-classes'>
+        <Table.Cell collapsing textAlign='center' colSpan='4'>No Classes</Table.Cell>
       </Table.Row>
     )
   } else {
-      membershipList = memberships.map(membership => {
+      membershipList = classes.map(membership => {
       return (
         <Table.Row key={membership.id}>
           <Table.Cell collapsing>
@@ -20,17 +20,13 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
               color='red'
               size='small'
               icon='trash'
-              onClick={() => handleDeleteMembership(membership.id)}
+              onClick={() => handleDeleteClasses(membership.id)}
             />
           </Table.Cell>
-          {/*<Table.Cell>*/}
-          {/*  <Image src={`http://covers.openlibrary.org/b/isbn/${membership.id}-M.jpg`} size='tiny' bordered rounded />*/}
-          {/*</Table.Cell>*/}
           <Table.Cell>{membership.id}</Table.Cell>
           <Table.Cell>{membership.title}</Table.Cell>
           <Table.Cell>{membership.description}</Table.Cell>
-            <Table.Cell>{membership.month}</Table.Cell>
-            <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
+          <Table.Cell>{membership.isForMember ? "Yes" : "No"}</Table.Cell>
         </Table.Row>
       )
     })
@@ -51,14 +47,13 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
               />
             </Form>
           </Grid.Column>
-          <Grid.Column width='20'>
-            <MembershipForm
-              membershipTitle={membershipTitle}
-              membershipDescription={membershipDescription}
+          <Grid.Column width='16'>
+            <ClassesForm
+              classesTitle={classesTitle}
+              classesDescription={classesDescription}
               handleInputChange={handleInputChange}
-              handleAddMembership={handleAddMembership}
-              month={month}
-              isForMember={isForMember}
+              handleAddClasses={handleAddClasses}
+              isClassForMember={isClassForMember}
 
             />
           </Grid.Column>
@@ -68,11 +63,9 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}/>
-            {/*<Table.HeaderCell width={2}>Image</Table.HeaderCell>*/}
             <Table.HeaderCell width={1}>Id</Table.HeaderCell>
             <Table.HeaderCell width={4}>Title</Table.HeaderCell>
               <Table.HeaderCell width={7}>Description</Table.HeaderCell>
-              <Table.HeaderCell width={1}>Length (Month)</Table.HeaderCell>
               <Table.HeaderCell width={4}>Is For Member</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -84,4 +77,4 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
   )
 }
 
-export default MembershipTable
+export default ClassesTable

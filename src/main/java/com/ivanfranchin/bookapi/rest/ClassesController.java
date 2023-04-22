@@ -1,14 +1,15 @@
 package com.ivanfranchin.bookapi.rest;
 
-import com.ivanfranchin.bookapi.mapper.BookMapper;
+import com.ivanfranchin.bookapi.mapper.ClassesMapper;
 import com.ivanfranchin.bookapi.mapper.MembershipMapper;
 import com.ivanfranchin.bookapi.model.Book;
+import com.ivanfranchin.bookapi.model.Classes;
 import com.ivanfranchin.bookapi.model.Membership;
 import com.ivanfranchin.bookapi.rest.dto.BookDto;
-import com.ivanfranchin.bookapi.rest.dto.CreateBookRequest;
+import com.ivanfranchin.bookapi.rest.dto.ClassesDto;
 import com.ivanfranchin.bookapi.rest.dto.CreateMembershipRequest;
 import com.ivanfranchin.bookapi.rest.dto.MembershipDto;
-import com.ivanfranchin.bookapi.service.BookService;
+import com.ivanfranchin.bookapi.service.ClassesService;
 import com.ivanfranchin.bookapi.service.MembershipService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -24,33 +25,33 @@ import static com.ivanfranchin.bookapi.config.SwaggerConfig.BASIC_AUTH_SECURITY_
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/membership")
-public class MembershipController {
+@RequestMapping("/api/classes")
+public class ClassesController {
 
-    private final MembershipService membershipService;
-    private final MembershipMapper membershipMapper;
+    private final ClassesService classesService;
+    private final ClassesMapper classesMapper;
+
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping
-    public List<MembershipDto> getMemberships(@RequestParam(value = "text", required = false) String text) {
-        List<Membership> memberships = (text == null) ? membershipService.getMemberships() : membershipService.getMembershipContainingText(text);
-        return memberships.stream()
-                .map(membershipMapper::toMembershipDto)
+    public List<ClassesDto> getMemberships(@RequestParam(value = "text", required = false) String text) {
+        List<Classes> classes = classesService.getClasses();
+        return classes.stream()
+                .map(classesMapper::toClassesDto)
                 .collect(Collectors.toList());
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public MembershipDto createMembership(@Valid @RequestBody CreateMembershipRequest createMembershipRequest) {
-        Membership membership = membershipMapper.toMembership(createMembershipRequest);
-        System.out.println(createMembershipRequest);
-        return membershipMapper.toMembershipDto(membershipService.saveMembership(membership));
+    public ClassesDto createMembership(@Valid @RequestBody ClassesDto classesDto) {
+        Classes classes = classesMapper.toClasses(classesDto);
+        return classesMapper.toClassesDto(classesService.saveClass(classes));
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable String id) {
-        membershipService.deleteMembershipById(id);
+        classesService.deleteClasses(id);
         return id;
     }
 }

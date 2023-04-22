@@ -6,12 +6,13 @@ import Signup from '../home/Signup'
 import MembershipTable from "./MembershipTable";
 import ClockInOut from '../home/ClockInOut'
 import ClockInTable from "./ClockInTable";
+import ClassesTable from "./ClassesTable";
 function AdminTab(props) {
-  const { handleInputChange,updateMeetState,month,isForMember } = props
+  const { handleInputChange,updateMeetState,month,isForMember,isClassesLoading } = props
   const { isUsersLoading, users, userUsernameSearch, handleDeleteUser, handleSearchUser } = props
   const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
-  const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, MembershipTextSearch, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
-
+  const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
+    const {classes,classesTitle,classesDescription,handleAddClasses,isClassForMember,handleDeleteClasses} = props
     const panes = [
     {
       menuItem: { key: 'users', icon: 'users', content: 'Users' },
@@ -82,10 +83,30 @@ function AdminTab(props) {
                       handleSearchBook={handleSearchBook}
                       month = {month}
                       isForMember = {isForMember}
+                      handleDeleteMembership={handleDeleteMembership}
                   />
               </Tab.Pane>
           )
-      }
+      },
+        {
+            menuItem: { key: 'classes', icon: 'book', content: 'classes' },
+            render: () => (
+                <Tab.Pane loading={isClassesLoading}>
+                    <ClassesTable
+                        classes={classes}
+                        classesTitle={classesTitle}
+                        classesDescription={classesDescription}
+                        bookTextSearch={bookTextSearch}
+                        handleInputChange={handleInputChange}
+                        handleAddClasses={handleAddClasses}
+                        handleDeleteBook={handleDeleteBook}
+                        handleSearchBook={handleSearchBook}
+                        isClassForMember = {isClassForMember}
+                        handleDeleteClasses={handleDeleteClasses}
+                    />
+                </Tab.Pane>
+            )
+        }
   ]
 
   return (

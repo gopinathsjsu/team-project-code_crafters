@@ -28,7 +28,12 @@ class AdminPage extends Component {
     userId: '',
     clockInData:'',
     isForMember: true,
-    month:0
+    month:0,
+    classes: [],
+    classesTitle: '',
+    classesDescription:'',
+    isClassForMember:true,
+    isClassLoading:false
   }
 
   componentDidMount() {
@@ -41,8 +46,24 @@ class AdminPage extends Component {
     this.handleGetBooks()
     this.handleGetMemberships()
     this.handleGetClockInData()
+    this.handleGetClasses()
   }
+  handleGetClasses = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
 
+    this.setState({ isClassLoading: true })
+    bookApi.getClasses(user)
+        .then(response => {
+          this.setState({ classes: response.data })
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+        .finally(() => {
+          this.setState({ isClassLoading: false })
+        })
+  }
   handleInputChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
@@ -110,6 +131,7 @@ class AdminPage extends Component {
         this.setState({ isBooksLoading: false })
       })
   }
+
   handleGetMemberships = () => {
     const Auth = this.context
     const user = Auth.getUser()
@@ -154,6 +176,31 @@ class AdminPage extends Component {
         handleLogError(error)
       })
   }
+  handleDeleteClasses = (id) => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    bookApi.deleteClasses(user, id)
+        .then(() => {
+          this.handleGetClasses()
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+  }
+
+  handleDeleteMembership = (id) => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    bookApi.deleteMembership(user, id)
+        .then(() => {
+          this.handleGetMemberships()
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+  }
 
   handleAddBook = () => {
     const Auth = this.context
@@ -192,6 +239,28 @@ class AdminPage extends Component {
         .then(() => {
           // this.clearMembershipForm()
           this.handleGetMemberships()
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+  }
+
+  handleAddClasses = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    let { classesTitle, classesDescription,isClassForMember } = this.state
+    classesTitle = classesTitle.trim()
+    classesDescription = classesDescription.trim()
+    if (!(classesTitle && classesDescription)) {
+      return
+    }
+    const isForMember = isClassForMember ? 1 : 0;
+    const clas = { title: classesTitle, description: classesDescription,isForMember }
+    bookApi.addClasses(user, clas)
+        .then(() => {
+          this.setState({classesTitle:'',classesDescription:''})
+          this.handleGetClasses()
         })
         .catch(error => {
           handleLogError(error)
@@ -250,6 +319,7 @@ class AdminPage extends Component {
       return <Redirect to='/' />
     } else {
       const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
+      const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership} = this.state
       return (
         <Container >
           <AdminTab
@@ -264,6 +334,7 @@ class AdminPage extends Component {
             membershipTitle={membershipTitle}
             membershipDescription={membershipDescription}
             handleAddMembership={this.handleAddMembership}
+            handleDeleteMembership={this.handleDeleteMembership}
             bookIsbn={bookIsbn}
             bookTitle={bookTitle}
             bookTextSearch={bookTextSearch}
@@ -271,11 +342,17 @@ class AdminPage extends Component {
             handleDeleteBook={this.handleDeleteBook}
             handleSearchBook={this.handleSearchBook}
             handleInputChange={this.handleInputChange}
-            handleClockInOut={this.handleClockInOut()}
+            handleClockInOut={this.handleClockInOut}
             clockInData={clockInData}
             updateMeetState={this.updateMeetState}
             month={month}
             isForMember={isForMember}
+            isClassForMember={isClassForMember}
+            classes={classes}
+            classesTitle={classesTitle}
+            classesDescription={classesDescription}
+            handleAddClasses={this.handleAddClasses}
+            handleDeleteClasses={this.handleDeleteClasses}
           />
         </Container>
       )
