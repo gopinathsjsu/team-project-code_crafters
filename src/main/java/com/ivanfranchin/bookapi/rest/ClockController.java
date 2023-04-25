@@ -32,6 +32,7 @@ public class ClockController {
     private final ClockMapper clockMapper;
 
     private final LocationService locationService;
+    // Constructor for the controller that receives the necessary services.
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping
     public List<ClockDto> getClockData(@RequestParam(value = "text", required = false) String text) {
@@ -87,6 +88,7 @@ public class ClockController {
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping("/visitors")
+    // GET endpoint that retrieves total clock in data by hour for visitors.
     public VisitorDto getVisitorsData(@RequestParam(value = "text", required = false) String text) {
         List<Object[]> memberships = clockService.getTotalClockInByHour();
         VisitorDto visitorDto = new VisitorDto();
