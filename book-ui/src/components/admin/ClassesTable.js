@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, Grid, Image, Input, Table } from 'semantic-ui-react'
 import ClassesForm from "./ClassesForm";
 
-function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleDeleteBook, handleSearchBook,isClassForMember,handleDeleteClasses }) {
+function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleDeleteBook, handleSearchBook,isClassForMember,handleDeleteClasses ,instructors,instructorIdForClassCreate}) {
   let membershipList
   if (classes.length === 0) {
       membershipList = (
@@ -26,6 +26,7 @@ function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch
           <Table.Cell>{membership.id}</Table.Cell>
           <Table.Cell>{membership.title}</Table.Cell>
           <Table.Cell>{membership.description}</Table.Cell>
+            <Table.Cell> {instructors.find(i => i.id === membership.instructorId)?.name}</Table.Cell>
           <Table.Cell>{membership.isForMember ? "Yes" : "No"}</Table.Cell>
         </Table.Row>
       )
@@ -54,7 +55,8 @@ function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch
               handleInputChange={handleInputChange}
               handleAddClasses={handleAddClasses}
               isClassForMember={isClassForMember}
-
+                instructors = {instructors}
+              instructorIdForClassCreate={instructorIdForClassCreate}
             />
           </Grid.Column>
         </Grid.Row>
@@ -66,6 +68,7 @@ function ClassesTable({ classes, classesTitle,classesDescription, bookTextSearch
             <Table.HeaderCell width={1}>Id</Table.HeaderCell>
             <Table.HeaderCell width={4}>Title</Table.HeaderCell>
               <Table.HeaderCell width={7}>Description</Table.HeaderCell>
+              <Table.HeaderCell width={2}>Instructor</Table.HeaderCell>
               <Table.HeaderCell width={4}>Is For Member</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
