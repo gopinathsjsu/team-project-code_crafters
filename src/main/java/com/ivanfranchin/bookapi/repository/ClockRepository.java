@@ -25,7 +25,10 @@ public interface ClockRepository extends JpaRepository<Clock, String> {
             + "GROUP BY c.locationId, HOUR(c.clockIn)")
     List<Object[]> getTotalClockInsByHour();
 
-//    @Query("SELECT WEEKDAY(c.clockIn) AS dayOfWeek, COUNT(c) AS totalClockIns "
+
+
+
+    //    @Query("SELECT WEEKDAY(c.clockIn) AS dayOfWeek, COUNT(c) AS totalClockIns "
 //            + "FROM Clock c "
 //            + "WHERE WEEKDAY(c.clockIn) < 5 "
 //            + "GROUP BY WEEKDAY(c.clockIn)")
