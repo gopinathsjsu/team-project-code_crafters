@@ -33,7 +33,16 @@ class AdminPage extends Component {
     classesTitle: '',
     classesDescription:'',
     isClassForMember:true,
-    isClassLoading:false
+    isClassLoading:false,
+
+    instructorAge: null,
+    instructorDescription:'',
+    instructors:[],
+    instructorEmail:'',
+    instructorName:'',
+    isInstructorsLoading:false,
+    instructorIdForClassCreate:2
+
   }
 
   componentDidMount() {
@@ -47,6 +56,7 @@ class AdminPage extends Component {
     this.handleGetMemberships()
     this.handleGetClockInData()
     this.handleGetClasses()
+    this.handleGetInstructors()
   }
   handleGetClasses = () => {
     const Auth = this.context
@@ -148,6 +158,23 @@ class AdminPage extends Component {
           this.setState({ isMembershipsLoading: false })
         })
   }
+  handleGetInstructors = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    this.setState({ isInstructorsLoading: true })
+    bookApi.getInstructors(user)
+        .then(response => {
+          this.setState({ instructors: response.data })
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+        .finally(() => {
+          this.setState({ isInstructorsLoading: false })
+        })
+  }
+
   handleGetClockInData = () => {
     const Auth = this.context
     const user = Auth.getUser()
@@ -201,6 +228,18 @@ class AdminPage extends Component {
           handleLogError(error)
         })
   }
+  handleDeleteInstructor = (id) => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    bookApi.deleteInstructor(user, id)
+        .then(() => {
+          this.handleGetInstructors()
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+  }
 
   handleAddBook = () => {
     const Auth = this.context
@@ -249,18 +288,39 @@ class AdminPage extends Component {
     const Auth = this.context
     const user = Auth.getUser()
 
-    let { classesTitle, classesDescription,isClassForMember } = this.state
+    let { classesTitle, classesDescription,isClassForMember ,instructorIdForClassCreate} = this.state
     classesTitle = classesTitle.trim()
     classesDescription = classesDescription.trim()
     if (!(classesTitle && classesDescription)) {
       return
     }
     const isForMember = isClassForMember ? 1 : 0;
-    const clas = { title: classesTitle, description: classesDescription,isForMember }
+    const clas = { title: classesTitle, description: classesDescription,isForMember,instructorId:instructorIdForClassCreate }
     bookApi.addClasses(user, clas)
         .then(() => {
           this.setState({classesTitle:'',classesDescription:''})
           this.handleGetClasses()
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+  }
+  handleAddInstructor = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    let {instructorAge,instructorDescription,instructorEmail,instructorName} = this.state
+    instructorName = instructorName.trim()
+    instructorDescription = instructorDescription.trim()
+    instructorEmail = instructorEmail.trim()
+    if (!(instructorAge && instructorDescription && instructorEmail && instructorName)) {
+      return
+    }
+    const instructor = { name: instructorName, description: instructorDescription,email:instructorEmail,age:instructorAge }
+    bookApi.addInstructor(user, instructor)
+        .then(() => {
+          this.setState({instructorAge:'',instructorDescription:'',instructorEmail:'',instructorName:''})
+          this.handleGetInstructors()
         })
         .catch(error => {
           handleLogError(error)
@@ -320,6 +380,7 @@ class AdminPage extends Component {
     } else {
       const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership} = this.state
+      const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
         <Container >
           <AdminTab
@@ -353,6 +414,16 @@ class AdminPage extends Component {
             classesDescription={classesDescription}
             handleAddClasses={this.handleAddClasses}
             handleDeleteClasses={this.handleDeleteClasses}
+
+            instructorAge={instructorAge}
+            handleDeleteInstructor={this.handleDeleteInstructor}
+            instructorDescription={instructorDescription}
+            instructors={instructors}
+            instructorEmail={instructorEmail}
+            instructorName={instructorName}
+            handleAddInstructor={this.handleAddInstructor}
+            isInstructorsLoading={isInstructorsLoading}
+            instructorIdForClassCreate={instructorIdForClassCreate}
           />
         </Container>
       )

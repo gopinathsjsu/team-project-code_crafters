@@ -7,7 +7,7 @@ function ClockInTable({ clockInData,handleGetClockInData}) {
   if (clockInData.length === 0) {
     bookList = (
       <Table.Row key='no-book'>
-        <Table.Cell collapsing textAlign='center' colSpan='4'>No book</Table.Cell>
+        <Table.Cell collapsing textAlign='center' colSpan='4'>No data</Table.Cell>
       </Table.Row>
     )
   } else {

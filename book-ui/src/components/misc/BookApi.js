@@ -19,8 +19,33 @@ export const bookApi = {
   getUsersByExpiryByWeek,
   addClasses,
   getClasses,
-  deleteMembership
+  deleteMembership,
+  deleteInstructor,
+  addInstructor,
+  getInstructors
 }
+
+function getInstructors(user) {
+  const url = '/api/instructors'
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+function addInstructor(user, instructor) {
+  return instance.post('/api/instructors', instructor, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
+  })
+}
+
+function deleteInstructor(user, id) {
+  return instance.delete(`/api/instructors/${id}`, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+
 function getClasses(user) {
   const url = '/api/classes'
   return instance.get(url, {
