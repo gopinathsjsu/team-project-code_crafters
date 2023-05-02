@@ -1,6 +1,8 @@
 package com.ivanfranchin.bookapi.rest;
 
 import com.ivanfranchin.bookapi.mapper.UserMapper;
+import com.ivanfranchin.bookapi.model.Location;
+import com.ivanfranchin.bookapi.model.LocationRepository;
 import com.ivanfranchin.bookapi.model.User;
 import com.ivanfranchin.bookapi.rest.dto.UserDto;
 import com.ivanfranchin.bookapi.security.CustomUserDetails;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ivanfranchin.bookapi.config.SwaggerConfig.BASIC_AUTH_SECURITY_SCHEME;
@@ -27,6 +30,8 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+
+    private final LocationRepository locationRepository;
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping("/me")
@@ -49,6 +54,11 @@ public class UserController {
                 .map(userMapper::toUserDto)
                 .collect(Collectors.toList());
     }
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/locations")
+    public List<Location> getLocations() {
+        return locationRepository.findAll();
+    }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping("/{username}")
@@ -62,5 +72,16 @@ public class UserController {
         User user = userService.validateAndGetUserByUsername(username);
         userService.deleteUser(user);
         return userMapper.toUserDto(user);
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("user-by-id/{id}")
+    public User getUserById(@PathVariable String id) {
+        Optional<User> user = userService.findByUserId(id);
+        if(user.isPresent()){
+            return user.get();
+        }else{
+            return null;
+        }
     }
 }

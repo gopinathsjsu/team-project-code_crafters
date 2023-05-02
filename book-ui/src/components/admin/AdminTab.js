@@ -9,7 +9,7 @@ import ClockInTable from "./ClockInTable";
 import ClassesTable from "./ClassesTable";
 import InstructorTable from "./InstructorTable";
 function AdminTab(props) {
-  const { handleInputChange,updateMeetState,month,isForMember,isClassesLoading } = props
+  const { handleInputChange,updateMeetState,month,isForMember,isClassesLoading,locations } = props
   const { isUsersLoading, users, userUsernameSearch, handleDeleteUser, handleSearchUser } = props
   const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
   const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
@@ -26,6 +26,8 @@ function AdminTab(props) {
             handleInputChange={handleInputChange}
             handleDeleteUser={handleDeleteUser}
             handleSearchUser={handleSearchUser}
+            memberships={memberships}
+            locations={locations}
           />
         </Tab.Pane>
       )

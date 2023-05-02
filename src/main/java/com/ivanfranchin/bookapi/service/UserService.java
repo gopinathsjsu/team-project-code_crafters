@@ -26,4 +26,5 @@ public interface UserService {
     Optional<User> findById(long userId);
 
     List<User> findUsersWhoseAccountExpiryByNextWeek();
+    Optional<User> findByUserId(String id);
 }

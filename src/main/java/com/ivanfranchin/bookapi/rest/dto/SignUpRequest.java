@@ -34,4 +34,6 @@ public class SignUpRequest {
     private Boolean isActive;
 
     private Long membershipId;
+
+    private Long locationIdForAdmin;
 }

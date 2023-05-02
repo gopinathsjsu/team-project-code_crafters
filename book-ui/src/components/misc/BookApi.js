@@ -22,9 +22,16 @@ export const bookApi = {
   deleteMembership,
   deleteInstructor,
   addInstructor,
-  getInstructors
+  getInstructors,
+  getLocations,
+  getUserById
 }
-
+function getUserById(user, id) {
+  const url = `/api/users/user-by-id/${id}`
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
 function getInstructors(user) {
   const url = '/api/instructors'
   return instance.get(url, {
@@ -109,6 +116,12 @@ function numberOfBooks() {
 
 function getUsers(user, username) {
   const url = username ? `/api/users/${username}` : '/api/users'
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+function getLocations(user, username) {
+  const url = username ? `/api/users/${username}` : '/api/users/locations'
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
   })

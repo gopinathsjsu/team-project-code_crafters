@@ -41,8 +41,8 @@ class AdminPage extends Component {
     instructorEmail:'',
     instructorName:'',
     isInstructorsLoading:false,
-    instructorIdForClassCreate:2
-
+    instructorIdForClassCreate:2,
+    locations:[]
   }
 
   componentDidMount() {
@@ -57,6 +57,20 @@ class AdminPage extends Component {
     this.handleGetClockInData()
     this.handleGetClasses()
     this.handleGetInstructors()
+    this.handleGetLocations()
+  }
+  handleGetLocations = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    bookApi.getLocations(user)
+        .then(response => {
+          this.setState({ locations: response.data })
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+
   }
   handleGetClasses = () => {
     const Auth = this.context
@@ -379,7 +393,7 @@ class AdminPage extends Component {
       return <Redirect to='/' />
     } else {
       const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
-      const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership} = this.state
+      const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,locations} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
         <Container >
@@ -390,6 +404,7 @@ class AdminPage extends Component {
             handleDeleteUser={this.handleDeleteUser}
             handleSearchUser={this.handleSearchUser}
             isBooksLoading={isBooksLoading}
+            locations={locations}
             books={books}
             memberships={memberships}
             membershipTitle={membershipTitle}

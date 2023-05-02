@@ -64,6 +64,16 @@ public class AuthController {
 
         user.setLocationId(signUpRequest.getLocationId());
         user.setMembershipId(signUpRequest.getMembershipId());
+        if (signUpRequest.getLocationIdForAdmin()!=null){
+            user.setRole(WebSecurityConfig.ADMIN);
+            user.setLocationId(signUpRequest.getLocationIdForAdmin());
+            user.setDaysRemaining(1000000L);
+//            user.setExpiry(new Date(Long.MAX_VALUE));
+            user.setIsActive(Boolean.TRUE);
+            user.setMembershipId(1L);
+            return user;
+
+        }
         Optional<Membership> membership = membershipService.getMembershipById(signUpRequest.getMembershipId());
         if(!membership.isPresent()){
             user.setIsActive(Boolean.FALSE);

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Button, Input, Table } from 'semantic-ui-react'
 
-function UserTable({ users, userUsernameSearch, handleInputChange, handleDeleteUser, handleSearchUser }) {
+function UserTable({ users, userUsernameSearch, handleInputChange, handleDeleteUser, handleSearchUser ,memberships,locations}) {
   let userList
   if (users.length === 0) {
     userList = (
@@ -28,13 +28,27 @@ function UserTable({ users, userUsernameSearch, handleInputChange, handleDeleteU
           <Table.Cell>{user.name}</Table.Cell>
           <Table.Cell>{user.email}</Table.Cell>
           <Table.Cell>{user.role}</Table.Cell>
+            <Table.Cell>
+                {user.role === "ADMIN" ? "-" : user.daysRemaining}
+            </Table.Cell>
+            <Table.Cell>
+                { locations.find(m => m.id === user.locationId)?.name}
+            </Table.Cell>
+            <Table.Cell>
+                {user.role === "ADMIN" ? "-" : memberships.find(m => m.id === user.membershipId)?.title}
+            </Table.Cell>
+
+            <Table.Cell>{user.isActive ? 'Yes' : 'No'}</Table.Cell>
+
+
         </Table.Row>
       )
     })
   }
-
+    console.log(memberships)
   return (
     <>
+
       <Form onSubmit={handleSearchUser}>
         <Input
           action={{ icon: 'search' }}
@@ -53,6 +67,10 @@ function UserTable({ users, userUsernameSearch, handleInputChange, handleDeleteU
             <Table.HeaderCell width={4}>Name</Table.HeaderCell>
             <Table.HeaderCell width={5}>Email</Table.HeaderCell>
             <Table.HeaderCell width={2}>Role</Table.HeaderCell>
+              <Table.HeaderCell width={2}>Days Remaining</Table.HeaderCell>
+              <Table.HeaderCell width={3}>Base Location</Table.HeaderCell>
+              <Table.HeaderCell width={4}>Membership Plan</Table.HeaderCell>
+              <Table.HeaderCell width={2}>Active</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

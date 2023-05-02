@@ -44,62 +44,88 @@ class ClockInOut extends Component {
         })
   }
   handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const { userId } = this.state
-    if (!(userId)) {
+    const { userId } = this.state;
+    if (!userId) {
       this.setState({
         isError: true,
-        errorMessage: 'Please, Enter User Id!'
-      })
-      return
+        errorMessage: 'Please enter User Id!'
+      });
+      return;
     }
-    const Auth = this.context
-    const user = Auth.getUser()
-    const adminId = user.id
-    const clockData = { userId, adminId }
+
+    const Auth = this.context;
+    const user = Auth.getUser();
+    const adminId = user.id;
+    const clockData = { userId, adminId };
     const { updateMeetState } = this.props;
-    console.log(user)
-      bookApi.clockInOut(user,clockData)
+
+    bookApi.getUserById(user,userId)
         .then(response => {
-
-          if (response.data.msg === 'User Not Found') {
-              toast.error(response.data.msg+" With UserId: "+response.data.userId, {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 2000, // 10 seconds
-                className: 'toast-error' // add custom CSS class for error message
-              });
+          if (response.data.id) {
+            // show a confirmation popup before clocking in/out
+            const confirmMessage = `Are you sure you want to check in/out with user ${response.data.name} ?`;
+            if (window.confirm(confirmMessage)) {
+              // continue with clock in/out
+              bookApi.clockInOut(user, clockData)
+                  .then(response => {
+                    if (response.data.msg === 'User Not Found') {
+                      toast.error(`${response.data.msg} With UserId: ${response.data.userId}`, {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 2000,
+                        className: 'toast-error'
+                      });
+                    } else {
+                      toast.success(response.data.msg, {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 2000
+                      });
+                    }
+                    this.setState({
+                      userId: '',
+                      isError: false,
+                      errorMessage: ''
+                    });
+                    updateMeetState();
+                  })
+                  .catch(error => {
+                    handleLogError(error);
+                    if (error.response && error.response.data) {
+                      const errorData = error.response.data;
+                      let errorMessage = 'Invalid fields';
+                      if (errorData.status === 409) {
+                        errorMessage = errorData.message;
+                      } else if (errorData.status === 400) {
+                        errorMessage = errorData.errors[0].defaultMessage;
+                      }
+                      this.setState({
+                        isError: true,
+                        errorMessage
+                      });
+                    }
+                  });
+            }
           } else {
-            toast.success(response.data.msg, {
+            // if user doesn't exist, show error message
+            toast.error(`User not found with UserId: ${userId}`, {
               position: toast.POSITION.TOP_CENTER,
-              autoClose: 2000 // 10 seconds
+              autoClose: 2000,
+              className: 'toast-error'
             });
-
           }
           this.setState({
-            userId:'',
+            userId: '',
             isError: false,
             errorMessage: ''
           });
           updateMeetState();
         })
-      .catch(error => {
-        handleLogError(error)
-        if (error.response && error.response.data) {
-          const errorData = error.response.data
-          let errorMessage = 'Invalid fields'
-          if (errorData.status === 409) {
-            errorMessage = errorData.message
-          } else if (errorData.status === 400) {
-            errorMessage = errorData.errors[0].defaultMessage
-          }
-          this.setState({
-            isError: true,
-            errorMessage
-          })
-        }
-      })
+        .catch(error => {
+          handleLogError(error);
+        });
   }
+
 
   render() {
     const { isLoggedIn, isError, errorMessage } = this.state

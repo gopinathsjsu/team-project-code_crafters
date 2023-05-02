@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { useState } from 'react';
 import { NavLink, Redirect } from 'react-router-dom'
-import { Button, Form, Grid, Segment, Message ,Dropdown } from 'semantic-ui-react'
+import { Button, Form, Grid, Segment, Message ,Dropdown,Radio  } from 'semantic-ui-react'
 import AuthContext from '../context/AuthContext'
 import { bookApi } from '../misc/BookApi'
 import { handleLogError } from '../misc/Helpers'
@@ -9,7 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import {config} from "../../Constants";
-
 class Signup extends Component {
   static contextType = AuthContext
 
@@ -19,12 +19,16 @@ class Signup extends Component {
     name: '',
     email: '',
     isLoggedIn: false,
+    selectedOption: 'user',
     isError: false,
     errorMessage: '',
     memberships: [], // to store the list of memberships fetched from the API
-    selectedMembership: '', // to store the selected membership by the user
+    selectedMembership: '', // to store the selected membership by the user,
+    selectedRole: 'user',
+    selectedLocation:'',
+    setSelectedLocation:'',
+    locations:[]
   }
-
 
   componentDidMount() {
     function basicAuth(user) {
@@ -33,6 +37,8 @@ class Signup extends Component {
       }
       return null;
     }
+
+
     const Auth = this.context
     const isLoggedIn = Auth.userIsAuthenticated()
     this.setState({ isLoggedIn })
@@ -50,6 +56,14 @@ class Signup extends Component {
         .catch(error => {
           console.log(error);
         });
+
+    bookApi.getLocations(user)
+        .then(response => {
+          this.setState({ locations: response.data })
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
   }
 
   handleInputChange = (e, { name, value }) => {
@@ -60,11 +74,14 @@ class Signup extends Component {
   handleMembershipSelect = (event, { value }) => {
     this.setState({ selectedMembership: value });
   }
+  handleLocationSelect = (event, { value }) => {
+    this.setState({ selectedLocation: value });
+  }
   handleSubmit = (e) => {
     e.preventDefault()
 
-    const { username, password, name, email,selectedMembership } = this.state
-    if (!(username && password && name && email && selectedMembership) ) {
+    const { username, password, name, email,selectedMembership, selectedRole,selectedLocation} = this.state
+    if (!(username && password && name && email && (selectedMembership || selectedLocation) )) {
       this.setState({
         isError: true,
         errorMessage: 'Please, inform all fields!'
@@ -73,8 +90,8 @@ class Signup extends Component {
     }
     const Auth = this.context
     const admin = Auth.getUser()
-    console.log(admin)
-    const user = { username, password, name, email ,membershipId:selectedMembership,locationId:admin.id }
+
+    const user = { username, password, name, email ,membershipId:selectedMembership,locationId:admin.id,locationIdForAdmin:selectedLocation }
     bookApi.signup(user)
       .then(response => {
         this.setState({
@@ -86,7 +103,6 @@ class Signup extends Component {
             errorMessage: ''
 
           });
-
           toast.success('User created successfully!', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000 // 10 seconds
@@ -113,16 +129,39 @@ class Signup extends Component {
   }
 
   render() {
-    const { isLoggedIn, isError, errorMessage ,memberships,selectedMembership} = this.state
-    // create an array of options for the dropdown menu using the fetched list of memberships
+    const { isLoggedIn, isError, errorMessage ,memberships,selectedMembership,locations} = this.state
+    const {selectedRole,selectedLocation} = this.state
+
     const membershipOptions = memberships.map(membership => {
       return { key: membership.id, value: membership.id, text: membership.title + " " + membership.description};
     });
+    const locationsForSelect = locations.map((instructor) => ({
+      key: instructor.id,
+      text: instructor.name,
+      value: instructor.id,
+    }))
       return (
         <Grid textAlign='center'>
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Form size='large' onSubmit={this.handleSubmit}>
+            <Form size='large' onSubmit={this.handleSubmit}  >
               <Segment>
+                <Form.Group inline>
+                  <label>Role</label>
+                  <Form.Field
+                      control={Radio}
+                      label='User'
+                      value='user'
+                      checked={selectedRole === 'user'}
+                      onChange={() => this.setState({ selectedRole: 'user' })}
+                  />
+                  <Form.Field
+                      control={Radio}
+                      label='Admin'
+                      value='admin'
+                      checked={selectedRole === 'admin'}
+                      onChange={() => this.setState({ selectedRole: 'admin' })}
+                  />
+                </Form.Group>
                 <Form.Input
                   fluid
                   autoFocus
@@ -157,7 +196,9 @@ class Signup extends Component {
                   placeholder='Email'
                   onChange={this.handleInputChange}
                 />
-                <Dropdown
+                {selectedRole === 'user' && (
+                    <>
+                    <Dropdown
                     placeholder='Select Membership'
                     fluid
                     search
@@ -165,7 +206,21 @@ class Signup extends Component {
                     options={membershipOptions}
                     value={selectedMembership}
                     onChange={this.handleMembershipSelect}
-                />
+                /></>
+                    )}
+                {selectedRole === 'admin' && (
+                    <>
+                      <Dropdown
+                          placeholder='Select Location'
+                          fluid
+                          search
+                          selection
+                          options={locationsForSelect}
+                          value={selectedLocation}
+                          onChange={this.handleLocationSelect}
+                      /></>
+                )}
+                <br/>
                 <Button color='blue' fluid size='large'>Register</Button>
               </Segment>
             </Form>
