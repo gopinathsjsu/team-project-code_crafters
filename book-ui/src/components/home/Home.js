@@ -71,26 +71,6 @@ class Home extends Component {
       const { numberOfUsers, numberOfBooks,users } = this.state
       return (
           <Container text>
-            <Grid stackable columns={2}>
-              <Grid.Row>
-                <Grid.Column textAlign='center'>
-                  <Segment color='blue'>
-                    <Statistic>
-                      <Statistic.Value><Icon name='user' color='grey' />{numberOfUsers}</Statistic.Value>
-                      <Statistic.Label>Users</Statistic.Label>
-                    </Statistic>
-                  </Segment>
-                </Grid.Column>
-                <Grid.Column textAlign='center'>
-                  <Segment color='blue'>
-                    <Statistic>
-                      <Statistic.Value><Icon name='book' color='grey' />{numberOfBooks}</Statistic.Value>
-                      <Statistic.Label>Books</Statistic.Label>
-                    </Statistic>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
 
 
             <div>
