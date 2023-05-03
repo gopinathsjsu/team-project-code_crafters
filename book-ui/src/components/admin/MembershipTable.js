@@ -40,17 +40,6 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
     <>
       <Grid stackable divided>
         <Grid.Row columns='2'>
-          <Grid.Column width='4'>
-            <Form onSubmit={handleSearchBook}>
-              <Input
-                action={{ icon: 'search' }}
-                name='bookTextSearch'
-                placeholder='Search by Id or Title'
-                value={bookTextSearch}
-                onChange={handleInputChange}
-              />
-            </Form>
-          </Grid.Column>
           <Grid.Column width='20'>
             <MembershipForm
               membershipTitle={membershipTitle}

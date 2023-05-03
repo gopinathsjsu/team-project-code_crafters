@@ -48,6 +48,7 @@ function ClassesTable({ classes, classesTitle,classesDescription, handleSearchCl
                 placeholder='Search by Title'
                 value={ClassesTextSearch}
                 onChange={handleInputChange}
+                style={{ marginBottom: '30px' }}
               />
             </Form>
           </Grid.Column>

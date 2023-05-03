@@ -48,6 +48,7 @@
               options={options}
               onChange={handleInputChange}
               required
+              compact
           />
           <Form.Select
               label='Instructors'
@@ -66,10 +67,11 @@
               onChange={handleInputChange}
               required
           />
-
-          <Button icon labelPosition='right' disabled={createBtnDisabled}>
-            Create<Icon name='add' />
-          </Button>
+          <div style={{ marginTop: '25px' }}>
+            <Button icon labelPosition='right' disabled={createBtnDisabled}>
+              Create<Icon name='add' />
+            </Button>
+          </div>
         </Form.Group>
       </Form>
     )
