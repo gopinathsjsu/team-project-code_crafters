@@ -15,6 +15,7 @@ class AdminPage extends Component {
     bookIsbn: '',
     bookTitle: '',
     bookTextSearch: '',
+    ClassesTextSearch:'',
     memberships: [],
     membershipId: '',
     membershipTitle: '',
@@ -34,7 +35,7 @@ class AdminPage extends Component {
     classesDescription:'',
     isClassForMember:true,
     isClassLoading:false,
-
+    selectedLocationIdForClasses:'',
     instructorAge: null,
     instructorDescription:'',
     instructors:[],
@@ -137,6 +138,27 @@ class AdminPage extends Component {
         handleLogError(error)
         this.setState({ users: [] })
       })
+  }
+  handleSearchClasses = () => {
+    const Auth = this.context
+    const user = Auth.getUser()
+
+    let text = this.state.ClassesTextSearch
+    text = text.trim()
+    if (!(text )) {
+      this.handleGetClasses()
+      return
+    }
+    bookApi.getClassesByText(user, text)
+        .then(response => {
+          const data = response.data
+          const classes = data instanceof Array ? data : [data]
+          this.setState({ classes })
+        })
+        .catch(error => {
+          handleLogError(error)
+          this.setState({ classes: [] })
+        })
   }
 
   handleGetBooks = () => {
@@ -302,14 +324,14 @@ class AdminPage extends Component {
     const Auth = this.context
     const user = Auth.getUser()
 
-    let { classesTitle, classesDescription,isClassForMember ,instructorIdForClassCreate} = this.state
+    let { classesTitle, classesDescription,isClassForMember ,instructorIdForClassCreate,selectedLocationIdForClasses} = this.state
     classesTitle = classesTitle.trim()
     classesDescription = classesDescription.trim()
     if (!(classesTitle && classesDescription)) {
       return
     }
     const isForMember = isClassForMember ? 1 : 0;
-    const clas = { title: classesTitle, description: classesDescription,isForMember,instructorId:instructorIdForClassCreate }
+    const clas = { title: classesTitle, description: classesDescription,isForMember,instructorId:instructorIdForClassCreate,locationId:selectedLocationIdForClasses }
     bookApi.addClasses(user, clas)
         .then(() => {
           this.setState({classesTitle:'',classesDescription:''})
@@ -392,7 +414,7 @@ class AdminPage extends Component {
     if (!this.state.isAdmin) {
       return <Redirect to='/' />
     } else {
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
+      const { ClassesTextSearch,selectedLocationIdForClasses,isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,locations} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
@@ -406,6 +428,7 @@ class AdminPage extends Component {
             isBooksLoading={isBooksLoading}
             locations={locations}
             books={books}
+            selectedLocationIdForClasses={selectedLocationIdForClasses}
             memberships={memberships}
             membershipTitle={membershipTitle}
             membershipDescription={membershipDescription}
@@ -439,6 +462,9 @@ class AdminPage extends Component {
             handleAddInstructor={this.handleAddInstructor}
             isInstructorsLoading={isInstructorsLoading}
             instructorIdForClassCreate={instructorIdForClassCreate}
+
+            handleSearchClasses={this.handleSearchClasses}
+            ClassesTextSearch={ClassesTextSearch}
           />
         </Container>
       )

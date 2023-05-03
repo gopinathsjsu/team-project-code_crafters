@@ -23,4 +23,6 @@ public class Classes {
     public Boolean isForMember;
     @Column(name = "instructor_id")
     private long instructorId;
+    @Column(name = "location_id")
+    private long locationId;
 }

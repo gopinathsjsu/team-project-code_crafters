@@ -12,5 +12,6 @@ public interface ClassesService {
     Classes saveClass(Classes classes);
 
     void deleteClasses(String id);
+    List<Classes> getByText(String txt);
 
 }

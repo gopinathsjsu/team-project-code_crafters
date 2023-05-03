@@ -7,6 +7,7 @@ export const bookApi = {
   numberOfUsers,
   numberOfBooks,
   getUsers,
+  getClassesByText,
   deleteUser,
   getBooks,
   deleteBook,
@@ -25,6 +26,12 @@ export const bookApi = {
   getInstructors,
   getLocations,
   getUserById
+}
+function getClassesByText(user, text) {
+  const url = `/api/classes/by-text/${text}`
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
 }
 function getUserById(user, id) {
   const url = `/api/users/user-by-id/${id}`

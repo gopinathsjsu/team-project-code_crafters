@@ -1,7 +1,7 @@
   import React from 'react'
-  import { Button, Form, Icon } from 'semantic-ui-react'
+  import {Button, Dropdown, Form, Icon} from 'semantic-ui-react'
 
-  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate }) {
+  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate,selectedLocationIdForClasses,locations }) {
     const createBtnDisabled = classesTitle.trim() === '' || classesDescription.trim() === ''
     const options = [
       { key: 'yes', value: true, text: 'Yes' },
@@ -17,6 +17,11 @@
       e.preventDefault(); // Prevent form submission
       handleAddClasses(); // Call handleAddClasses function
     };
+    const locationsForSelect = locations.map((instructor) => ({
+      key: instructor.id,
+      text: instructor.name,
+      value: instructor.id,
+    }))
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Group >
@@ -49,6 +54,15 @@
               name='instructorIdForClassCreate'
               value={instructorIdForClassCreate}
               options={instructorsOptions}
+              onChange={handleInputChange}
+              required
+          />
+          <Form.Select
+              label='Location'
+              name='selectedLocationIdForClasses'
+              placeholder='ForMember'
+              value={selectedLocationIdForClasses}
+              options={locationsForSelect}
               onChange={handleInputChange}
               required
           />

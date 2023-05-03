@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ClassesRepository extends JpaRepository<Classes, String> {
 
+    List<Classes> findByTitleContainingOrDescriptionContaining(String text,String text2);
+
 }

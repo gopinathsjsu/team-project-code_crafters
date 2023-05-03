@@ -39,6 +39,14 @@ public class ClassesController {
                 .map(classesMapper::toClassesDto)
                 .collect(Collectors.toList());
     }
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/by-text/{text}")
+    public List<ClassesDto> getClassesByText(@PathVariable String text) {
+        List<Classes> classes = classesService.getByText(text);
+        return classes.stream()
+                .map(classesMapper::toClassesDto)
+                .collect(Collectors.toList());
+    }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @ResponseStatus(HttpStatus.CREATED)

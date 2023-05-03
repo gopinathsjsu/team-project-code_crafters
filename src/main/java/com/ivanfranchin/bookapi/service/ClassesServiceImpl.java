@@ -30,4 +30,9 @@ public class ClassesServiceImpl implements ClassesService {
     public void deleteClasses(String id) {
         classesRepository.deleteById(id);
     }
+
+    @Override
+    public List<Classes> getByText(String txt) {
+        return classesRepository.findByTitleContainingOrDescriptionContaining(txt,txt);
+    }
 }
