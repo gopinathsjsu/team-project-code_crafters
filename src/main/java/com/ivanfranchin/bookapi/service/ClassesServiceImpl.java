@@ -18,7 +18,7 @@ public class ClassesServiceImpl implements ClassesService {
 
     @Override
     public List<Classes> getClasses() {
-        return classesRepository.findAll();
+        return classesRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Override

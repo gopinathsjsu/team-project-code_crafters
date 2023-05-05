@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +27,25 @@ public class Classes {
     private long instructorId;
     @Column(name = "location_id")
     private long locationId;
+
+    @Column(name = "start_time")
+    private String startTime;
+    @Column(name = "end_time")
+    private String endTime;
+
+    @Column(name = "start_date")
+    private Date startDate;
+    @Column(name = "end_date")
+    private Date endDate;
+
+    @Column(name = "days")
+    private String days;
+
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = new Date();
+    }
 }

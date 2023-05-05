@@ -43,7 +43,12 @@ class AdminPage extends Component {
     instructorName:'',
     isInstructorsLoading:false,
     instructorIdForClassCreate:2,
-    locations:[]
+    locations:[],
+    startTimeClass:'',
+    endTimeClass:'',
+    selectedDaysClass:[],
+    endDateClass:'',
+    startDateClass:''
   }
 
   componentDidMount() {
@@ -325,13 +330,14 @@ class AdminPage extends Component {
     const user = Auth.getUser()
 
     let { classesTitle, classesDescription,isClassForMember ,instructorIdForClassCreate,selectedLocationIdForClasses} = this.state
+    let {startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass} = this.state
     classesTitle = classesTitle.trim()
     classesDescription = classesDescription.trim()
     if (!(classesTitle && classesDescription)) {
       return
     }
     const isForMember = isClassForMember ? 1 : 0;
-    const clas = { title: classesTitle, description: classesDescription,isForMember,instructorId:instructorIdForClassCreate,locationId:selectedLocationIdForClasses }
+      const clas = { title: classesTitle, description: classesDescription,isForMember,instructorId:instructorIdForClassCreate,locationId:selectedLocationIdForClasses,startTime:startTimeClass,endTime:endTimeClass,days:JSON.stringify(selectedDaysClass),endDate:endDateClass,startDate:startDateClass }
     bookApi.addClasses(user, clas)
         .then(() => {
           this.setState({classesTitle:'',classesDescription:''})
@@ -417,6 +423,7 @@ class AdminPage extends Component {
       const { ClassesTextSearch,selectedLocationIdForClasses,isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,locations} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
+      const{startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass} = this.state
       return (
         <Container >
           <AdminTab
@@ -465,6 +472,12 @@ class AdminPage extends Component {
 
             handleSearchClasses={this.handleSearchClasses}
             ClassesTextSearch={ClassesTextSearch}
+            startTimeClass={startTimeClass}
+            endTimeClass={endTimeClass}
+            selectedDaysClass={selectedDaysClass}
+            endDateClass={endDateClass}
+            startDateClass={startDateClass}
+
           />
         </Container>
       )

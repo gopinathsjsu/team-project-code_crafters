@@ -6,7 +6,7 @@ import LineChart from '.././admin/linechart';
 import AuthContext from "../context/AuthContext";
 import LinechartHours from "../admin/linechartHours";
 import ExpireMembershipTable from "../admin/ExpireMembershipTable";
-
+import LineChartForClassesAndEnrollment from "../admin/linechartforclassesandenrollment";
 class Home extends Component {
   static contextType = AuthContext
   state = {
@@ -15,7 +15,9 @@ class Home extends Component {
     isLoading: false,
     isAdmin:false,
     users:[],
-    isUsersLoading:false
+    isUsersLoading:false,
+    startDateForClasses:'',
+    endDateForClasses:''
   }
 
   async componentDidMount() {
@@ -94,6 +96,7 @@ class Home extends Component {
 
 
             <div>
+              {isAdmin && <LineChartForClassesAndEnrollment />}
               {isAdmin && <LineChart />}
               {isAdmin && <LinechartHours />}
               {isAdmin && <ExpireMembershipTable

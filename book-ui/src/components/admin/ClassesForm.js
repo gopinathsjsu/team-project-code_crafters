@@ -1,8 +1,14 @@
   import React from 'react'
   import {Button, Dropdown, Form, Icon} from 'semantic-ui-react'
 
-  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate,selectedLocationIdForClasses,locations }) {
-    const createBtnDisabled = classesTitle.trim() === '' || classesDescription.trim() === ''
+  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate,selectedLocationIdForClasses,locations,startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass }) {
+    const createBtnDisabled = classesTitle.trim() === '' || classesDescription.trim() === '' || !selectedLocationIdForClasses || startTimeClass < new Date()
+        || !endTimeClass
+        || endTimeClass < new Date()
+        || !selectedDaysClass.length
+        || !startDateClass
+        || !endDateClass
+        || endDateClass < startDateClass
     const options = [
       { key: 'yes', value: true, text: 'Yes' },
       { key: 'no', value: false, text: 'No' }
@@ -22,6 +28,16 @@
       text: instructor.name,
       value: instructor.id,
     }))
+    const daysOptions = [
+      { key: 'monday', value: 'Monday', text: 'Monday' },
+      { key: 'tuesday', value: 'Tuesday', text: 'Tuesday' },
+      { key: 'wednesday', value: 'Wednesday', text: 'Wednesday' },
+      { key: 'thursday', value: 'Thursday', text: 'Thursday' },
+      { key: 'friday', value: 'Friday', text: 'Friday' },
+      { key: 'saturday', value: 'Saturday', text: 'Saturday' },
+      { key: 'sunday', value: 'Sunday', text: 'Sunday' },
+    ];
+
     return (
       <Form onSubmit={handleSubmit}>
         <Form.Group >
@@ -60,17 +76,64 @@
           <Form.Select
               label='Location'
               name='selectedLocationIdForClasses'
-              placeholder='ForMember'
+              placeholder='Location'
               value={selectedLocationIdForClasses}
               options={locationsForSelect}
               onChange={handleInputChange}
               required
           />
 
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <Form.Input
+              label='Start Date'
+              name='startDateClass'
+              type='date'
+              value={startDateClass}
+              onChange={handleInputChange}
+              required
+          />
+          <Form.Input
+              label='End Date'
+              name='endDateClass'
+              type='date'
+              value={endDateClass}
+              onChange={handleInputChange}
+              required
+          />
+        </Form.Group>
+          <br/>
+          <Form.Group widths='equal'>
+            <Form.Select
+                label='Select Days'
+                name='selectedDaysClass'
+                placeholder='Select Days'
+                value={selectedDaysClass}
+                options={daysOptions}
+                onChange={handleInputChange}
+                required
+                multiple
+            />
+            <Form.Input
+                label='Start Time'
+                name='startTimeClass'
+                type='time'
+                value={startTimeClass}
+                onChange={handleInputChange}
+                required
+            />
+            <Form.Input
+                label='End Time'
+                name='endTimeClass'
+                type='time'
+                value={endTimeClass}
+                onChange={handleInputChange}
+                required
+            />
+          </Form.Group>
           <Button icon labelPosition='right' disabled={createBtnDisabled}>
             Create<Icon name='add' />
           </Button>
-        </Form.Group>
       </Form>
     )
   }

@@ -15,6 +15,7 @@ function AdminTab(props) {
   const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
     const {classes,classesTitle,classesDescription,handleAddClasses,isClassForMember,handleDeleteClasses} = props
     const {instructorIdForClassCreate,isInstructorsLoading,instructorAge,handleDeleteInstructor,instructorDescription,instructors,instructorEmail,instructorName,handleAddInstructor} = props
+    const{startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass} = props
     const panes = [
     {
       menuItem: { key: 'users', icon: 'users', content: 'Users' },
@@ -96,6 +97,11 @@ function AdminTab(props) {
                         selectedLocationIdForClasses={selectedLocationIdForClasses}
                         handleSearchClasses={handleSearchClasses}
                         ClassesTextSearch={ClassesTextSearch}
+                        startTimeClass={startTimeClass}
+                        endTimeClass={endTimeClass}
+                        selectedDaysClass={selectedDaysClass}
+                        endDateClass={endDateClass}
+                        startDateClass={startDateClass}
                     />
                 </Tab.Pane>
             )
