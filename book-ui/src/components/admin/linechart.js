@@ -136,9 +136,6 @@ class LineChart extends Component {
         this.setState({ selectedOption: value });
         switch (value) {
             case 'byWeekday':
-                console.log("aaaa")
-                console.log(this.state.dataByWeekday.labels)
-                console.log(this.state.dataByWeekday.datasets)
                 this.setState({
                     chartData: {
                         labels: this.state.dataByWeekday.labels,
