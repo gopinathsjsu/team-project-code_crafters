@@ -51,6 +51,7 @@ class UserPage extends Component {
     isInstructorsLoading:false,
     instructorIdForClassCreate:2,
     current_user:'',
+    user_id: ''
 
   }
 
@@ -58,8 +59,9 @@ class UserPage extends Component {
     const Auth = this.context
     const user = Auth.getUser()
     const isUser = user.role === 'USER'
+    const user_Id = user.id
     this.setState({ isUser })
-
+    this.setState({ user_Id } )
     this.handleGetBooks()
     this.handleGetClasses()
     this.handleGetRegisteredClasses()
@@ -198,7 +200,7 @@ class UserPage extends Component {
 
   render() {
 
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses  } = this.state
+      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id  } = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
@@ -249,6 +251,7 @@ class UserPage extends Component {
                 printregisteredClassesDescription={printregisteredClassesDescription}
                 handleGetRegisteredClasses={this.handleGetRegisteredClasses}
                 printRegisteredClasses={printRegisteredClasses}
+                user_Id ={user_Id}
 
 
             />
