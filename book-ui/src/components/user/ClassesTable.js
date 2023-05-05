@@ -5,10 +5,15 @@ import AuthContext from "../context/AuthContext";
 
 
 
-function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleAddRegisteredClasses, handleSearchBook, isClassForMember, handleDeleteClasses, instructors, instructorIdForClassCreate, printRegisteredClasses }) {
+function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleAddRegisteredClasses, handleSearchBook, isClassForMember, handleDeleteClasses, instructors, instructorIdForClassCreate, printRegisteredClasses,user_Id }) {
     let membershipList;
+    console.log(printRegisteredClasses)
+    console.log(user_Id)
+    let registeredClassesIds = printRegisteredClasses
+        .filter(rc => rc.user_id === user_Id)
+        .map(rc => rc.classes_id);
 
-    let registeredClassesIds = printRegisteredClasses.map(rc => rc.classes_id);
+
     if (classes.length === 0) {
         membershipList = (
             <Table.Row key='no-classes'>
@@ -17,12 +22,13 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
         );
     } else {
         membershipList = classes.map(membership => {
+
             if (registeredClassesIds.includes(membership.id)) {
                 return null; // skip this class as it is already registered by the user
             }
 
-
             return (
+
 
                 <Table.Row key={membership.id}>
                     <Table.Cell collapsing>
@@ -38,7 +44,6 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
                     <Table.Cell>{membership.id}</Table.Cell>
                     <Table.Cell>{membership.title}</Table.Cell>
                     <Table.Cell>{membership.description}</Table.Cell>
-
                     <Table.Cell>{membership.isForMember ? "Yes" : "No"}</Table.Cell>
 
                 </Table.Row>
@@ -49,18 +54,22 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
 
         console.log(printRegisteredClasses)
         if (printRegisteredClasses.length === 0) {
-            membershipList = (
+            let RegisteredClasses = (
                 <Table.Row key='no-classes'>
                     <Table.Cell collapsing textAlign='center' colSpan='4'>No Classes</Table.Cell>
                 </Table.Row>
             );
         } else {
-            console.log(printRegisteredClasses)
-            RegisteredClasses = printRegisteredClasses.map(registeredClasses => {
 
+
+            RegisteredClasses = printRegisteredClasses.map(classesList => {
+
+                if (classesList.user_id !== user_Id){
+                    return null;
+                }
                 return (
 
-                        <Table.Row key={registeredClasses.id}>
+                        <Table.Row key={classesList.id}>
                             <Table.Cell collapsing>
                                 <Button
                                     circular
@@ -71,13 +80,10 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
                                     }
                                 />
                             </Table.Cell>
-
-                        <Table.Cell>{registeredClasses.classes_id}</Table.Cell>
-                        <Table.Cell>{registeredClasses.title}</Table.Cell>
-                        <Table.Cell>{registeredClasses.description}</Table.Cell>
-
+                        <Table.Cell>{classesList.classes_id}</Table.Cell>
+                        <Table.Cell>{classesList.title}</Table.Cell>
+                        <Table.Cell>{classesList.description}</Table.Cell>
                         <Table.Cell>Yes</Table.Cell>
-
 
                     </Table.Row>
                 );
