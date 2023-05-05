@@ -40,17 +40,6 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
     <>
       <Grid stackable divided>
         <Grid.Row columns='2'>
-          <Grid.Column width='4'>
-            <Form onSubmit={handleSearchBook}>
-              <Input
-                action={{ icon: 'search' }}
-                name='bookTextSearch'
-                placeholder='Search by Id or Title'
-                value={bookTextSearch}
-                onChange={handleInputChange}
-              />
-            </Form>
-          </Grid.Column>
           <Grid.Column width='20'>
             <MembershipForm
               membershipTitle={membershipTitle}
@@ -131,6 +120,12 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
 //                 <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
 //             </Table.Row>
 //         ));
+// {/*</Table.Cell>*/}
+//                 <Table.Cell>{membership.id}</Table.Cell>
+//                 <Table.Cell>{membership.title}</Table.Cell>
+//                 <Table.Cell>{membership.description}</Table.Cell>
+//                 <Table.Cell>{membership.month}</Table.Cell>
+//                 <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
 //     };
 //
 //     return (
@@ -140,43 +135,6 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
 //                     <Grid.Column width={4}>
 //                         <Form onSubmit={handleSearchBook}>
 //                             <Input
-//                                 action={{ icon: 'search' }}
-//                                 name='bookTextSearch'
-//                                 placeholder='Search by Id or Title'
-//                                 value={bookTextSearch}
-//                                 onChange={handleInputChange}
-//                             />
-//                         </Form>
-//                     </Grid.Column>
-//                     <Grid.Column width={12}>
-//                         <MembershipForm
-//                             membershipTitle={membershipTitle}
-//                             membershipDescription={membershipDescription}
-//                             handleInputChange={handleInputChange}
-//                             handleAddMembership={handleAddMembership}
-//                             month={month}
-//                             isForMember={isForMember}
-//                         />
-//                     </Grid.Column>
-//                 </Grid.Row>
-//             </Grid>
-//             <Table compact striped selectable>
-//                 <Table.Header>
-//                     <Table.Row>
-//                         <Table.HeaderCell width={1} />
-//                         {/*<Table.HeaderCell width={2}>Image</Table.HeaderCell>*/}
-//                         <Table.HeaderCell width={1}>Id</Table.HeaderCell>
-//                         <Table.HeaderCell width={4}>Title</Table.HeaderCell>
-//                         <Table.HeaderCell width={7}>Description</Table.HeaderCell>
-//                         <Table.HeaderCell width={1}>Length (Month)</Table.HeaderCell>
-//                         <Table.HeaderCell width={4}>Is For Member</Table.HeaderCell>
-//
-//                     </Table.Row>
-//                 </Table.Header>
-//                 <Table.Body>{renderMembershipList()}</Table.Body>
-//             </Table>
-//         </>
-//     );
 // }
 
 export default MembershipTable

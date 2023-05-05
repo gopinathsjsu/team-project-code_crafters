@@ -27,7 +27,7 @@ function MembershipForm({ membershipTitle, membershipDescription, handleInputCha
           onChange={handleInputChange}
         />
         <Form.Input
-            label='Membership Length (Months)'
+            label='Membership Length(Month)'
             name='month'
             placeholder='Total Month'
             value={month}
@@ -45,9 +45,11 @@ function MembershipForm({ membershipTitle, membershipDescription, handleInputCha
             required
         />
 
-        <Button icon labelPosition='right' disabled={createBtnDisabled}>
-          Create<Icon name='add' />
-        </Button>
+        <div style={{ marginTop: '20px' }}>
+          <Button icon labelPosition='right' disabled={createBtnDisabled} style={{ marginRight: '100px', height: '40px' }}>
+            Create<Icon name='add' />
+          </Button>
+        </div>
       </Form.Group>
     </Form>
   )

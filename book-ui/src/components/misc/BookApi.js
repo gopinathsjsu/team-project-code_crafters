@@ -25,7 +25,9 @@ export const bookApi = {
   addInstructor,
   getInstructors,
   getLocations,
-  getUserById
+  getUserById,
+  addRegisteredClasses,
+  getRegisteredClasses,
 }
 function getClassesByText(user, text) {
   const url = `/api/classes/by-text/${text}`
@@ -181,6 +183,23 @@ function addMembership(user, membership) {
   })
 }
 // -- Axios
+
+function addRegisteredClasses(user, registeredclasses) {
+  return instance.post("/api/registered-classes", registeredclasses,  {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
+  })
+}
+
+function getRegisteredClasses(user, id) {
+  const url = id ? `/api/registered-classes?text=${id}` : '/api/registered-classes'
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+
 
 const instance = axios.create({
   baseURL: config.url.API_BASE_URL
