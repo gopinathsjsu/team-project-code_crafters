@@ -1,6 +1,6 @@
 #spring:
 #  application:
-#    name: book-api
+#    name: Apollo Fitness
 #  jpa:
 #    hibernate:
 #      ddl-auto: create
