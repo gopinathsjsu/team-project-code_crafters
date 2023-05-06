@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +27,19 @@ public class RegisteredClasses {
     private String image;
     private Long month;
 
-    @Column(name = "is_member")
+    @Column(name = "location_id")
+    private int location_id;
+
+    @Column(name = "start_time")
+    private String startTime;
+    @Column(name = "end_time")
+    private String endTime;
+
+    @Column(name = "startDate")
+    private Date startDate;
+    @Column(name = "endDate")
+    private Date endDate;
+
+    @Column(name = "isMember")
     public Boolean isMember;
 }

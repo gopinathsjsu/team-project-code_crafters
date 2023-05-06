@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class CreateRegisteredClassesRequest {
 
@@ -21,6 +23,19 @@ public class CreateRegisteredClassesRequest {
     private String description;
     @Schema(example = "Spring Security 3.1")
     private String image;
+
+    @Schema(example = "Spring Security 3.1")
+    private int locationId;
+
+    @Schema(example = "Spring Security 3.1")
+    private String startTime;
+    @Schema(example = "Spring Security 3.1")
+    private String endTime;
+
+    @Schema(example = "Spring Security 3.1")
+    private Date startDate;
+    @Schema(example = "Spring Security 3.1")
+    private Date endDate;
 
     private Long month;
     private Boolean isMember;
