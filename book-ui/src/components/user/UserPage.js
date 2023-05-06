@@ -51,15 +51,17 @@ class UserPage extends Component {
     isInstructorsLoading:false,
     instructorIdForClassCreate:2,
     current_user:'',
+    user_id: ''
 
   }
 
   componentDidMount() {
     const Auth = this.context
     const user = Auth.getUser()
-    const isUser = user.role === 'USER'
+    const isUser = (user.role === 'USER' || user.role === 'NONMember')
+      const user_Id = user.id
     this.setState({ isUser })
-
+    this.setState({ user_Id } )
     this.handleGetBooks()
     this.handleGetClasses()
     this.handleGetRegisteredClasses()
@@ -186,7 +188,9 @@ class UserPage extends Component {
     const Auth = this.context;
     const user = Auth.getUser();
     const idd = user.id;
-    const registeredclasses = { classes_id: membership.id, user_id: idd, title: membership.title, description: membership.description };
+
+    const registeredclasses = { classes_id: membership.id, user_id: idd, title: membership.title, description: membership.description, isMember :membership.isForMember, locationId : membership.locationId, startDate: membership.startDate, endDate: membership.endDate };
+
     bookApi.addRegisteredClasses(user, registeredclasses)
         .then(() => {
           this.handleGetRegisteredClasses();
@@ -198,7 +202,7 @@ class UserPage extends Component {
 
   render() {
 
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses  } = this.state
+      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id  } = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
@@ -249,6 +253,7 @@ class UserPage extends Component {
                 printregisteredClassesDescription={printregisteredClassesDescription}
                 handleGetRegisteredClasses={this.handleGetRegisteredClasses}
                 printRegisteredClasses={printRegisteredClasses}
+                user_Id ={user_Id}
 
 
             />

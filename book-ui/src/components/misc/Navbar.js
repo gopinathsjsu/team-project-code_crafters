@@ -26,7 +26,7 @@ function Navbar() {
 
   const userPageStyle = () => {
     const user = getUser()
-    return user && user.role === 'USER' ? { "display": "block" } : { "display": "none" }
+    return user && (user.role === 'USER' || user.role === 'NONMember') ? { "display": "block" } : { "display": "none" }
   }
 
   const getUserName = () => {

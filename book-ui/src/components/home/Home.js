@@ -7,6 +7,7 @@ import AuthContext from "../context/AuthContext";
 import LinechartHours from "../admin/linechartHours";
 import ExpireMembershipTable from "../admin/ExpireMembershipTable";
 import LineChartForClassesAndEnrollment from "../admin/linechartforclassesandenrollment";
+import Activities from "../user/Activites";
 class Home extends Component {
   static contextType = AuthContext
   state = {
@@ -19,7 +20,8 @@ class Home extends Component {
     startDateForClasses:'',
     endDateForClasses:'',
     location:'New York',
-    setLocation:''
+    setLocation:'',
+      userName :''
   }
 
   async componentDidMount() {
@@ -27,7 +29,22 @@ class Home extends Component {
     const Auth = this.context || { getUser: () => null };
     const user = Auth ? Auth.getUser() : null
     const isAdmin = user && user.role === 'ADMIN';
+    const isUser = user && (user.role === 'USER' || user.role === 'NONMember') ;
+    var userName = "Nilay";
+    const NoLogin = user === null;
+    if (isAdmin || isUser) {
+
+         userName = user.name;
+    }
+
+
     this.setState({ isAdmin })
+    this.setState( { isUser })
+      this.setState({ userName })
+
+
+    this.setState({NoLogin})
+
     try {
       let response = await bookApi.numberOfUsers()
       const numberOfUsers = response.data
@@ -69,8 +86,12 @@ class Home extends Component {
 
   render() {
 
-    const { isLoading } = this.state
-    const { isAdmin } = this.state
+      const {isLoading} = this.state
+      const {isAdmin} = this.state
+      const {isUser} = this.state
+      const {userName} = this.state
+
+    const { NoLogin } = this.state
     const { location ,setLocation} = this.state
     const classes = [
           {
@@ -140,7 +161,12 @@ class Home extends Component {
               {isAdmin && <ExpireMembershipTable
                   users={users}
               />}
+                {isUser && <Activities
+                    userName = {userName}
+                />}
+
             </div>
+              { NoLogin &&
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                     <h1 style={{ fontSize: '36px', margin: '0', color:"#3498db" }}>Avaliable Classes</h1>
@@ -163,7 +189,7 @@ class Home extends Component {
                       ))}
                       </div>
                       </div>
-
+        }
           </Container>
       )
     }

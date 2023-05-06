@@ -10,7 +10,8 @@ const generateActivityData = (length, maxDataValue, backgroundColor, borderColor
     };
 };
 
-const Activities = () => {
+const Activities = ({ userName }) => {
+
     const [timeRange, setTimeRange] = useState("hour");
 
     const runningData = generateActivityData(
@@ -75,7 +76,7 @@ const Activities = () => {
         plugins: {
             title: {
                 display: true,
-                text: "Activity Graph",
+                text: `${userName}'s Recent Activity Graph`,
                 font: { size: 20 },
             },
             legend: {
@@ -122,7 +123,9 @@ const Activities = () => {
                     Weekly
                 </label>
             </div>
-            <Bar data={chartData} options={options} />
+            <div style={{ width: "800px", height: "400px" }}>
+                <Bar data={chartData} options={options} />
+            </div>
         </div>
     );
 };
