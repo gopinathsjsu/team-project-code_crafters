@@ -38,7 +38,7 @@ public class ClassesController {
     private final ClassesMapper classesMapper;
 
     private final LocationService locationService;
-
+    private final LocationRepository locationRepository;
     private final ClassesDataRepository classesDataRepository;
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping
@@ -343,6 +343,33 @@ public class ClassesController {
         byWeek.setDatasets(dataByWeekByLocation);
         visitorDto.setDataByWeekday(byWeek);
         return visitorDto;
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/allClassesByLocation")
+    public List<ClassesByLocationDto> getAllClassesByLocation(@RequestParam(value = "location", required = false) String location){
+        //Call get classes Api
+        List<ClassesDto> classes= getMemberships("");
+        //Call get Location Api
+        List<Location> locations = locationRepository.findAll();
+
+        //initialize a new Dto
+        List<ClassesByLocationDto> classByList = new ArrayList<ClassesByLocationDto>();
+
+
+        //iterate through each location and attach the location id
+        for(Location loc : locations){
+            List<ClassesDto> classesDto = classes.stream().filter(n -> n.locationId()== loc.getId()).collect(Collectors.toList());
+            for(ClassesDto classDto : classesDto){
+                ClassesByLocationDto classesByLocationDto = new ClassesByLocationDto(classDto.id(), classDto.title() , classDto.description() ,
+                        loc.getName());
+                classByList.add(classesByLocationDto);
+            }
+
+
+        }
+        return classByList;
+
     }
 
     private String getWeekRangeString(Calendar cal) {

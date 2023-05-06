@@ -28,6 +28,7 @@ export const bookApi = {
   getUserById,
   addRegisteredClasses,
   getRegisteredClasses,
+  getAllClassesByLocation
 }
 function getClassesByText(user, text) {
   const url = `/api/classes/by-text/${text}`
@@ -198,6 +199,11 @@ function getRegisteredClasses(user, id) {
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
   })
+}
+
+function getAllClassesByLocation(){
+    const url = '/api/classes/getAllClassesByLocation'
+    return instance.get(url)
 }
 
 
