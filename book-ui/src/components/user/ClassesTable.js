@@ -12,15 +12,11 @@ function formatDate(string) {
 }
 
 
-function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleAddRegisteredClasses, handleSearchBook, isClassForMember, handleDeleteClasses, instructors, instructorIdForClassCreate, printRegisteredClasses,user_Id }) {
+function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearch, handleInputChange, handleAddClasses, handleAddRegisteredClasses, handleSearchBook, isClassForMember, handleDeleteClasses, instructors, instructorIdForClassCreate, printRegisteredClasses,user_Id,user_role }) {
     let membershipList;
-    console.log(printRegisteredClasses)
-    console.log(user_Id)
     let registeredClassesIds = printRegisteredClasses
         .filter(rc => rc.user_id === user_Id)
         .map(rc => rc.classes_id);
-
-
     if (classes.length === 0) {
         membershipList = (
             <Table.Row key='no-classes'>
@@ -31,8 +27,8 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
         membershipList = classes.map(membership => {
 
 
-
-            if (registeredClassesIds.includes(membership.id)) {
+            console.log(user_role)
+            if ((user_role === 'USER' && (registeredClassesIds.includes(membership.id) )) ||(user_role === 'NONMember' && (registeredClassesIds.includes(membership.id) || membership.isForMember === true))) {
                 return null; // skip this class as it is already registered by the user
             }
 
@@ -42,7 +38,7 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
                     <Table.Cell collapsing>
                         <Button
                             circle
-                            color='white'
+                            color='blue'
                             size='small'
                             icon='add /'
                             onClick={handleAddRegisteredClasses.bind(this, membership)
