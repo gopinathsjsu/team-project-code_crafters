@@ -29,7 +29,7 @@ class Home extends Component {
     const Auth = this.context || { getUser: () => null };
     const user = Auth ? Auth.getUser() : null
     const isAdmin = user && user.role === 'ADMIN';
-    const isUser = user && user.role === 'USER';
+    const isUser = user && (user.role === 'USER' || user.role === 'NONMember') ;
     var userName = "Nilay";
     const NoLogin = user === null;
     if (isAdmin || isUser) {

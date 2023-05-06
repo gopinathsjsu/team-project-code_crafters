@@ -58,8 +58,8 @@ class UserPage extends Component {
   componentDidMount() {
     const Auth = this.context
     const user = Auth.getUser()
-    const isUser = user.role === 'USER'
-    const user_Id = user.id
+    const isUser = (user.role === 'USER' || user.role === 'NONMember')
+      const user_Id = user.id
     this.setState({ isUser })
     this.setState({ user_Id } )
     this.handleGetBooks()
@@ -188,7 +188,9 @@ class UserPage extends Component {
     const Auth = this.context;
     const user = Auth.getUser();
     const idd = user.id;
-    const registeredclasses = { classes_id: membership.id, user_id: idd, title: membership.title, description: membership.description };
+
+    const registeredclasses = { classes_id: membership.id, user_id: idd, title: membership.title, description: membership.description, isMember :membership.isForMember, locationId : membership.locationId, startDate: membership.startDate, endDate: membership.endDate };
+
     bookApi.addRegisteredClasses(user, registeredclasses)
         .then(() => {
           this.handleGetRegisteredClasses();
