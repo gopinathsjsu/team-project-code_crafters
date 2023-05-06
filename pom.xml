@@ -9,10 +9,10 @@
     </parent>
     
     <groupId>com.ivanfranchin</groupId>
-    <artifactId>book-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>book-api</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>Apollo Fitness</artifactId>
+    <version>v1</version>
+    <name>Apollo Fitness</name>
+  
 
     <properties>
         <java.version>17</java.version>
