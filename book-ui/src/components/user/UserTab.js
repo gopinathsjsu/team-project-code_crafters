@@ -1,6 +1,9 @@
-import React from 'react'
-import { Tab } from 'semantic-ui-react'
+import React from 'react';
+import { Tab } from 'semantic-ui-react';
 import ClassesTable from "./ClassesTable";
+import GymDetail from "./gymdetail";
+import AwardsPage from "./Awards";
+import FutureProjectsPage from "./FutureProjects";
 
 
 function UserTab(props) {
@@ -35,7 +38,37 @@ function UserTab(props) {
                     />
                 </Tab.Pane>
             )
+
+        },
+        {
+            menuItem: { key: 'GymDetail', icon: 'book', content: 'About us' },
+            render: () => (
+                <Tab.Pane loading={isClassesLoading}>
+                    <GymDetail />
+                </Tab.Pane>
+
+            )
+        },
+        {
+            menuItem: { key: 'AwardsPage', icon: 'book', content: 'Our Awards' },
+            render: () => (
+                <Tab.Pane loading={isClassesLoading}>
+                    <AwardsPage />
+                </Tab.Pane>
+
+            )
+        },
+        {
+            menuItem: { key: 'Future Projects', icon: 'book', content: 'Future Projects' },
+            render: () => (
+                <Tab.Pane loading={isClassesLoading}>
+                    <FutureProjectsPage />
+                </Tab.Pane>
+
+            )
         }
+
+
 
     ]
 
@@ -44,4 +77,4 @@ function UserTab(props) {
     )
 }
 
-export default UserTab
+export default UserTab;
