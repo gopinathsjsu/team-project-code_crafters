@@ -15,7 +15,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -122,7 +127,9 @@ public class ClockController {
             byDayDataset.setData(hoursCount);
             byDayDataset.setFill(false);
             byDayDataset.setTension(0.1);
-            byDayDataset.setBorderColor(colors[i++]);
+            byDayDataset.setBorderColor(colors[i]);
+            byDayDataset.setBackgroundColor(colors[i]);
+            i+=1;
             dataByDayByLocation.add(byDayDataset);
         }
 
@@ -156,7 +163,9 @@ public class ClockController {
             }
             dataset.setFill(false);
             dataset.setTension(0.1);
-            dataset.setBorderColor(colors[j++]);
+            dataset.setBorderColor(colors[j]);
+            dataset.setBackgroundColor(colors[j]);
+            j+=1;
             byWeekDayAndLocationDatasets.add(dataset);
         }
 
@@ -222,9 +231,10 @@ public class ClockController {
             }
             byWeekEndDataset.setFill(false);
             byWeekEndDataset.setTension(0.1);
-            byWeekEndDataset.setBorderColor(colors[k++]);
-
+            byWeekEndDataset.setBorderColor(colors[k]);
+            byWeekEndDataset.setBackgroundColor(colors[k]);
             datasetsByWeekEnd.add(byWeekEndDataset);
+            k+=1;
         }
 
         byWeekEnd.setLabels(new ArrayList<>(Arrays.asList("Saturday", "Sunday")));
@@ -264,8 +274,8 @@ public class ClockController {
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @GetMapping("/get-hours-by-day-week-month")
-    public VisitorDto getHoursByDayWeekMonth(@RequestParam(value = "text", required = false) String text) {
+    @PostMapping("/get-hours-by-day-week-month")
+    public VisitorDto getHoursByDayWeekMonth(@RequestBody LineChartDTO dataTime) {
         VisitorDto visitorDto = new VisitorDto();
 
         VisitorDataDto dataByDay = new VisitorDataDto();
@@ -344,6 +354,71 @@ public class ClockController {
                 "October","November","December"));
 
         dataByMonth.setDatasets(dataByMonthByLocation);
+
+        //---------------------------------------------------------------------------------------
+        List<Object[]> classes = clockService.getHoursSpentByDay(dataTime.getStartDate(),dataTime.getEndDate());
+        VisitorDataDto byDay = new VisitorDataDto();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Map<Long, Map<String, Long>> classesByLocation = new HashMap<>();
+        VisitorDatasetDto byDayDataset2 ;
+        for (Object[] result : classes) {
+            Date date = (Date) result[2];
+            Long location = Long.parseLong(((Integer) result[0]).toString());
+            Long count = ((BigDecimal) result[1]).longValue();
+
+            if (!classesByLocation.containsKey(location)) {
+                classesByLocation.put(location, new HashMap<>());
+            }
+
+            Map hoursCount = classesByLocation.get(location);
+            String dateStr = dateFormat.format(date);
+            hoursCount.put(dateStr, count);
+        }
+        List<VisitorDatasetDto> dataByDayByLocation2 = new ArrayList<>() ;
+        int m = 0;
+        for (Map.Entry<Long, Map<String,Long>> entry : classesByLocation.entrySet()) {
+            byDayDataset2 = new VisitorDatasetDto();
+            Optional<Location> location = locationService.findByLocationId(entry.getKey());
+            if(location.isPresent()){
+                byDayDataset2.setLabel("Total hours - " + location.get().getName());
+            }
+            Map<String, Long> hoursCount = entry.getValue();
+            List<Long> dataList = new ArrayList<>();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dataTime.getStartDate());
+
+            while (cal.getTime().before(dataTime.getEndDate()) || cal.getTime().equals(dataTime.getEndDate())) {
+                Long count = hoursCount.get(sdf.format(cal.getTime()));
+                if (count == null) {
+                    count = 0L;
+                }
+                dataList.add(count);
+                cal.add(Calendar.DATE, 1);
+            }
+
+            byDayDataset2.setData(dataList);
+            byDayDataset2.setFill(false);
+            byDayDataset2.setTension(0.1);
+            byDayDataset2.setBorderColor(colors[m++]);
+            dataByDayByLocation2.add(byDayDataset2);
+        }
+        byDay.setDatasets(dataByDayByLocation2);
+        LocalDate start = dataTime.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate end = dataTime.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        List<String> labels = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        while (!start.isAfter(end)) {
+            String formattedDate = start.format(formatter);
+            labels.add(formattedDate);
+            start = start.plusDays(1);
+        }
+        byDay.setLabels(labels);
+        visitorDto.setDataByDay(byDay);
         visitorDto.setDataByWeekend(dataByMonth);
         visitorDto.setDataByWeekday(dataByDay);
         return visitorDto;

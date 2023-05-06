@@ -9,6 +9,7 @@
         || !startDateClass
         || !endDateClass
         || endDateClass < startDateClass
+
     const options = [
       { key: 'yes', value: true, text: 'Yes' },
       { key: 'no', value: false, text: 'No' }
@@ -93,6 +94,7 @@
               value={startDateClass}
               onChange={handleInputChange}
               required
+              min={new Date().toISOString().split('T')[0]}
           />
           <Form.Input
               label='End Date'
@@ -122,6 +124,7 @@
                 value={startTimeClass}
                 onChange={handleInputChange}
                 required
+
             />
             <Form.Input
                 label='End Time'

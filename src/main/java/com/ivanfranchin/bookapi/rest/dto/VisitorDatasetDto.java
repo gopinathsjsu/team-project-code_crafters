@@ -12,4 +12,5 @@ public class VisitorDatasetDto {
     boolean fill;
     String borderColor;
     Double tension;
+    String backgroundColor;
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,11 @@ public class ClockServiceImpl implements ClockService {
     @Override
     public List<Object[]> getTotalClockInByEnd() {
         return clockRepository.getTotalClockInsByWeekEnd();
+    }
+
+    @Override
+    public List<Object[]> getHoursSpentByDay(Date startDate, Date endDate) {
+        return clockRepository.getTotalHoursByDate(startDate,endDate);
     }
 
     @Override

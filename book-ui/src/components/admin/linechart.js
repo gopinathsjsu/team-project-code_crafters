@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Line } from 'react-chartjs-2';
+import { Line,Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 import axios from 'axios';
 import {config} from "../../Constants";
 import AuthContext from "../context/AuthContext";
+import {Form} from "semantic-ui-react";
 Chart.register({ id: 'category', type: 'category', ticks: { align: 'center' } });
 // const dataByDay = {
 //     labels: ['1', '2', '3', '4', '5', '6', '7'],
@@ -215,6 +216,7 @@ class LineChart extends Component {
 
     render() {
         return (
+            <Form>
             <div>
                 <div>
                     <label htmlFor="selectOption">Select option: </label>
@@ -228,8 +230,14 @@ class LineChart extends Component {
                         <option value="byWeekend">By weekend</option>
                     </select>
                 </div>
-                {this.state.chartData && <Line data={this.state.chartData} options={this.state.options} />}
+                {this.state.chartData.datasets && this.state.chartData.datasets.length > 0 ? (
+                    <Bar data={this.state.chartData} options={this.state.options} />
+                ) : (
+                    <p>No data to display. Change dates to see.</p>
+                )}
+                <br/>
             </div>
+            </Form>
         );
     }
 }

@@ -4,9 +4,11 @@ import com.ivanfranchin.bookapi.model.Clock;
 import com.ivanfranchin.bookapi.model.Membership;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,4 +68,12 @@ public interface ClockRepository extends JpaRepository<Clock, String> {
             "WHERE clockOut IS NOT NULL " +
             "GROUP BY locationId, MONTH(date)")
     List<Object[]> getHoursSpentByMonth();
+
+    @Query(value = "SELECT c.location_id, SUM(TIMESTAMPDIFF(SECOND, c.clock_in, c.clock_out))/3600.0 as hours, c.date "
+            + "FROM clock c "
+            + "WHERE c.date >= :startDate AND c.date <= :endDate "
+            + "GROUP BY c.location_id, c.date", nativeQuery = true)
+    List<Object[]> getTotalHoursByDate(@Param("startDate") Date startDate,
+                                                  @Param("endDate") Date endDate);
+
 }

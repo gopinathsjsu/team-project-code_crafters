@@ -361,7 +361,13 @@ class LineChartForClassesAndEnrollment extends Component {
                         {/*/>*/}
                     </div>
                 </div>
-                {this.state.chartData && <Line data={this.state.chartData} options={this.state.options} />}
+                {this.state.chartData.datasets && this.state.chartData.datasets.length > 0 ? (
+                    <Line data={this.state.chartData} options={this.state.options} />
+                ) : (
+                    <p>No data to display. Change dates to see.</p>
+
+                )}
+                <br/>
             </div>
             </Form>
         );
