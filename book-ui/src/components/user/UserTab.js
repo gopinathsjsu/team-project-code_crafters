@@ -7,7 +7,7 @@ function UserTab(props) {
 
     const { handleInputChange, updateMeetState, month, isForMember, isClassesLoading } = props
     const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
-    const { classes, classesTitle, classesDescription, handleAddClasses, isClassForMember, handleDeleteClasses, handleAddRegisteredClasses, handleGetRegisteredClasses, user_Id } = props
+    const { classes, classesTitle, classesDescription, handleAddClasses, isClassForMember, handleDeleteClasses, handleAddRegisteredClasses, handleGetRegisteredClasses, user_Id, user_role } = props
     const { instructorIdForClassCreate, isInstructorsLoading, instructorAge, handleDeleteInstructor, instructorDescription, instructors, instructorEmail, instructorName, handleAddInstructor, printRegisteredClasses } = props
 
     const panes = [
@@ -31,6 +31,7 @@ function UserTab(props) {
                         instructorIdForClassCreate={instructorIdForClassCreate}
                         printRegisteredClasses={printRegisteredClasses}
                         user_Id={user_Id}
+                        user_role={user_role}
                     />
                 </Tab.Pane>
             )
