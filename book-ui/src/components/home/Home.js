@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import { Statistic, Icon, Grid, Container, Image, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import { bookApi } from '../misc/BookApi'
 import { handleLogError } from '../misc/Helpers'
@@ -154,18 +155,20 @@ class Home extends Component {
 
       return (
           <Container text>
-            <div>
-              {isAdmin && <LineChartForClassesAndEnrollment />}
-              {isAdmin && <LineChart />}
-              {isAdmin && <LinechartHours />}
-              {isAdmin && <ExpireMembershipTable
-                  users={users}
-              />}
-                {isUser && <Activities
-                    userName = {userName}
-                />}
+
+              <div className="grid-container">
+                  {isAdmin && <div className="grid-item top-left"><h3>Classes and Enrollment</h3><LineChartForClassesAndEnrollment /></div>}
+                  {isAdmin && <div className="grid-item top-right"><h3>Visitors</h3><LineChart /></div>}
+                  {isAdmin && <div className="grid-item bottom-right"><ExpireMembershipTable users={users} /></div>}
+                  {isAdmin && <div className="grid-item bottom-left"><h3>Hours</h3><LinechartHours /></div>}
+
+
 
             </div>
+              <div className="grid-container-user-home">
+                  {isUser && <div className="grid-item-user-home"><Activities userName={userName} /></div>}
+              </div>
+
               { NoLogin &&
             <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -191,6 +194,7 @@ class Home extends Component {
                       </div>
         }
           </Container>
+
       )
     }
 
