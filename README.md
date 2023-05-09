@@ -16,11 +16,11 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ## Tools and Technology Used
 - Frontend : HTML5, CSS, Reactjs
 - Backend : Java
-- Database : 
-- Deployment :
+- Database : MySql
+- Deployment : AWS
 
 ## Tasks
-- Front End : 
-- Back End : 
-- Deployment : 
-- DataBase :
+- Front End : Meet, Nilay, Pratik 
+- Back End : Meet, Nilay, Pratik
+- Deployment : Dhruv
+- DataBase : Dhruv, Meet, Nilay, Pratik
