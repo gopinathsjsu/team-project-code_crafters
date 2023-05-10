@@ -16,6 +16,7 @@ export const bookApi = {
   addBook,
   getMemberships,
   addMembership,
+  updateMembership,
   clockInOut,
   getTodaysClockInOutData,
   getUsersByExpiryByWeek,
@@ -205,6 +206,14 @@ function addBook(user, book) {
 }
 function addMembership(user, membership) {
   return instance.post('/api/membership', membership, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
+  })
+}
+function updateMembership(user, membership) {
+  return instance.put('/api/membership', membership, {
     headers: {
       'Content-type': 'application/json',
       'Authorization': basicAuth(user)

@@ -57,7 +57,7 @@ public class MembershipController {
         m.setDescription(createMembershipRequest.getDescription());
         m.setTitle(createMembershipRequest.getTitle());
         m.setMonth(createMembershipRequest.getMonth());
-        m.setMonth(createMembershipRequest.getIsMember() ? 1L:0L);
+//        m.setMonth(createMembershipRequest.getIsMember() ? 1L:0L);
         return membershipMapper.toMembershipDto(membershipService.saveMembership(m));
     }
 
