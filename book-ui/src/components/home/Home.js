@@ -9,6 +9,7 @@ import LinechartHours from "../admin/linechartHours";
 import ExpireMembershipTable from "../admin/ExpireMembershipTable";
 import LineChartForClassesAndEnrollment from "../admin/linechartforclassesandenrollment";
 import Activities from "../user/Activites";
+
 class Home extends Component {
   static contextType = AuthContext
   state = {

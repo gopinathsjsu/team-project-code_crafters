@@ -1,39 +1,98 @@
-import React from 'react'
+import React, {useContext, useState} from 'react'
 import { Button, Form, Grid, Image, Input, Table } from 'semantic-ui-react'
 import MembershipForm from "./MemebrshipForm";
+import {bookApi} from "../misc/BookApi";
+import AuthContext from "../context/AuthContext";
 
 function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook,month,isForMember }) {
-  let membershipList
-  if (memberships.length === 0) {
+    const [editableRow, setEditableRow] = useState(null);
+    const [updatedInstructors, setUpdatedInstructors] = useState([...memberships]);
+    const authContext = useContext(AuthContext); // Access the AuthContext
+
+    let membershipList
+    const handleEditClick = (instructorId) => {
+        setEditableRow(instructorId);
+    };
+    const handleInputChange2 = (instructorId, field, value) => {
+        const updatedInstructor = updatedInstructors.find((instructor) => instructor.id === instructorId);
+        updatedInstructor[field] = value;
+        setUpdatedInstructors([...updatedInstructors]);
+    };
+
+    const renderTableCell = (membership, field) => {
+        if (editableRow === membership.id) {
+            return (
+                <Table.Cell>
+                    <Input value={membership[field]} onChange={(e) => handleInputChange2(membership.id, field, e.target.value)} />
+                </Table.Cell>
+            );
+        } else {
+            return <Table.Cell>{membership[field]}</Table.Cell>;
+        }
+        return undefined;
+    };
+    const handleUpdateInstructor = (instructor) => {
+        // Make the backend API call to update the instructor using the instructor object
+        // You can access the updated values from the instructor object and update the backend accordingly
+        console.log('Updating instructor:', instructor);
+
+        const user = authContext.getUser()
+        bookApi.updateMembership(user,instructor);
+        // You can also update the local state if needed
+        setEditableRow(null);
+    };
+    const handleDoneClick = (instructor) => {
+        // Make the backend API call with the updated values
+        // Reset the editable row state
+        handleUpdateInstructor(instructor);
+        setEditableRow(null);
+    };
+
+    const handleCancelClick = () => {
+        setEditableRow(null);
+    };
+    const renderTableRow = (membership) => {
+        const isEditable = editableRow === membership.id;
+
+        return (
+            <Table.Row key={membership.id}>
+                <Table.Cell collapsing>
+                    <Button
+                        circular
+                        color='red'
+                        size='small'
+                        icon='trash'
+                        onClick={() => handleDeleteMembership(membership.id)}
+                    />
+                </Table.Cell>
+
+                <Table.Cell>{membership.id}</Table.Cell>
+                {renderTableCell(membership, 'title')}
+                {renderTableCell(membership, 'description')}
+                {renderTableCell(membership, 'month')}
+                {renderTableCell(membership, 'isMember')}
+                <Table.Cell collapsing>
+                    {!isEditable && (
+                        <Button icon='edit' onClick={() => handleEditClick(membership.id)} />
+                    )}
+                    {isEditable && (
+                        <>
+                            <Button icon='check' onClick={() => handleDoneClick(membership)} />
+                            <Button icon='cancel' onClick={handleCancelClick} />
+                        </>
+                    )}
+                </Table.Cell>
+            </Table.Row>
+        )
+    };
+    if (memberships.length === 0) {
       membershipList = (
       <Table.Row key='no-book'>
         <Table.Cell collapsing textAlign='center' colSpan='4'>No Memberships</Table.Cell>
       </Table.Row>
     )
   } else {
-      membershipList = memberships.map(membership => {
-      return (
-        <Table.Row key={membership.id}>
-          <Table.Cell collapsing>
-            <Button
-              circular
-              color='red'
-              size='small'
-              icon='trash'
-              onClick={() => handleDeleteMembership(membership.id)}
-            />
-          </Table.Cell>
-          {/*<Table.Cell>*/}
-          {/*  <Image src={`http://covers.openlibrary.org/b/isbn/${membership.id}-M.jpg`} size='tiny' bordered rounded />*/}
-          {/*</Table.Cell>*/}
-          <Table.Cell>{membership.id}</Table.Cell>
-          <Table.Cell>{membership.title}</Table.Cell>
-          <Table.Cell>{membership.description}</Table.Cell>
-            <Table.Cell>{membership.month}</Table.Cell>
-            <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
-        </Table.Row>
-      )
-    })
+      membershipList = memberships.map(renderTableRow)
   }
 
   return (
