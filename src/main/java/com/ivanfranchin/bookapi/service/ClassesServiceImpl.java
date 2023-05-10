@@ -35,4 +35,9 @@ public class ClassesServiceImpl implements ClassesService {
     public List<Classes> getByText(String txt) {
         return classesRepository.findByTitleContainingOrDescriptionContaining(txt,txt);
     }
+
+    @Override
+    public Optional<Classes> findById(Long id) {
+        return classesRepository.findById(id.toString());
+    }
 }

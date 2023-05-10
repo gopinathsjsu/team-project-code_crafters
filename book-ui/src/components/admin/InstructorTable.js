@@ -3,7 +3,7 @@ import { Button, Form, Grid, Image, Input, Table } from 'semantic-ui-react';
 import InstructorForm from './InstructorForm';
 import {bookApi} from "../misc/BookApi";
 import AuthContext from "../context/AuthContext";
-function InstructorTable({ instructors, instructorName, instructorAge, instructorDescription, handleInputChange2, instructorEmail, handleDeleteInstructor, handleAddInstructor }) {
+function InstructorTable({ instructors, instructorName, instructorAge, instructorDescription, handleInputChange, instructorEmail, handleDeleteInstructor, handleAddInstructor }) {
     const [editableRow, setEditableRow] = useState(null);
     const [updatedInstructors, setUpdatedInstructors] = useState([...instructors]);
     const handleEditClick = (instructorId) => {
@@ -11,11 +11,7 @@ function InstructorTable({ instructors, instructorName, instructorAge, instructo
     };
     const authContext = useContext(AuthContext); // Access the AuthContext
 
-    const handleInputChange = (instructorId, field, value) => {
-        const updatedInstructor = updatedInstructors.find((instructor) => instructor.id === instructorId);
-        updatedInstructor[field] = value;
-        setUpdatedInstructors([...updatedInstructors]);
-    };
+
 
     const handleUpdateInstructor = (instructor) => {
         // Make the backend API call to update the instructor using the instructor object
@@ -37,12 +33,17 @@ function InstructorTable({ instructors, instructorName, instructorAge, instructo
     const handleCancelClick = () => {
         setEditableRow(null);
     };
+    const handleInputChange2 = (instructorId, field, value) => {
+        const updatedInstructor = updatedInstructors.find((instructor) => instructor.id === instructorId);
+        updatedInstructor[field] = value;
+        setUpdatedInstructors([...updatedInstructors]);
+    };
 
     const renderTableCell = (instructor, field) => {
         if (editableRow === instructor.id) {
             return (
                 <Table.Cell>
-                    <Input value={instructor[field]} onChange={(e) => handleInputChange(instructor.id, field, e.target.value)} />
+                    <Input value={instructor[field]} onChange={(e) => handleInputChange2(instructor.id, field, e.target.value)} />
                 </Table.Cell>
             );
         } else {
@@ -58,11 +59,6 @@ function InstructorTable({ instructors, instructorName, instructorAge, instructo
                 <Table.Cell collapsing>
                     <Button circular color='red' size='small' icon='trash' onClick={() => handleDeleteInstructor(instructor.id)} />
                 </Table.Cell>
-                <Table.Cell>{instructor.id}</Table.Cell>
-                {renderTableCell(instructor, 'name')}
-                {renderTableCell(instructor, 'email')}
-                {renderTableCell(instructor, 'age')}
-                {renderTableCell(instructor, 'description')}
                 <Table.Cell collapsing>
                     {!isEditable && (
                         <Button icon='edit' onClick={() => handleEditClick(instructor.id)} />
@@ -74,6 +70,12 @@ function InstructorTable({ instructors, instructorName, instructorAge, instructo
                         </>
                     )}
                 </Table.Cell>
+                <Table.Cell>{instructor.id}</Table.Cell>
+                {renderTableCell(instructor, 'name')}
+                {renderTableCell(instructor, 'email')}
+                {renderTableCell(instructor, 'age')}
+                {renderTableCell(instructor, 'description')}
+
             </Table.Row>
         );
     };
@@ -109,6 +111,7 @@ function InstructorTable({ instructors, instructorName, instructorAge, instructo
             <Table compact striped selectable>
                 <Table.Header>
                     <Table.Row>
+                        <Table.HeaderCell width={1} />
                         <Table.HeaderCell width={1} />
                         <Table.HeaderCell width={1}>Id</Table.HeaderCell>
                         <Table.HeaderCell width={4}>Name</Table.HeaderCell>

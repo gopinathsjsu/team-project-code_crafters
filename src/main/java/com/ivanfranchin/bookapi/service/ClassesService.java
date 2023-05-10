@@ -14,4 +14,6 @@ public interface ClassesService {
     void deleteClasses(String id);
     List<Classes> getByText(String txt);
 
+    Optional<Classes> findById(Long id);
+
 }

@@ -48,6 +48,7 @@
             placeholder='Zumba Everyday'
             value={classesTitle}
             onChange={handleInputChange}
+              required
           />
           <Form.Input
               label='Class Description'
@@ -55,6 +56,7 @@
             placeholder='Zumba Everyday at 5.00PM to 6.00PM by Meet Patel * *'
             value={classesDescription}
             onChange={handleInputChange}
+              required
           />
 
           <Form.Select

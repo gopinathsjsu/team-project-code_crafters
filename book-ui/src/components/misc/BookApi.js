@@ -21,6 +21,7 @@ export const bookApi = {
   getUsersByExpiryByWeek,
   addClasses,
   getClasses,
+  updateClasses,
   deleteMembership,
   deleteInstructor,
   addInstructor,
@@ -77,6 +78,15 @@ function getClasses(user) {
   const url = '/api/classes'
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
+  })
+}
+
+function updateClasses(user,classes) {
+  return instance.put('/api/classes', classes, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
   })
 }
 function addClasses(user, classes) {
