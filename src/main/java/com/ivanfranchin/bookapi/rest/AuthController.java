@@ -13,11 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +49,19 @@ public class AuthController {
 
         User user = userService.saveUser(createUser(signUpRequest));
         return new AuthResponse(user.getId(), user.getName(), user.getRole());
+    }
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping("/signup")
+    public AuthResponse updateUser( @RequestBody SignUpRequest signUpRequest) {
+        Optional<User> user = userService.findByUserId(signUpRequest.getId()+"");
+        if(user.isPresent()){
+            User u = user.get();
+            u.setName(signUpRequest.getName());
+            u.setEmail(signUpRequest.getEmail());
+            User users = userService.saveUser(u);
+            return new AuthResponse(users.getId(), users.getName(), users.getRole());
+        }
+        return null;
     }
 
     private User createUser(SignUpRequest signUpRequest) {

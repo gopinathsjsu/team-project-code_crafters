@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class SignUpRequest {
 
+    private int id;
     @Schema(example = "user3")
     @NotBlank
     private String username;

@@ -75,6 +75,19 @@ public class ClassesController {
         }
         return cd;
     }
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping
+    public Classes updateClasses(@Valid @RequestBody ClassesDtoUpdate classesDto) {
+            Optional<Classes> classes = classesService.findById(classesDto.id());
+            if(classes.isPresent()){
+                Classes cm = classes.get();
+                cm.setDescription(classesDto.description());
+                cm.setTitle(classesDto.title());
+                 return classesService.saveClass(cm);
+            }
+            return null;
+    }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @DeleteMapping("/{id}")

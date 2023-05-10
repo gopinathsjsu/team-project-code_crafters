@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ivanfranchin.bookapi.config.SwaggerConfig.BASIC_AUTH_SECURITY_SCHEME;
@@ -45,6 +46,19 @@ public class MembershipController {
         Membership membership = membershipMapper.toMembership(createMembershipRequest);
         System.out.println(createMembershipRequest);
         return membershipMapper.toMembershipDto(membershipService.saveMembership(membership));
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @ResponseStatus(HttpStatus.CREATED)
+    @PutMapping
+    public MembershipDto updateMembership(@Valid @RequestBody CreateMembershipRequest createMembershipRequest) {
+        Optional<Membership> membershipO = membershipService.getMembershipById(createMembershipRequest.getId());
+        Membership m = membershipO.get();
+        m.setDescription(createMembershipRequest.getDescription());
+        m.setTitle(createMembershipRequest.getTitle());
+        m.setMonth(createMembershipRequest.getMonth());
+        m.setMonth(createMembershipRequest.getIsMember() ? 1L:0L);
+        return membershipMapper.toMembershipDto(membershipService.saveMembership(m));
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
