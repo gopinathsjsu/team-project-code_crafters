@@ -44,6 +44,14 @@ public class InstructorController {
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping
+    public InstructorDto updateInstructor(@Valid @RequestBody InstructorDto instructorDto) {
+        Instructor instructor = instructorMapper.toMembership(instructorDto);
+        return instructorMapper.toInstructorDto(instructorService.saveInstructor(instructor));
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @DeleteMapping("/{id}")
     public Instructor deleteBook(@PathVariable long id) {
         return instructorService.deleteById(id);

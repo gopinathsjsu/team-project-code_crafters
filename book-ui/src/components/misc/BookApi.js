@@ -24,6 +24,7 @@ export const bookApi = {
   deleteInstructor,
   addInstructor,
   getInstructors,
+  updateInstructor,
   getLocations,
   getUserById,
   addRegisteredClasses,
@@ -57,6 +58,14 @@ function addInstructor(user, instructor) {
   })
 }
 
+function updateInstructor(user, instructor) {
+  return instance.put('/api/instructors', instructor, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
+  })
+}
 function deleteInstructor(user, id) {
   return instance.delete(`/api/instructors/${id}`, {
     headers: { 'Authorization': basicAuth(user) }
