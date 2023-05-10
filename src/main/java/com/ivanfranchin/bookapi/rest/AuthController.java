@@ -50,19 +50,8 @@ public class AuthController {
         User user = userService.saveUser(createUser(signUpRequest));
         return new AuthResponse(user.getId(), user.getName(), user.getRole());
     }
-    @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping("/signup")
-    public AuthResponse updateUser( @RequestBody SignUpRequest signUpRequest) {
-        Optional<User> user = userService.findByUserId(signUpRequest.getId()+"");
-        if(user.isPresent()){
-            User u = user.get();
-            u.setName(signUpRequest.getName());
-            u.setEmail(signUpRequest.getEmail());
-            User users = userService.saveUser(u);
-            return new AuthResponse(users.getId(), users.getName(), users.getRole());
-        }
-        return null;
-    }
+
+
 
     private User createUser(SignUpRequest signUpRequest) {
         User user = new User();

@@ -2,8 +2,6 @@ import React from 'react'
 import { Button, Form, Icon } from 'semantic-ui-react'
 
 function MembershipForm({ membershipTitle, membershipDescription, handleInputChange, handleAddMembership,month,isForMember }) {
-  console.log(month)
-  console.log(isForMember)
   const createBtnDisabled = membershipTitle.trim() === '' || membershipDescription.trim() === '' || month === '' || !/^\d+$/.test(month)
   const options = [
     { key: 'yes', value: true, text: 'Yes' },

@@ -4,6 +4,7 @@ import { config } from '../../Constants'
 export const bookApi = {
   authenticate,
   signup,
+  updateUser,
   numberOfUsers,
   numberOfBooks,
   getUsers,
@@ -125,6 +126,14 @@ function authenticate(username, password) {
 function signup(user) {
   return instance.post('/auth/signup', user, {
     headers: { 'Content-type': 'application/json' }
+  })
+}
+function updateUser(user,data) {
+  return instance.put('/api/users/update', data, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
   })
 }
 function clockInOut(user,data) {
