@@ -70,7 +70,7 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
                 {renderTableCell(membership, 'title')}
                 {renderTableCell(membership, 'description')}
                 {renderTableCell(membership, 'month')}
-                {renderTableCell(membership, 'isMember')}
+                <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
                 <Table.Cell collapsing>
                     {!isEditable && (
                         <Button icon='edit' onClick={() => handleEditClick(membership.id)} />
