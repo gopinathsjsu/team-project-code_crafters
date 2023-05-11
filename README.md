@@ -34,6 +34,13 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ## Deployment
 ![deployment_diag](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ee283ee5-855e-42e1-9e14-282feb7e80d7)
 
+## AWS Cloud Deployment
+<img width="1439" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/cdba8603-e496-4432-bd1a-0506ce1b970d">
+<img width="1436" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/2c2fa784-a177-4cb3-963c-5d5d1e977ea4">
+<img width="1440" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/9fbad5c8-a0be-4060-89de-fa9d9e52a5b4">
+
+
+
 ## Diagram
 
 ### Use Case Diagram
