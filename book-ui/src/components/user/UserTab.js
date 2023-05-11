@@ -4,13 +4,16 @@ import ClassesTable from "./ClassesTable";
 import GymDetail from "./gymdetail";
 import AwardsPage from "./Awards";
 import FutureProjectsPage from "./FutureProjects";
+import Signup from "../home/Signup";
+import Loghours from "./loghours";
+import Activites from "./Activites";
 
 
 function UserTab(props) {
 
     const { handleInputChange, updateMeetState, month, isForMember, isClassesLoading } = props
     const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
-    const { classes, classesTitle, classesDescription, handleAddClasses, isClassForMember, handleDeleteClasses, handleAddRegisteredClasses, handleGetRegisteredClasses, user_Id, user_role } = props
+    const { classes, classesTitle, classesDescription, handleAddClasses, isClassForMember, handleDeleteClasses, handleAddRegisteredClasses, handleGetRegisteredClasses, user_Id, user_role, userName } = props
     const { instructorIdForClassCreate, isInstructorsLoading, instructorAge, handleDeleteInstructor, instructorDescription, instructors, instructorEmail, instructorName, handleAddInstructor, printRegisteredClasses } = props
 
     const panes = [
@@ -41,14 +44,24 @@ function UserTab(props) {
 
         },
         {
-            menuItem: { key: 'GymDetail', icon: 'book', content: 'About us' },
+            menuItem: { key: 'hours', icon: 'users', content: 'Log hours' },
+            render: () => (
+                <Tab.Pane>
+                    <Loghours />
+                </Tab.Pane>
+            )
+        },
+        {
+            menuItem: { key: 'Past activity', icon: 'book', content: 'Past Activities' },
             render: () => (
                 <Tab.Pane loading={isClassesLoading}>
-                    <GymDetail />
+                    <Activites
+                    userName={userName}/>
                 </Tab.Pane>
 
             )
         },
+
         {
             menuItem: { key: 'AwardsPage', icon: 'book', content: 'Our Awards' },
             render: () => (

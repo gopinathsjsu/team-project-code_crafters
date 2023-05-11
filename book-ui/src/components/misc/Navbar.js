@@ -43,7 +43,6 @@ function Navbar() {
         <Menu.Item as={Link} to="/userpage" style={userPageStyle()}>UserPage</Menu.Item>
         <Menu.Menu position='right'>
           <Menu.Item as={Link} to="/login" style={enterMenuStyle()}>Login</Menu.Item>
-          <Menu.Item as={Link} to="/signup" style={enterMenuStyle()}>Sign Up</Menu.Item>
           <Menu.Item header style={logoutMenuStyle()}>{`Hi ${getUserName()}`}</Menu.Item>
           <Menu.Item as={Link} to="/" style={logoutMenuStyle()} onClick={logout}>Logout</Menu.Item>
         </Menu.Menu>

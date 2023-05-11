@@ -32,9 +32,9 @@ function ClockInTable({ clockInData,handleGetClockInData}) {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}/>
-            <Table.HeaderCell width={3}>Member Name</Table.HeaderCell>
-            <Table.HeaderCell width={4}>Clock In Time</Table.HeaderCell>
-            <Table.HeaderCell width={8}>Clock Out Time</Table.HeaderCell>
+            <Table.HeaderCell width={4}>Member Name</Table.HeaderCell>
+            <Table.HeaderCell width={5}>Clock In Time</Table.HeaderCell>
+            <Table.HeaderCell width={5}>Clock Out Time</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

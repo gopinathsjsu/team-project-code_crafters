@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tab } from 'semantic-ui-react'
 import UserTable from './UserTable'
-import BookTable from './BookTable'
 import Signup from '../home/Signup'
 import MembershipTable from "./MembershipTable";
 import ClockInOut from '../home/ClockInOut'
@@ -9,13 +8,13 @@ import ClockInTable from "./ClockInTable";
 import ClassesTable from "./ClassesTable";
 import InstructorTable from "./InstructorTable";
 function AdminTab(props) {
-  const { selectedLocationIdForClasses,handleInputChange,updateMeetState,month,isForMember,isClassesLoading,locations } = props
+  const { price,selectedLocationIdForClasses,handleInputChange,updateMeetState,month,isForMember,isClassesLoading,locations } = props
   const { isUsersLoading, users, userUsernameSearch, handleDeleteUser, handleSearchUser,ClassesTextSearch,handleSearchClasses } = props
   const { isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, handleAddBook, handleDeleteBook, handleSearchBook } = props
   const { isMembershipsLoading, memberships, membershipId, membershipTitle, membershipDescription, handleAddMembership, handleDeleteMembership, handleSearchMembership,clockInData,handleGetClockInData } = props
     const {classes,classesTitle,classesDescription,handleAddClasses,isClassForMember,handleDeleteClasses} = props
     const {instructorIdForClassCreate,isInstructorsLoading,instructorAge,handleDeleteInstructor,instructorDescription,instructors,instructorEmail,instructorName,handleAddInstructor} = props
-    const{startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass} = props
+    const{startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass,handleFormResetClass,handleFormResetMembership} = props
     const panes = [
     {
       menuItem: { key: 'users', icon: 'users', content: 'Users' },
@@ -72,6 +71,8 @@ function AdminTab(props) {
                       month = {month}
                       isForMember = {isForMember}
                       handleDeleteMembership={handleDeleteMembership}
+                      handleFormResetMembership={handleFormResetMembership}
+                      price={price}
                   />
               </Tab.Pane>
           )
@@ -102,6 +103,7 @@ function AdminTab(props) {
                         selectedDaysClass={selectedDaysClass}
                         endDateClass={endDateClass}
                         startDateClass={startDateClass}
+                        handleFormResetClass={handleFormResetClass}
                     />
                 </Tab.Pane>
             )

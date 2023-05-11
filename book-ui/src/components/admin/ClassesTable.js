@@ -5,7 +5,7 @@ import { Segment } from 'semantic-ui-react';
 import {bookApi} from "../misc/BookApi";
 import AuthContext from "../context/AuthContext";
 
-function ClassesTable({ classes, classesTitle,classesDescription, handleSearchClasses, handleInputChange, handleAddClasses, ClassesTextSearch, handleSearchBook,isClassForMember,handleDeleteClasses ,instructors,instructorIdForClassCreate,locations,selectedLocationIdForClasses,startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass}) {
+function ClassesTable({ classes, classesTitle,classesDescription, handleSearchClasses, handleInputChange, handleAddClasses, ClassesTextSearch, handleSearchBook,isClassForMember,handleDeleteClasses ,instructors,instructorIdForClassCreate,locations,selectedLocationIdForClasses,startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass,handleFormResetClass}) {
 
     const [editableRow, setEditableRow] = useState(null);
     const [updatedInstructors, setUpdatedInstructors] = useState([...classes]);
@@ -154,6 +154,7 @@ function ClassesTable({ classes, classesTitle,classesDescription, handleSearchCl
               selectedDaysClass={selectedDaysClass}
               endDateClass={endDateClass}
               startDateClass={startDateClass}
+              handleFormResetClass={handleFormResetClass}
             /></Segment>
           </Grid.Column>
         </Grid.Row>

@@ -58,9 +58,16 @@ class UserPage extends Component {
   componentDidMount() {
     const Auth = this.context
     const user = Auth.getUser()
+    const isAdmin = (user.role === 'ADMIN')
     const isUser = (user.role === 'USER' || user.role === 'NONMember')
       const user_Id = user.id
       const user_role = user.role
+    var userName = "Nilay";
+    if (isAdmin || isUser) {
+
+      userName = user.name;
+    }
+    this.setState({userName})
     this.setState({ isUser })
     this.setState({ user_Id } )
     this.setState( { user_role })
@@ -68,6 +75,7 @@ class UserPage extends Component {
     this.handleGetClasses()
     this.handleGetRegisteredClasses()
     this.handleGetInstructors()
+
   }
 
   handleGetClasses = () => {
@@ -204,7 +212,7 @@ class UserPage extends Component {
 
   render() {
 
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id, user_role  } = this.state
+      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id, user_role,userName  } = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
@@ -257,6 +265,8 @@ class UserPage extends Component {
                 printRegisteredClasses={printRegisteredClasses}
                 user_Id ={user_Id}
                 user_role ={user_role}
+                userName = {userName}
+
 
 
             />

@@ -4,6 +4,7 @@ import { config } from '../../Constants'
 export const bookApi = {
   authenticate,
   signup,
+  updateUser,
   numberOfUsers,
   numberOfBooks,
   getUsers,
@@ -31,7 +32,11 @@ export const bookApi = {
   getUserById,
   addRegisteredClasses,
   getRegisteredClasses,
-  getAllClassesByLocation
+  getAllClassesByLocation,
+  logHours,
+  getLogHours
+  getclassschedule
+
 }
 function getClassesByText(user, text) {
   const url = `/api/classes/by-text/${text}`
@@ -49,6 +54,21 @@ function getInstructors(user) {
   const url = '/api/instructors'
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
+  })
+}
+function getLogHours(user) {
+  const id = user.id
+  const url = '/api/log-hours/'+id
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+function logHours(user, data) {
+  return instance.post('/api/log-hours', data, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
   })
 }
 function addInstructor(user, instructor) {
@@ -126,6 +146,14 @@ function authenticate(username, password) {
 function signup(user) {
   return instance.post('/auth/signup', user, {
     headers: { 'Content-type': 'application/json' }
+  })
+}
+function updateUser(user,data) {
+  return instance.put('/api/users/update', data, {
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': basicAuth(user)
+    }
   })
 }
 function clockInOut(user,data) {
@@ -232,6 +260,15 @@ function getRegisteredClasses(user, id) {
 function getAllClassesByLocation(){
     const url = '/api/classes/getAllClassesByLocation'
     return instance.get(url)
+}
+
+function headers() {
+
+}
+
+function getclassschedule(){
+  const url = 'http://localhost:8080/api/classes/allClassesByLocation'
+  return instance.get(url)
 }
 
 

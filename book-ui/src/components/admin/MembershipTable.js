@@ -4,7 +4,7 @@ import MembershipForm from "./MemebrshipForm";
 import {bookApi} from "../misc/BookApi";
 import AuthContext from "../context/AuthContext";
 
-function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook,month,isForMember }) {
+function MembershipTable({ price,memberships, handleDeleteMembership, membershipTitle,membershipDescription, bookTextSearch, handleInputChange, handleAddMembership, handleDeleteBook, handleSearchBook,month,isForMember ,handleFormResetMembership}) {
     const [editableRow, setEditableRow] = useState(null);
     const [updatedInstructors, setUpdatedInstructors] = useState([...memberships]);
     const authContext = useContext(AuthContext); // Access the AuthContext
@@ -34,7 +34,6 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
     const handleUpdateInstructor = (instructor) => {
         // Make the backend API call to update the instructor using the instructor object
         // You can access the updated values from the instructor object and update the backend accordingly
-        console.log('Updating instructor:', instructor);
 
         const user = authContext.getUser()
         bookApi.updateMembership(user,instructor);
@@ -65,12 +64,6 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
                         onClick={() => handleDeleteMembership(membership.id)}
                     />
                 </Table.Cell>
-
-                <Table.Cell>{membership.id}</Table.Cell>
-                {renderTableCell(membership, 'title')}
-                {renderTableCell(membership, 'description')}
-                {renderTableCell(membership, 'month')}
-                <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
                 <Table.Cell collapsing>
                     {!isEditable && (
                         <Button icon='edit' onClick={() => handleEditClick(membership.id)} />
@@ -82,6 +75,13 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
                         </>
                     )}
                 </Table.Cell>
+                <Table.Cell>{membership.id}</Table.Cell>
+                {renderTableCell(membership, 'title')}
+                {renderTableCell(membership, 'description')}
+                {renderTableCell(membership, 'month')}
+                {renderTableCell(membership, 'price')}
+                <Table.Cell>{membership.isMember ? "Yes" : "No"}</Table.Cell>
+
             </Table.Row>
         )
     };
@@ -101,13 +101,14 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
         <Grid.Row columns='2'>
           <Grid.Column width='20'>
             <MembershipForm
+                price={price}
               membershipTitle={membershipTitle}
               membershipDescription={membershipDescription}
               handleInputChange={handleInputChange}
               handleAddMembership={handleAddMembership}
               month={month}
               isForMember={isForMember}
-
+              handleFormResetMembership={handleFormResetMembership}
             />
           </Grid.Column>
         </Grid.Row>
@@ -116,11 +117,13 @@ function MembershipTable({ memberships, handleDeleteMembership, membershipTitle,
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell width={1}/>
+              <Table.HeaderCell width={1}/>
             {/*<Table.HeaderCell width={2}>Image</Table.HeaderCell>*/}
             <Table.HeaderCell width={1}>Id</Table.HeaderCell>
-            <Table.HeaderCell width={4}>Title</Table.HeaderCell>
+            <Table.HeaderCell width={3}>Title</Table.HeaderCell>
               <Table.HeaderCell width={7}>Description</Table.HeaderCell>
               <Table.HeaderCell width={1}>Length (Month)</Table.HeaderCell>
+              <Table.HeaderCell width={3}>Price($)</Table.HeaderCell>
               <Table.HeaderCell width={4}>Is For Member</Table.HeaderCell>
           </Table.Row>
         </Table.Header>

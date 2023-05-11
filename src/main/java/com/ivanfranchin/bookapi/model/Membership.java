@@ -20,7 +20,7 @@ public class Membership {
     private String description;
     private String image;
     private Long month;
-
+    private Long price;
     @Column(name = "is_member")
     public Boolean isMember;
 }

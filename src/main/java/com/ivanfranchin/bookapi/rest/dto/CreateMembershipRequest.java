@@ -21,4 +21,6 @@ public class CreateMembershipRequest {
 
     private Long month;
     private Boolean isMember;
+
+    private Long price;
 }

@@ -358,7 +358,8 @@ public class ClassesController {
         return visitorDto;
     }
 
-    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+
+
     @GetMapping("/allClassesByLocation")
     public List<ClassesByLocationDto> getAllClassesByLocation(@RequestParam(value = "location", required = false) String location){
         //Call get classes Api

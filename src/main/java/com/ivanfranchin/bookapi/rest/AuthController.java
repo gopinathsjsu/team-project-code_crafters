@@ -29,11 +29,14 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println(loginRequest.getUsername()+ " aaa "+loginRequest.getPassword());
         Optional<User> userOptional = userService.validUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            System.out.println("aaaaaaaa"+user);
             return ResponseEntity.ok(new AuthResponse(user.getId(), user.getName(), user.getRole()));
         }
+        System.out.println("aaaaaaaaaaaaaaaaaaa");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
@@ -50,19 +53,8 @@ public class AuthController {
         User user = userService.saveUser(createUser(signUpRequest));
         return new AuthResponse(user.getId(), user.getName(), user.getRole());
     }
-    @ResponseStatus(HttpStatus.CREATED)
-    @PutMapping("/signup")
-    public AuthResponse updateUser( @RequestBody SignUpRequest signUpRequest) {
-        Optional<User> user = userService.findByUserId(signUpRequest.getId()+"");
-        if(user.isPresent()){
-            User u = user.get();
-            u.setName(signUpRequest.getName());
-            u.setEmail(signUpRequest.getEmail());
-            User users = userService.saveUser(u);
-            return new AuthResponse(users.getId(), users.getName(), users.getRole());
-        }
-        return null;
-    }
+
+
 
     private User createUser(SignUpRequest signUpRequest) {
         User user = new User();
