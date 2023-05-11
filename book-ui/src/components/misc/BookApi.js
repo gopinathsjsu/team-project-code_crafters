@@ -34,7 +34,7 @@ export const bookApi = {
   getRegisteredClasses,
   getAllClassesByLocation,
   logHours,
-  getLogHours
+  getLogHours,
   getclassschedule
 
 }
