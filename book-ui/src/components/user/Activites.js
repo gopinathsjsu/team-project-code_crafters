@@ -10,6 +10,7 @@ const Activities = ({ userName,logHours }) => {
     const [timeRange, setTimeRange] = useState("week");
     console.log(logHours, "Nilay")
 
+
     const getLabels = () => {
         switch (timeRange) {
             case "week":
@@ -25,16 +26,25 @@ const Activities = ({ userName,logHours }) => {
 
     // Static data arrays for Treadmill and Cycling
     const treadmillData = {
-        data: Array.from({ length: 90 }, (_, i) => i + 1),
+
+        data: logHours.treadmil,
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
     };
+    console.log(treadmillData)
 
     const cyclingData = {
-        data: [/* Static data array for Cycling with 90 values */],
+        data: logHours.cycling,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+    };
+
+    const stairData = {
+        data: logHours.stair,
+        backgroundColor: "rgb(243,240,188)",
+        borderColor: "rgb(250,246,2)",
         borderWidth: 1,
     };
 
@@ -49,6 +59,11 @@ const Activities = ({ userName,logHours }) => {
                 label: "Cycling",
                 ...cyclingData,
             },
+            {
+                label: "Stair",
+                ...stairData,
+            },
+
         ],
     };
 

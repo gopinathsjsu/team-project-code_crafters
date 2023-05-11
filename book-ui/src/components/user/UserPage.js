@@ -6,6 +6,7 @@ import AuthContext from '../context/AuthContext'
 import { bookApi } from '../misc/BookApi'
 import { handleLogError } from '../misc/Helpers'
 import UserTab from './UserTab'
+import loghours from "./loghours";
 
 
 
@@ -219,9 +220,12 @@ class UserPage extends Component {
     this.setState({ isBooksLoading: true })
     bookApi.getLogHours(user_name)
         .then(response => {
+            response.data.treadmil = response.data.treadmil.reverse()
+            response.data.stair = response.data.stair.reverse()
+            response.data.cycling = response.data.cycling.reverse()
           this.setState({ logHours : response.data })
-          console.log(response)
         })
+
         .catch(error => {
           handleLogError(error)
         })
@@ -232,11 +236,13 @@ class UserPage extends Component {
 
 
 
+
   render() {
 
       const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id, user_role,userName,  } = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses, logHours} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
+
       return (
           <Container >
             <UserTab
