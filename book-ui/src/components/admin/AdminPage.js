@@ -48,7 +48,8 @@ class AdminPage extends Component {
     endTimeClass:'',
     selectedDaysClass:[],
     endDateClass:'',
-    startDateClass:''
+    startDateClass:'',
+    price:0,
   }
 
   componentDidMount() {
@@ -307,18 +308,19 @@ class AdminPage extends Component {
     const Auth = this.context
     const user = Auth.getUser()
 
-    let { membershipTitle, membershipDescription,month,isForMember } = this.state
+    let { membershipTitle, membershipDescription,month,isForMember,price } = this.state
     membershipTitle = membershipTitle.trim()
     membershipDescription = membershipDescription.trim()
     if (!(membershipTitle && membershipDescription)) {
       return
     }
     const isMember = isForMember ? 1 : 0;
-    const membership = { title: membershipTitle, description: membershipDescription,month: month,isMember }
+    const membership = { title: membershipTitle, description: membershipDescription,month: month,isMember ,price}
     bookApi.addMembership(user, membership)
         .then(() => {
           // this.clearMembershipForm()
           this.handleGetMemberships()
+          this.handleFormResetMembership()
         })
         .catch(error => {
           handleLogError(error)
@@ -368,7 +370,25 @@ class AdminPage extends Component {
           handleLogError(error)
         })
   }
+  handleFormResetClass = ()=>{
+    this.setState({
+      startTimeClass:'',
+      endTimeClass:'',
+      selectedDaysClass:[],
+      endDateClass:'',
+      startDateClass:'',
+      selectedLocationIdForClasses:'',
+    })
+  }
 
+  handleFormResetMembership = ()=>{
+    this.setState({
+      membershipTitle: '',
+      month: 0,
+      membershipDescription:'',
+      price:0
+    });
+  }
   handleClockInOut = () => {
     const Auth = this.context
     const user = Auth.getUser()
@@ -420,7 +440,7 @@ class AdminPage extends Component {
     if (!this.state.isAdmin) {
       return <Redirect to='/' />
     } else {
-      const { ClassesTextSearch,selectedLocationIdForClasses,isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
+      const { price,ClassesTextSearch,selectedLocationIdForClasses,isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember} = this.state
       const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,locations} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       const{startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass} = this.state
@@ -477,7 +497,9 @@ class AdminPage extends Component {
             selectedDaysClass={selectedDaysClass}
             endDateClass={endDateClass}
             startDateClass={startDateClass}
-
+            handleFormResetClass={this.handleFormResetClass}
+            handleFormResetMembership={this.handleFormResetMembership}
+            price={price}
           />
         </Container>
       )

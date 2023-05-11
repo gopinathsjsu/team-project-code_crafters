@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Icon } from 'semantic-ui-react'
 
-function MembershipForm({ membershipTitle, membershipDescription, handleInputChange, handleAddMembership,month,isForMember }) {
+function MembershipForm({ price,membershipTitle, membershipDescription, handleInputChange, handleAddMembership,month,isForMember ,handleFormResetMembership}) {
   const createBtnDisabled = membershipTitle.trim() === '' || membershipDescription.trim() === '' || month === '' || !/^\d+$/.test(month)
   const options = [
     { key: 'yes', value: true, text: 'Yes' },
@@ -32,6 +32,15 @@ function MembershipForm({ membershipTitle, membershipDescription, handleInputCha
             onChange={handleInputChange}
             required
             error={!/^\d+$/.test(month)}
+        />
+        <Form.Input
+            label='Membership Price($)'
+            name='price'
+            placeholder='100$'
+            value={price}
+            onChange={handleInputChange}
+            required
+            error={!/^\d+$/.test(price)}
         />
         <Form.Select
             label='For Members Only?'

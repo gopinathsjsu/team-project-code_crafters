@@ -41,7 +41,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private static final List<User> USERS = Arrays.asList(
             new User("admin", "admin", "Admin", "admin@mycompany.com", WebSecurityConfig.ADMIN,1l,Long.MAX_VALUE,Boolean.TRUE,1l),
-            new User("user", "user", "User", "user@mycompany.com", WebSecurityConfig.USER,1l,Long.MAX_VALUE,Boolean.TRUE,1l),
+            new User("user", "user", "User", "user@mycompany.com", WebSecurityConfig.USER,1l,50L,Boolean.TRUE,1l),
             new User("admin2", "admin2", "Admin2", "admin2@mycompany.com", WebSecurityConfig.ADMIN,2l,Long.MAX_VALUE,Boolean.TRUE,1l)
     );
 

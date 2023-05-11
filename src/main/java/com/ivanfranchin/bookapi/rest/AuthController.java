@@ -29,11 +29,14 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        System.out.println(loginRequest.getUsername()+ " aaa "+loginRequest.getPassword());
         Optional<User> userOptional = userService.validUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            System.out.println("aaaaaaaa"+user);
             return ResponseEntity.ok(new AuthResponse(user.getId(), user.getName(), user.getRole()));
         }
+        System.out.println("aaaaaaaaaaaaaaaaaaa");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

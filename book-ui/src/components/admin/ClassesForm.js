@@ -1,7 +1,7 @@
   import React from 'react'
   import {Button, Dropdown, Form, Icon} from 'semantic-ui-react'
 
-  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate,selectedLocationIdForClasses,locations,startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass }) {
+  function ClassesForm({ classesTitle, classesDescription, handleInputChange, handleAddClasses,isClassForMember,instructors,instructorIdForClassCreate,selectedLocationIdForClasses,locations,startTimeClass,endTimeClass,selectedDaysClass,endDateClass,startDateClass,handleFormResetClass}) {
     const createBtnDisabled = classesTitle.trim() === '' || classesDescription.trim() === '' || !selectedLocationIdForClasses || startTimeClass < new Date()
         || !endTimeClass
         || endTimeClass < new Date()
@@ -23,6 +23,8 @@
     const handleSubmit = (e) => {
       e.preventDefault(); // Prevent form submission
       handleAddClasses(); // Call handleAddClasses function
+        // Reset the form inputs to their initial values
+      handleFormResetClass();
     };
     const locationsForSelect = locations.map((instructor) => ({
       key: instructor.id,
@@ -92,6 +94,7 @@
           <Form.Input
               label='Start Date'
               name='startDateClass'
+              id = 'startDateClass'
               type='date'
               value={startDateClass}
               onChange={handleInputChange}
@@ -101,6 +104,7 @@
           <Form.Input
               label='End Date'
               name='endDateClass'
+              id='startDateClass'
               type='date'
               value={endDateClass}
               onChange={handleInputChange}
@@ -113,6 +117,7 @@
                 label='Select Days'
                 name='selectedDaysClass'
                 placeholder='Select Days'
+                id='selectedDaysClass'
                 value={selectedDaysClass}
                 options={daysOptions}
                 onChange={handleInputChange}

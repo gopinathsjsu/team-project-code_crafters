@@ -38,7 +38,7 @@ function UserTable({ users, userUsernameSearch, handleInputChange, handleDeleteU
     };
 
     const renderTableCell = (instructor, field) => {
-        if (editableRow === instructor.id) {
+        if (editableRow === instructor.id && instructor.name !== "admin" ) {
             return (
                 <Table.Cell>
                     <Input value={instructor[field]} onChange={(e) => handleInputChange2(instructor.id, field, e.target.value)} />

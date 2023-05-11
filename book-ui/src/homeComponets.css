@@ -15,9 +15,10 @@
     grid-gap: 20px;
  }
 .ui.container {
-        width: 1200px;
-        margin-left: 150px !important;
+        width: 1200px !important;
+        margin-left: 120px !important;
         margin-right: auto!important;
+        max-width: 1200px !important;
     }
 .grid-item {
     border: 1px solid black;
@@ -28,8 +29,8 @@
 .grid-item-user-home {
     border: 1px solid black;
     padding: 20px;
-    height: 500px;
-    width:850px;
+    height: 700px;
+    width: 1200px;
 }
 .top-left {
     grid-column: 1 / span 1;

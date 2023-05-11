@@ -107,7 +107,9 @@ class Signup extends Component {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 2000 // 10 seconds
           });
-
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
           
        })
       .catch(error => {
