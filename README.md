@@ -34,12 +34,20 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ## Deployment
 ![deployment_diag](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ee283ee5-855e-42e1-9e14-282feb7e80d7)
 
+## AWS Cloud Deployment
+<img width="1439" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/cdba8603-e496-4432-bd1a-0506ce1b970d">
+<img width="1436" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/2c2fa784-a177-4cb3-963c-5d5d1e977ea4">
+<img width="1440" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/9fbad5c8-a0be-4060-89de-fa9d9e52a5b4">
+
+
+
 ## Diagram
 
 ### Use Case Diagram
 ![Use_case_Diagram](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/7f877398-fede-46b0-ab8d-0ae0d79b48c9)
 
 ### Component Diagram
+![image](https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/f7ea8111-4dc7-413c-96fa-3b7901872053)
 
 ### Activity Diagram
 #### Employee
@@ -49,10 +57,8 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ![activity_diagram_members](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/806f1199-2de6-4e77-a407-e0142a967aec)
 
 ## Documentation
-[Project Task Board](https://github.com/orgs/gopinathsjsu/projects/85)
+[Sprint Task Board & Burndown Chart](https://docs.google.com/spreadsheets/d/145UyyayTwGbSAf2zTr5LeFzEBvXQ9bsaqErwjHmYYwA/edit?usp=sharing)
 
 [Project Journal](https://docs.google.com/document/d/1oxfadrmRForyV6EE7UtLSbMhHzwAUEI3HRq6tuIm5Fo/edit?usp=sharing)
-
-[Sprint & Burndown Chart](https://docs.google.com/spreadsheets/d/145UyyayTwGbSAf2zTr5LeFzEBvXQ9bsaqErwjHmYYwA/edit)
 
 [UI Wireframes](https://github.com/gopinathsjsu/team-project-code_crafters/tree/master/UI-Wireframes)

@@ -4,6 +4,8 @@ import ClassesTable from "./ClassesTable";
 import GymDetail from "./gymdetail";
 import AwardsPage from "./Awards";
 import FutureProjectsPage from "./FutureProjects";
+import Signup from "../home/Signup";
+import Loghours from "./loghours";
 import Activites from "./Activites";
 
 
@@ -40,6 +42,14 @@ function UserTab(props) {
                 </Tab.Pane>
             )
 
+        },
+        {
+            menuItem: { key: 'hours', icon: 'users', content: 'Log hours' },
+            render: () => (
+                <Tab.Pane>
+                    <Loghours />
+                </Tab.Pane>
+            )
         },
         {
             menuItem: { key: 'Past activity', icon: 'book', content: 'Past Activities' },

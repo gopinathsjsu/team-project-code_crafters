@@ -10,7 +10,7 @@ import ExpireMembershipTable from "../admin/ExpireMembershipTable";
 import LineChartForClassesAndEnrollment from "../admin/linechartforclassesandenrollment";
 import Activities from "../user/Activites";
 import Gymdetail from "../user/gymdetail";
-
+import PieChartComponent from "../admin/PieChart";
 function getValueById(id) {
     if (id === 1) {
         return 'https://th.bing.com/th/id/R.22b22f5bfc39d45bf649bf83f804e01b?rik=lLILe3rkGN5d2w&riu=http%3a%2f%2ffitnesslabjax.com%2fwp-content%2fuploads%2f2018%2f03%2fYoga-studios-in-Rye.jpg&ehk=GzFcKCKzPSdEP%2bNsRAeZn92TGddjghXpfKi0JHCL0D0%3d&risl=&pid=ImgRaw&r=0';
@@ -62,7 +62,7 @@ class Home extends Component {
          userName = user.name;
     }
 
-
+      bookApi.getMachineData(user);
     this.setState({ isAdmin })
     this.setState( { isUser })
       this.setState({ userName })
@@ -149,9 +149,10 @@ class Home extends Component {
               <div className="grid-container">
                   {isAdmin && <div className="grid-item top-left"><h3>Classes and Enrollment</h3><LineChartForClassesAndEnrollment /></div>}
                   {isAdmin && <div className="grid-item top-right"><h3>Visitors</h3><LineChart /></div>}
-                  {isAdmin && <div className="grid-item bottom-right"><ExpireMembershipTable users={users} /></div>}
-                  {isAdmin && <div className="grid-item bottom-left"><h3>Hours</h3><LinechartHours /></div>}
 
+                  {isAdmin && <div className="grid-item bottom-right"><h3>Total Machine Used(In minutes)</h3><PieChartComponent  /></div>}
+                  {isAdmin && <div className="grid-item bottom-left"><h3>Hours</h3><LinechartHours /></div>}
+                  {isAdmin && <div className="grid-item "><ExpireMembershipTable users={users} /></div>}
 
 
             </div>
