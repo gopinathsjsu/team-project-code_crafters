@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-10T15:41:45-0700",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.7 (Amazon.com Inc.)"
+    date = "2023-05-10T14:00:14-0700",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.6 (Amazon.com Inc.)"
 )
 @Component
 public class MembershipMapperImpl implements MembershipMapper {
@@ -27,6 +27,7 @@ public class MembershipMapperImpl implements MembershipMapper {
         membership.setDescription( createMembershipRequest.getDescription() );
         membership.setImage( createMembershipRequest.getImage() );
         membership.setMonth( createMembershipRequest.getMonth() );
+        membership.setPrice( createMembershipRequest.getPrice() );
         membership.setIsMember( createMembershipRequest.getIsMember() );
 
         return membership;
@@ -44,6 +45,7 @@ public class MembershipMapperImpl implements MembershipMapper {
         String image = null;
         Long month = null;
         Boolean isMember = null;
+        Long price = null;
 
         id = membership.getId();
         title = membership.getTitle();
@@ -51,8 +53,9 @@ public class MembershipMapperImpl implements MembershipMapper {
         image = membership.getImage();
         month = membership.getMonth();
         isMember = membership.getIsMember();
+        price = membership.getPrice();
 
-        MembershipDto membershipDto = new MembershipDto( id, title, description, image, month, isMember );
+        MembershipDto membershipDto = new MembershipDto( id, title, description, image, month, isMember, price );
 
         return membershipDto;
     }
