@@ -1,12 +1,12 @@
 const prod = {
   url: {
-    API_BASE_URL: 'https://myapp.herokuapp.com',
+    API_BASE_URL: 'http://35.173.129.51:8080',
   }
 }
 
 const dev = {
   url: {
-    API_BASE_URL: 'http://localhost:8080'
+    API_BASE_URL: 'http://35.173.129.51:8080'
   }
 }
 
