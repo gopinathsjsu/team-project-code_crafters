@@ -20,9 +20,9 @@ import java.util.List;
 public interface LogHoursRepository extends JpaRepository<LogHours, Long> {
 
     @Query("SELECT l.date, "
-            + "COALESCE(SUM(CASE WHEN l.machine = 'treadmil' THEN l.time END), 0), "
-            + "COALESCE(SUM(CASE WHEN l.machine = 'cycling' THEN l.time END), 0), "
-            + "COALESCE(SUM(CASE WHEN l.machine = 'Stair machines' THEN l.time END), 0) "
+            + "COALESCE(SUM(CASE WHEN l.machine = 'Treadmil' THEN l.time END), 0), "
+            + "COALESCE(SUM(CASE WHEN l.machine = 'Cycling' THEN l.time END), 0), "
+            + "COALESCE(SUM(CASE WHEN l.machine = 'Stair' THEN l.time END), 0) "
             + "FROM LogHours l "
             + "WHERE l.userId = :userId "
             + "AND l.date >= :startDate " // Use >= instead of BETWEEN
