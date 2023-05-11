@@ -51,7 +51,8 @@ class UserPage extends Component {
     isInstructorsLoading:false,
     instructorIdForClassCreate:2,
     current_user:'',
-    user_id: ''
+    user_id: '',
+    logHours: [],
 
   }
 
@@ -75,6 +76,7 @@ class UserPage extends Component {
     this.handleGetClasses()
     this.handleGetRegisteredClasses()
     this.handleGetInstructors()
+    this.handleGetLogHours()
 
   }
 
@@ -210,10 +212,30 @@ class UserPage extends Component {
         });
   };
 
+  handleGetLogHours = (user) => {
+    const Auth = this.context
+    const user_name = Auth.getUser()
+
+    this.setState({ isBooksLoading: true })
+    bookApi.getLogHours(user_name)
+        .then(response => {
+          this.setState({ logHours : response.data })
+          console.log(response)
+        })
+        .catch(error => {
+          handleLogError(error)
+        })
+        .finally(() => {
+          this.setState({ isBooksLoading: false })
+        })
+  }
+
+
+
   render() {
 
-      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id, user_role,userName  } = this.state
-      const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses} = this.state
+      const { isUsersLoading, users, userUsernameSearch, isBooksLoading, books, bookIsbn, bookTitle, bookTextSearch, memberships,membershipTitle,membershipDescription,userId,clockInData,month,isForMember,printRegisteredClassesId, printregisteredClassesTitle, printregisteredClassesDescription,printRegisteredClasses,user_Id, user_role,userName,  } = this.state
+      const {isClassForMember,classesTitle,classesDescription,classes,handleDeleteMembership,handleAddClasses, logHours} = this.state
       const {instructorAge,instructorDescription,instructors,instructorEmail,instructorName,isInstructorsLoading,instructorIdForClassCreate} = this.state
       return (
           <Container >
@@ -266,6 +288,7 @@ class UserPage extends Component {
                 user_Id ={user_Id}
                 user_role ={user_role}
                 userName = {userName}
+                logHours = {logHours}
 
 
 
