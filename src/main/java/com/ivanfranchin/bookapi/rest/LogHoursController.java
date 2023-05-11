@@ -4,10 +4,7 @@ import com.ivanfranchin.bookapi.mapper.RegisteredClassesMapper;
 import com.ivanfranchin.bookapi.model.LogHours;
 import com.ivanfranchin.bookapi.model.RegisteredClasses;
 import com.ivanfranchin.bookapi.repository.LogHoursRepository;
-import com.ivanfranchin.bookapi.rest.dto.CreateRegisteredClassesRequest;
-import com.ivanfranchin.bookapi.rest.dto.LogHoursByDTO;
-import com.ivanfranchin.bookapi.rest.dto.LogHoursDTO;
-import com.ivanfranchin.bookapi.rest.dto.RegisteredClassesDto;
+import com.ivanfranchin.bookapi.rest.dto.*;
 import com.ivanfranchin.bookapi.service.RegisteredClassesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -44,6 +41,31 @@ public class LogHoursController {
         return logHoursRepository.getLogHoursByDTOForPast90Days(endDate,currentDateTime.toLocalDate(),id);
     }
 
+    @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
+    @GetMapping("/total-machine-hours")
+    public MachineDataDTO getTotal() {
+
+        List<Object[]> results = logHoursRepository.getTotalMinutesByMachine();
+
+        Long timeOnTreadmill = 0L;
+        Long timeOnStair = 0L;
+        Long timeOnCycling = 0L;
+
+        for (Object[] result : results) {
+            String machine = (String) result[0];
+            Long totalTime = (Long) result[1];
+
+            if ("treadmil".equals(machine)) {
+                timeOnTreadmill = totalTime;
+            } else if ("Stair machines".equals(machine)) {
+                timeOnStair = totalTime;
+            } else if ("cycling".equals(machine)) {
+                timeOnCycling = totalTime;
+            }
+        }
+
+        return new MachineDataDTO(timeOnTreadmill, timeOnStair, timeOnCycling);
+    }
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping

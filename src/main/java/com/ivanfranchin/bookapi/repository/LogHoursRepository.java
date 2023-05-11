@@ -31,6 +31,10 @@ public interface LogHoursRepository extends JpaRepository<LogHours, Long> {
             + "ORDER BY DATE(l.date) DESC")
     List<Object[]> findTotalHoursByMachineForPast90Days(@Param("userId") Long userId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    @Query("SELECT l.machine, SUM(l.time) " +
+            "FROM LogHours l " +
+            "GROUP BY l.machine")
+    List<Object[]> getTotalMinutesByMachine();
 
     default LogHoursByDTO getLogHoursByDTOForPast90Days(LocalDate startDate, LocalDate endDate,Long id) {
         Date start = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());

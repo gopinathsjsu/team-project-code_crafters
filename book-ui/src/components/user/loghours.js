@@ -144,7 +144,6 @@ class Loghours extends Component {
             { key: '2', value: 'Cycling', text: 'Cycling' },
             { key: '3', value: 'Stair', text: 'Stair machines' },
         ];
-        console.log(locationsForSelect)
         return (
             <Grid textAlign='center'>
                 <Grid.Column style={{ maxWidth: 450 }}>

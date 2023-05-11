@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/books", "/api/books/**").hasAnyAuthority(ADMIN, USER)
                 .requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyAuthority(ADMIN, USER)
                 .requestMatchers("/api/books", "/api/books/**").hasAuthority(ADMIN)
+                .requestMatchers("/api/log-hours", "/api/log-hours/**").permitAll()
                 .requestMatchers("/api/users", "/api/users/**").hasAnyAuthority(ADMIN,USER)
                 .requestMatchers("/public/**", "/auth/**").permitAll()
                 .requestMatchers("/api/classes/allClassesByLocation", "/api/classes/allClassesByLocation").permitAll()

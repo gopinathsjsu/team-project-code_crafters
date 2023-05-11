@@ -34,8 +34,9 @@ export const bookApi = {
   getRegisteredClasses,
   getAllClassesByLocation,
   logHours,
-  getLogHours
-  getclassschedule
+  getLogHours,
+  getclassschedule,
+  getMachineData
 
 }
 function getClassesByText(user, text) {
@@ -52,6 +53,13 @@ function getUserById(user, id) {
 }
 function getInstructors(user) {
   const url = '/api/instructors'
+  return instance.get(url, {
+    headers: { 'Authorization': basicAuth(user) }
+  })
+}
+
+function getMachineData(user) {
+  const url = '/api/log-hours/total-machine-hours'
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
   })
