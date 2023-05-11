@@ -9,6 +9,7 @@ import LinechartHours from "../admin/linechartHours";
 import ExpireMembershipTable from "../admin/ExpireMembershipTable";
 import LineChartForClassesAndEnrollment from "../admin/linechartforclassesandenrollment";
 import Activities from "../user/Activites";
+import Gymdetail from "../user/gymdetail";
 
 function getValueById(id) {
     if (id === 1) {
@@ -201,7 +202,7 @@ class Home extends Component {
 
             </div>
               <div className="grid-container-user-home">
-                  {isUser && <div className="grid-item-user-home"><Activities userName={userName} /></div>}
+                  {isUser && <div className="grid-item-user-home"><Gymdetail userName={userName} /></div>}
               </div>
 
               { NoLogin &&
