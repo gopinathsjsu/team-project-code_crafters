@@ -62,7 +62,7 @@ class Home extends Component {
          userName = user.name;
     }
 
-      bookApi.getMachineData(user);
+      
     this.setState({ isAdmin })
     this.setState( { isUser })
       this.setState({ userName })
