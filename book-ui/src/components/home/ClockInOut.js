@@ -144,6 +144,7 @@ class ClockInOut extends Component {
                   placeholder='Enter User Id'
                   value={this.state.userId}
                   onChange={this.handleInputChange}
+                  error={!/^\d+$/.test(this.state.userId)}
                 />
 
                 <Button color='blue' fluid size='large'>Clock In/Out</Button>

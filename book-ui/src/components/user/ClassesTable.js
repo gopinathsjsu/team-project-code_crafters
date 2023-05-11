@@ -76,14 +76,7 @@ function ClassesTable({ classes, classesTitle, classesDescription, bookTextSearc
 
                         <Table.Row key={classesList.id}>
                             <Table.Cell collapsing>
-                                <Button
-                                    circular
-                                    color='red'
-                                    size='small'
-                                    icon='trash'
-                                    onClick={handleAddRegisteredClasses.bind(this, RegisteredClasses)
-                                    }
-                                />
+
                             </Table.Cell>
                         <Table.Cell>{classesList.classes_id}</Table.Cell>
                         <Table.Cell>{classesList.title}</Table.Cell>
