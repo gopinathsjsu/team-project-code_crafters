@@ -15,6 +15,7 @@ export const bookApi = {
   deleteClasses,
   addBook,
   getMemberships,
+  getMembershipsall,
   addMembership,
   updateMembership,
   clockInOut,
@@ -137,6 +138,10 @@ function getMemberships(user, text) {
   return instance.get(url, {
     headers: { 'Authorization': basicAuth(user) }
   })
+}
+function getMembershipsall(text) {
+  const url = text ? `/api/membership?text=${text}` : '/api/membership'
+  return instance.get(url)
 }
 function getTodaysClockInOutData(user) {
   const url = '/api/clock'

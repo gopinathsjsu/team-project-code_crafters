@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/log-hours", "/api/log-hours/**").permitAll()
                 .requestMatchers("/api/users", "/api/users/**").hasAnyAuthority(ADMIN,USER)
                 .requestMatchers("/public/**", "/auth/**").permitAll()
+                .requestMatchers("/api/membership").permitAll()
                 .requestMatchers("/api/classes/allClassesByLocation", "/api/classes/allClassesByLocation").permitAll()
                 .requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
