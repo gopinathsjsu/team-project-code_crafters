@@ -8,19 +8,51 @@
 
 ## XP Core Values Implemented
 - Communication:
-Throughout the project, we emphasized the importance of communication between team members to ensure that everyone was on the same page and had a clear understanding of the project requirements. We held regular meetings to discuss progress, issues, and upcoming tasks. We also made use of collaboration tools such as Slack and Trello to facilitate communication and keep everyone informed.
+Throughout the project, we emphasized the importance of communication between team members to ensure that everyone was on the same page and had a clear understanding of the project requirements. We conducted meetings bi-weekly in-person to discuss crucial aspects of the project by collaborating and communicating with each other.
 
 - Simplicity:
 We followed the principle of keeping things simple and avoiding unnecessary complexity throughout the project. We made use of existing libraries and frameworks where possible instead of reinventing the wheel. We also designed the APIs and UI with simplicity in mind, making them easy to use and understand for all users.
 
 ## Tools and Technology Used
 - Frontend : HTML5, CSS, Reactjs
-- Backend : Java
+- Backend : Java Spring boot
 - Database : MySql
 - Deployment : AWS
 
 ## Tasks
-- Front End : Meet, Nilay, Pratik 
+- Front End : Dhruv, Meet, Nilay, Pratik
 - Back End : Meet, Nilay, Pratik
 - Deployment : Dhruv
 - DataBase : Dhruv, Meet, Nilay, Pratik
+
+## Scrum Meetings
+- Friday 2 PM-2:30 PM
+
+## Architecture Diagram
+<img width="698" alt="Architecture_Diagram" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ff09686c-54d4-4326-a50e-7dbbe24e8a0d">
+
+## Deployment
+![deployment_diag](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ee283ee5-855e-42e1-9e14-282feb7e80d7)
+
+## Diagram
+
+### Use Case Diagram
+![Use_case_Diagram](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/7f877398-fede-46b0-ab8d-0ae0d79b48c9)
+
+### Component Diagram
+
+### Activity Diagram
+#### Employee
+![activity_employee](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/baa21dd5-0e32-4610-9ec1-aedfefc068d5)
+
+#### Members
+![activity_diagram_members](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/806f1199-2de6-4e77-a407-e0142a967aec)
+
+## Documentation
+[Project Task Board](https://github.com/orgs/gopinathsjsu/projects/85)
+
+[Project Journal](https://docs.google.com/document/d/1oxfadrmRForyV6EE7UtLSbMhHzwAUEI3HRq6tuIm5Fo/edit?usp=sharing)
+
+[Sprint & Burndown Chart](https://docs.google.com/spreadsheets/d/145UyyayTwGbSAf2zTr5LeFzEBvXQ9bsaqErwjHmYYwA/edit)
+
+[UI Wireframes](https://github.com/gopinathsjsu/team-project-code_crafters/tree/master/UI-Wireframes)
