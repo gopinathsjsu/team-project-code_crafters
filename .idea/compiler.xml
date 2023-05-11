@@ -15,16 +15,20 @@
         </processorPath>
         <module name="team-project-code_crafters-master" />
         <module name="HealthClubBackend" />
+        <module name="Apollo_Fitness" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="book-api" target="17" />
+      <module name="team-project-code_crafters" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Apollo_Fitness" options="-parameters" />
       <module name="HealthClubBackend" options="-parameters" />
       <module name="book-api" options="-parameters" />
+      <module name="team-project-code_crafters" options="-parameters" />
       <module name="team-project-code_crafters-master" options="-parameters" />
     </option>
   </component>

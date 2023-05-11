@@ -30,7 +30,7 @@
     border: 1px solid black;
     padding: 20px;
     height: 700px;
-    width: 1200px;
+    width:1200px;
 }
 .top-left {
     grid-column: 1 / span 1;

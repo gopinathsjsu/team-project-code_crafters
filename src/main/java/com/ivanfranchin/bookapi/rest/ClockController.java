@@ -35,7 +35,6 @@ public class ClockController {
     private final ClockService clockService;
     private final UserService userService;
     private final ClockMapper clockMapper;
-
     private final LocationService locationService;
     // Constructor for the controller that receives the necessary services.
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
