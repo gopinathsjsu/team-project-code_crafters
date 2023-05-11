@@ -11,7 +11,7 @@
 #
 app:
   cors:
-    allowed-origins: http://localhost:3000
+    allowed-origins: http://52.90.170.253:3000  #address of the frontend server
 
 #logging:
 #  level:
