@@ -17,7 +17,7 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 - Frontend : HTML5, CSS, Reactjs
 - Backend : Java Spring boot
 - Database : MySql
-- Deployment : AWS
+- Deployment : Amazon EC2 Autoscaled cluster with Load balancing- [Link](http://52.90.170.253:3000/)
 
 ## Tasks
 - Front End : Dhruv, Meet, Nilay, Pratik
@@ -57,8 +57,8 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ![activity_diagram_members](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/806f1199-2de6-4e77-a407-e0142a967aec)
 
 ## Documentation
-[Sprint Task Board & Burndown Chart](https://docs.google.com/spreadsheets/d/145UyyayTwGbSAf2zTr5LeFzEBvXQ9bsaqErwjHmYYwA/edit?usp=sharing)
+* [Sprint Task Board & Burndown Chart](https://docs.google.com/spreadsheets/d/145UyyayTwGbSAf2zTr5LeFzEBvXQ9bsaqErwjHmYYwA/edit?usp=sharing)
 
-[Project Journal](https://docs.google.com/document/d/1oxfadrmRForyV6EE7UtLSbMhHzwAUEI3HRq6tuIm5Fo/edit?usp=sharing)
+* [Project Journal](https://docs.google.com/document/d/1oxfadrmRForyV6EE7UtLSbMhHzwAUEI3HRq6tuIm5Fo/edit?usp=sharing)
 
-[UI Wireframes](https://github.com/gopinathsjsu/team-project-code_crafters/tree/master/UI-Wireframes)
+* [UI Wireframes](https://github.com/gopinathsjsu/team-project-code_crafters/tree/master/UI-Wireframes)
