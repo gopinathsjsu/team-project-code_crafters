@@ -55,11 +55,11 @@ public class LogHoursController {
             String machine = (String) result[0];
             Long totalTime = (Long) result[1];
 
-            if ("treadmil".equals(machine)) {
+            if ("Treadmill".equals(machine)) {
                 timeOnTreadmill = totalTime;
-            } else if ("Stair machines".equals(machine)) {
+            } else if ("Stair".equals(machine)) {
                 timeOnStair = totalTime;
-            } else if ("cycling".equals(machine)) {
+            } else if ("Cycling".equals(machine)) {
                 timeOnCycling = totalTime;
             }
         }
