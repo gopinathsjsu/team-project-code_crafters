@@ -12,7 +12,6 @@ const generateActivityData = (length, maxDataValue, backgroundColor, borderColor
 
 const Activities = ({ userName }) => {
     const [timeRange, setTimeRange] = useState("week");
-
     const getLabels = () => {
         switch (timeRange) {
             case "week":
