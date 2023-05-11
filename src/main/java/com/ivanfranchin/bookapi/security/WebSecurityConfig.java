@@ -31,6 +31,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/books", "/api/books/**").hasAuthority(ADMIN)
                 .requestMatchers("/api/users", "/api/users/**").hasAuthority(ADMIN)
                 .requestMatchers("/public/**", "/auth/**").permitAll()
+                .requestMatchers("/api/classes/allClassesByLocation", "/api/classes/allClassesByLocation").permitAll()
                 .requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

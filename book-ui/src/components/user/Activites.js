@@ -11,52 +11,47 @@ const generateActivityData = (length, maxDataValue, backgroundColor, borderColor
 };
 
 const Activities = ({ userName }) => {
+    const [timeRange, setTimeRange] = useState("week");
 
-    const [timeRange, setTimeRange] = useState("hour");
+    const getLabels = () => {
+        switch (timeRange) {
+            case "week":
+                return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+            case "month":
+                return Array.from({ length: 30 }, (_, i) => i + 1);
+            case "90days":
+                return Array.from({ length: 90 }, (_, i) => `Day ${i + 1}`);
+            default:
+                return [];
+        }
+    };
 
-    const runningData = generateActivityData(
-        24,
+    const treadmillData = generateActivityData(
+        getLabels().length,
         60,
         "rgba(54, 162, 235, 0.2)",
         "rgba(54, 162, 235, 1)",
         1
     );
 
-    const weightLiftingData = generateActivityData(
-        24,
+    const cyclingData = generateActivityData(
+        getLabels().length,
         120,
         "rgba(255, 99, 132, 0.2)",
         "rgba(255, 99, 132, 1)",
         1
     );
 
-    const swimmingData = generateActivityData(
-        24,
-        180,
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(255, 206, 86, 1)",
-        1
-    );
-
     const chartData = {
-        labels:
-            timeRange === "week"
-                ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-                : timeRange === "day"
-                    ? Array.from({ length: 24 }, (_, i) => i + 1)
-                    : Array.from({ length: 7 }, (_, i) => `Wk ${i + 1}`),
+        labels: getLabels(),
         datasets: [
             {
-                label: "Running Time on Treadmill",
-                ...runningData,
+                label: "Treadmill",
+                ...treadmillData,
             },
             {
-                label: "Weight Lifting Session",
-                ...weightLiftingData,
-            },
-            {
-                label: "Swimming",
-                ...swimmingData,
+                label: "Cycling",
+                ...cyclingData,
             },
         ],
     };
@@ -96,31 +91,31 @@ const Activities = ({ userName }) => {
                     <input
                         type="radio"
                         name="time-range"
-                        value="hour"
-                        checked={timeRange === "hour"}
-                        onChange={() => setTimeRange("hour")}
-                    />
-                    Hourly
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        name="time-range"
-                        value="day"
-                        checked={timeRange === "day"}
-                        onChange={() => setTimeRange("day")}
-                    />
-                    Daily
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        name="time-range"
                         value="week"
                         checked={timeRange === "week"}
                         onChange={() => setTimeRange("week")}
                     />
-                    Weekly
+                    Past Week
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="time-range"
+                        value="month"
+                        checked={timeRange === "month"}
+                        onChange={() => setTimeRange("month")}
+                    />
+                    Past Month
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="time-range"
+                        value="90days"
+                        checked={timeRange === "90days"}
+                        onChange={() => setTimeRange("90days")}
+                    />
+                    Last 90 Days
                 </label>
             </div>
             <div style={{ width: "800px", height: "400px" }}>
@@ -131,3 +126,4 @@ const Activities = ({ userName }) => {
 };
 
 export default Activities;
+

@@ -32,7 +32,9 @@ export const bookApi = {
   getUserById,
   addRegisteredClasses,
   getRegisteredClasses,
-  getAllClassesByLocation
+  getAllClassesByLocation,
+  getclassschedule,
+
 }
 function getClassesByText(user, text) {
   const url = `/api/classes/by-text/${text}`
@@ -241,6 +243,15 @@ function getRegisteredClasses(user, id) {
 function getAllClassesByLocation(){
     const url = '/api/classes/getAllClassesByLocation'
     return instance.get(url)
+}
+
+function headers() {
+
+}
+
+function getclassschedule(){
+  const url = 'http://localhost:8080/api/classes/allClassesByLocation'
+  return instance.get(url)
 }
 
 
