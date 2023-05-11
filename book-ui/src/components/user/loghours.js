@@ -28,7 +28,8 @@ class Loghours extends Component {
         selectedLocation:'',
         setSelectedLocation:'',
         locations:[],
-        selectedMachine:''
+        selectedMachine:'',
+        time:0
     }
 
     componentDidMount() {
@@ -81,8 +82,8 @@ class Loghours extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
-        const { username, password, name, email,selectedMembership, selectedRole,selectedLocation} = this.state
-        if (!(username && password && name && email && (selectedMembership || selectedLocation) )) {
+        const { time,selectedLocation,selectedMachine} = this.state
+        if (!(time && selectedMachine && selectedLocation )) {
             this.setState({
                 isError: true,
                 errorMessage: 'Please, inform all fields!'
@@ -91,26 +92,21 @@ class Loghours extends Component {
         }
         const Auth = this.context
         const admin = Auth.getUser()
-
-        const user = { username, password, name, email ,membershipId:selectedMembership,locationId:admin.id,locationIdForAdmin:selectedLocation }
-        bookApi.signup(user)
+        console.log("aaa",selectedMachine)
+        const data = { time,userId:admin.id,locationId:selectedLocation,machine:selectedMachine }
+        bookApi.logHours(admin,data)
             .then(response => {
                 this.setState({
-                    username: '',
-                    password: '',
-                    name: '',
-                    email: '',
-                    isError: false,
-                    errorMessage: ''
+                    time:0,
+                    selectedMachine:'',
+                    selectedLocation:''
 
                 });
-                toast.success('User created successfully!', {
+                toast.success('Logged successfully!', {
                     position: toast.POSITION.TOP_CENTER,
                     autoClose: 2000 // 10 seconds
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+
 
             })
             .catch(error => {
@@ -132,7 +128,7 @@ class Loghours extends Component {
     }
 
     render() {
-        const { isLoggedIn, isError, errorMessage ,memberships,selectedMembership,locations} = this.state
+        const { isLoggedIn, isError, errorMessage ,memberships,selectedMembership,locations,time} = this.state
         const {selectedRole,selectedLocation,selectedMachine} = this.state
 
         const membershipOptions = memberships.map(membership => {
@@ -146,7 +142,7 @@ class Loghours extends Component {
         const machinesForSelect = [
             { key: '1', value: 'Treadmill', text: 'Treadmill' },
             { key: '2', value: 'Cycling', text: 'Cycling' },
-            { key: '3', value: 'Stair machines', text: 'Stair machines' },
+            { key: '3', value: 'Stair', text: 'Stair machines' },
         ];
         console.log(locationsForSelect)
         return (
@@ -179,11 +175,14 @@ class Loghours extends Component {
                             <br/>
                             <Form.Input
                                 fluid
-                                name='minutes'
+                                name='time'
                                 icon='at'
+                                label='Total Minutes'
                                 iconPosition='left'
                                 placeholder='Total Minutes'
+                                value={time}
                                 onChange={this.handleInputChange}
+                                error={!/^\d+$/.test(time)}
                             />
                             <Button color='blue' fluid size='large'>Save Data</Button>
                         </Segment>

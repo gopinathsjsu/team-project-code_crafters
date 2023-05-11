@@ -68,6 +68,7 @@ class UserPage extends Component {
     this.handleGetClasses()
     this.handleGetRegisteredClasses()
     this.handleGetInstructors()
+
   }
 
   handleGetClasses = () => {
