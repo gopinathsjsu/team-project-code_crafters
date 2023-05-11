@@ -40,6 +40,7 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 ![Use_case_Diagram](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/7f877398-fede-46b0-ab8d-0ae0d79b48c9)
 
 ### Component Diagram
+![image](https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/f7ea8111-4dc7-413c-96fa-3b7901872053)
 
 ### Activity Diagram
 #### Employee
