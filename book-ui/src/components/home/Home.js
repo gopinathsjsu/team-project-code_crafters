@@ -130,52 +130,6 @@ class Home extends Component {
       const {classSchedule } = this.state
     const { NoLogin } = this.state
     const { location ,setLocation} = this.state
-    const classes = [
-          {
-            id: 1,
-            title: 'Lamaze',
-            description: 'A class for expectant mothers to learn breathing and relaxation techniques for childbirth.',
-            location: 'New York',
-            image: 'https://th.bing.com/th/id/R.949787ac462d676565357e1ff4c70de9?rik=i5Ujzf4G%2fHT9bg&riu=http%3a%2f%2fmaternalhealthalliance.eu%2fimages%2fbanner.jpg&ehk=F%2fRBDko5VaTPl5%2borqeODctjwNlohd%2fzvmPkQkRHGv0%3d&risl=&pid=ImgRaw&r=0'
-          },
-          {
-            id: 2,
-            title: 'Yoga',
-            description: 'A class for all levels to practice yoga and improve flexibility and strength.',
-            location: 'New York',
-            image: 'https://th.bing.com/th/id/R.22b22f5bfc39d45bf649bf83f804e01b?rik=lLILe3rkGN5d2w&riu=http%3a%2f%2ffitnesslabjax.com%2fwp-content%2fuploads%2f2018%2f03%2fYoga-studios-in-Rye.jpg&ehk=GzFcKCKzPSdEP%2bNsRAeZn92TGddjghXpfKi0JHCL0D0%3d&risl=&pid=ImgRaw&r=0'
-          },
-          {
-            id: 3,
-            title: 'Zumba',
-            description: 'A high-energy class that combines dance and fitness for a fun workout.',
-            location: 'New York',
-            image: 'https://pilates1901.com/wp-content/uploads/2015/08/zumba.jpg'
-          },
-          {
-              id: 4,
-              title: 'Yoga',
-              description: 'A class for all levels to practice yoga and improve flexibility and strength.',
-              location: 'Miami',
-              image: 'https://th.bing.com/th/id/R.22b22f5bfc39d45bf649bf83f804e01b?rik=lLILe3rkGN5d2w&riu=http%3a%2f%2ffitnesslabjax.com%2fwp-content%2fuploads%2f2018%2f03%2fYoga-studios-in-Rye.jpg&ehk=GzFcKCKzPSdEP%2bNsRAeZn92TGddjghXpfKi0JHCL0D0%3d&risl=&pid=ImgRaw&r=0'
-          },
-          {
-              id: 5,
-              title: 'Zumba',
-              description: 'A high-energy class that combines dance and fitness for a fun workout.',
-              location: 'Miami',
-              image: 'https://pilates1901.com/wp-content/uploads/2015/08/zumba.jpg'
-            },
-
-            {
-                        id: 1,
-                        title: 'Lamaze',
-                        description: 'A class for expectant mothers to learn breathing and relaxation techniques for childbirth.',
-                        location: 'Los Angeles',
-                        image: 'https://th.bing.com/th/id/R.949787ac462d676565357e1ff4c70de9?rik=i5Ujzf4G%2fHT9bg&riu=http%3a%2f%2fmaternalhealthalliance.eu%2fimages%2fbanner.jpg&ehk=F%2fRBDko5VaTPl5%2borqeODctjwNlohd%2fzvmPkQkRHGv0%3d&risl=&pid=ImgRaw&r=0'
-                      },
-
-        ];
 
 
     if (isLoading) {

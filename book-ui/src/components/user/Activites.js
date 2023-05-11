@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 
-const generateActivityData = (length, maxDataValue, backgroundColor, borderColor, borderWidth) => {
-    return {
-        data: Array.from({ length }, () => Math.floor(Math.random() * maxDataValue)),
-        backgroundColor,
-        borderColor,
-        borderWidth,
-    };
-};
-
 const Activities = ({ userName }) => {
     const [timeRange, setTimeRange] = useState("week");
+
     const getLabels = () => {
         switch (timeRange) {
             case "week":
@@ -25,21 +17,20 @@ const Activities = ({ userName }) => {
         }
     };
 
-    const treadmillData = generateActivityData(
-        getLabels().length,
-        60,
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(54, 162, 235, 1)",
-        1
-    );
+    // Static data arrays for Treadmill and Cycling
+    const treadmillData = {
+        data: Array.from({ length: 90 }, (_, i) => i + 1),
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+    };
 
-    const cyclingData = generateActivityData(
-        getLabels().length,
-        120,
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(255, 99, 132, 1)",
-        1
-    );
+    const cyclingData = {
+        data: [/* Static data array for Cycling with 90 values */],
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+    };
 
     const chartData = {
         labels: getLabels(),
@@ -86,6 +77,7 @@ const Activities = ({ userName }) => {
     return (
         <div>
             <div>
+                {/* Radio buttons for time range selection */}
                 <label>
                     <input
                         type="radio"
@@ -125,4 +117,3 @@ const Activities = ({ userName }) => {
 };
 
 export default Activities;
-
