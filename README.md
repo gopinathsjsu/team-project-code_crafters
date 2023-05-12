@@ -29,7 +29,8 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 - Friday 2 PM-2:30 PM
 
 ## Architecture Diagram
-<img width="698" alt="Architecture_Diagram" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ff09686c-54d4-4326-a50e-7dbbe24e8a0d">
+
+<img width="1060" alt="Screenshot 2023-05-11 at 6 06 45 PM" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/42da14e9-aeae-44a4-acaf-461e226d3097">
 
 ## Deployment
 ![deployment_diag](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ee283ee5-855e-42e1-9e14-282feb7e80d7)
