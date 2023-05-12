@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.ivanfranchin.bookapi.config.SwaggerConfig.BASIC_AUTH_SECURITY_SCHEME;
@@ -33,12 +34,21 @@ public class LogHoursController {
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
     @GetMapping("/{id}")
     public LogHoursByDTO getLogHoursByHourly(@PathVariable Long id) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDateTime currentDateTime = currentDate.atTime(23, 59, 59); // Set current date to 23:59:59
+        LogHoursByDTO logHoursByDTO = new LogHoursByDTO();
 
-        LocalDate endDate = currentDate.minus(90, ChronoUnit.DAYS);
-
-        return logHoursRepository.getLogHoursByDTOForPast90Days(endDate,currentDateTime.toLocalDate(),id);
+        Random random = new Random();
+        for (int i = 0; i < 90; i++) {
+            logHoursByDTO.getTreadmil().add(random.nextInt(101));
+            logHoursByDTO.getCycling().add(random.nextInt(101));
+            logHoursByDTO.getStair().add(random.nextInt(101));
+        }
+//        LocalDate currentDate = LocalDate.now();
+//        LocalDateTime currentDateTime = currentDate.atTime(23, 59, 59); // Set current date to 23:59:59
+//
+//        LocalDate endDate = currentDate.minus(90, ChronoUnit.DAYS);
+//
+//        return logHoursRepository.getLogHoursByDTOForPast90Days(endDate,currentDateTime.toLocalDate(),id);
+        return logHoursByDTO;
     }
 
     @Operation(security = {@SecurityRequirement(name = BASIC_AUTH_SECURITY_SCHEME)})
