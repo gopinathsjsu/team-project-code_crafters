@@ -32,8 +32,6 @@ We followed the principle of keeping things simple and avoiding unnecessary comp
 
 <img width="1060" alt="Screenshot 2023-05-11 at 6 06 45 PM" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/42da14e9-aeae-44a4-acaf-461e226d3097">
 
-## Deployment
-![deployment_diag](https://github.com/gopinathsjsu/team-project-code_crafters/assets/118388670/ee283ee5-855e-42e1-9e14-282feb7e80d7)
 
 ## AWS Cloud Deployment
 <img width="1439" alt="image" src="https://github.com/gopinathsjsu/team-project-code_crafters/assets/71836462/cdba8603-e496-4432-bd1a-0506ce1b970d">
